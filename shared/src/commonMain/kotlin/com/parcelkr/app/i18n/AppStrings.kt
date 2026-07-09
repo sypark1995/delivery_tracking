@@ -15,6 +15,7 @@ enum class Lang(val code: String, val nativeName: String, val englishName: Strin
 
 interface AppStrings {
     val appName: String
+    val back: String
     val homeTitle: String
     val addTrackingBar: String
     val segActive: String
@@ -59,6 +60,7 @@ interface AppStrings {
 
 object EnStrings : AppStrings {
     override val appName = "ParcelKR"
+    override val back = "Back"
     override val homeTitle = "Your parcels"
     override val addTrackingBar = "Add tracking number"
     override val segActive = "Active"
@@ -103,6 +105,7 @@ object EnStrings : AppStrings {
 
 object KoStrings : AppStrings {
     override val appName = "ParcelKR"
+    override val back = "뒤로"
     override val homeTitle = "내 택배"
     override val addTrackingBar = "운송장 번호 추가"
     override val segActive = "진행중"
@@ -147,6 +150,7 @@ object KoStrings : AppStrings {
 
 object ZhStrings : AppStrings {
     override val appName = "ParcelKR"
+    override val back = "返回"
     override val homeTitle = "我的包裹"
     override val addTrackingBar = "添加运单号"
     override val segActive = "进行中"
@@ -191,6 +195,7 @@ object ZhStrings : AppStrings {
 
 object ViStrings : AppStrings {
     override val appName = "ParcelKR"
+    override val back = "Quay lại"
     override val homeTitle = "Bưu kiện của bạn"
     override val addTrackingBar = "Thêm mã vận đơn"
     override val segActive = "Đang giao"

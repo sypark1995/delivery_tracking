@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Language
@@ -27,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.parcelkr.app.i18n.Lang
 import com.parcelkr.app.i18n.LocalStrings
+import com.parcelkr.app.ui.components.ScreenHeader
 import com.parcelkr.app.ui.components.SectionHeader
 import com.parcelkr.app.ui.theme.AppShapes
 import com.parcelkr.app.ui.theme.AppType
@@ -44,12 +44,7 @@ fun SettingsScreen(
     val colors = LocalColors.current
     val strings = LocalStrings.current
     Column(Modifier.fillMaxSize().background(colors.bg)) {
-        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = colors.textPrimary,
-                modifier = Modifier.clickable { onBack() })
-            Spacer(Modifier.size(10.dp))
-            Text(strings.settings, style = AppType.title, color = colors.textPrimary)
-        }
+        ScreenHeader(strings.settings, onBack, titleStyle = AppType.title)
         SectionHeader(strings.customs)
         SettingRow(Icons.Outlined.Badge, strings.personalClearanceCode) {
             Text(customsCode?.let { mask(it) } ?: "—", style = AppType.caption, color = colors.textSecondary)

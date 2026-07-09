@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.LocalShipping
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.parcelkr.app.i18n.LocalStrings
+import com.parcelkr.app.ui.components.ScreenHeader
 import com.parcelkr.app.ui.components.SectionHeader
 import com.parcelkr.app.ui.theme.AppShapes
 import com.parcelkr.app.ui.theme.AppType
@@ -33,12 +33,7 @@ fun UpdatesScreen(onBack: () -> Unit) {
     val colors = LocalColors.current
     val strings = LocalStrings.current
     Column(Modifier.fillMaxSize().background(colors.bg)) {
-        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = colors.textPrimary,
-                modifier = Modifier.clickable { onBack() })
-            Spacer(Modifier.size(10.dp))
-            Text(strings.updates, style = AppType.title, color = colors.textPrimary)
-        }
+        ScreenHeader(strings.updates, onBack, titleStyle = AppType.title)
         Row(
             Modifier.padding(horizontal = 16.dp).fillMaxWidth()
                 .clip(AppShapes.card).background(colors.surface)

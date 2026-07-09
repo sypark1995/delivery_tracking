@@ -61,18 +61,19 @@ fun ParcelApp() {
                         model = homeModel,
                         onAdd = { current = Screen.Add },
                         onOpenParcel = { current = Screen.Detail(it.trackingNumber, it.carrier.displayName) },
+                        onCallDriver = { current = Screen.Contact },
                         onOpenUpdates = { current = Screen.Updates },
                         onOpenSettings = { current = Screen.Settings },
                     )
                     Screen.Add -> AddScreen(
-                        model = remember { AddModel(repo, detector, api, scope) },
+                        model = remember { AddModel(repo, detector, api) },
                         onBack = { current = Screen.Home },
                         onAdded = { current = Screen.Home },
                     )
                     is Screen.Detail -> DetailScreen(
                         trackingNumber = screen.trackingNumber,
                         carrierName = screen.carrierName,
-                        model = remember { DetailModel(api, scope) },
+                        model = remember { DetailModel(api) },
                         onBack = { current = Screen.Home },
                         onContactDriver = { current = Screen.Contact },
                     )

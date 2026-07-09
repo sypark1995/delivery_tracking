@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.parcelkr.app.domain.model.DeliveryStatus
 import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.ui.components.PrimaryButton
+import com.parcelkr.app.ui.components.ScreenHeader
 import com.parcelkr.app.ui.components.SectionHeader
 import com.parcelkr.app.ui.components.StatusPill
 import com.parcelkr.app.ui.theme.AppShapes
@@ -34,12 +34,7 @@ fun ContactScreen(driverName: String, itemName: String, carrierName: String, onB
     val colors = LocalColors.current
     val strings = LocalStrings.current
     Column(Modifier.fillMaxSize().background(colors.bg)) {
-        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = colors.textPrimary,
-                modifier = Modifier.clickable { onBack() })
-            Spacer(Modifier.size(10.dp))
-            Text(strings.contactDriver, style = AppType.body, color = colors.textPrimary)
-        }
+        ScreenHeader(strings.contactDriver, onBack)
         Column(
             Modifier.padding(horizontal = 16.dp).fillMaxWidth()
                 .clip(AppShapes.card).background(colors.surface)

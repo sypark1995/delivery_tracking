@@ -4,7 +4,6 @@ import com.parcelkr.app.data.ParcelRepository
 import com.parcelkr.app.domain.CarrierDetector
 import com.parcelkr.app.domain.TrackingApi
 import com.parcelkr.app.domain.model.CarrierGuess
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +12,6 @@ class AddModel(
     private val repo: ParcelRepository,
     private val detector: CarrierDetector,
     private val api: TrackingApi,
-    private val scope: CoroutineScope,
 ) {
     private val _input = MutableStateFlow("")
     val input: StateFlow<String> = _input.asStateFlow()

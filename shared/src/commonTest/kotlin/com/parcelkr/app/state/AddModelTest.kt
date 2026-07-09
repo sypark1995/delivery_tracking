@@ -20,7 +20,7 @@ class AddModelTest {
 
     @Test fun blank_input_does_not_add() = runTest {
         val r = repo()
-        val m = AddModel(r, FakeCarrierDetector(), FakeTrackingApi(), this)
+        val m = AddModel(r, FakeCarrierDetector(), FakeTrackingApi())
         m.onInput("   ")
         assertNull(m.confirmAdd())
         assertEquals(0, r.observeParcels().first().size)
@@ -28,7 +28,7 @@ class AddModelTest {
 
     @Test fun valid_input_adds_with_detected_carrier() = runTest {
         val r = repo()
-        val m = AddModel(r, FakeCarrierDetector(), FakeTrackingApi(), this)
+        val m = AddModel(r, FakeCarrierDetector(), FakeTrackingApi())
         m.onInput("657606146365")
         val id = m.confirmAdd()
         assertEquals(1, r.observeParcels().first().size)

@@ -29,6 +29,4 @@ class HomeModel(repo: ParcelRepository, scope: CoroutineScope) {
     val segment: StateFlow<Segment> = _segment.asStateFlow()
 
     fun setSegment(s: Segment) { _segment.value = s }
-    fun visible(): List<Parcel> = filterBySegment(parcels.value, _segment.value)
-    fun hero(): Parcel? = heroOf(parcels.value)
 }

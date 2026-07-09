@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.Icon
@@ -34,6 +33,7 @@ import com.parcelkr.app.i18n.LocalLang
 import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.state.DetailModel
 import com.parcelkr.app.ui.components.PrimaryButton
+import com.parcelkr.app.ui.components.ScreenHeader
 import com.parcelkr.app.ui.components.StatusPill
 import com.parcelkr.app.ui.components.TimelineStep
 import com.parcelkr.app.ui.components.statusColorsFor
@@ -62,12 +62,7 @@ fun DetailScreen(
     }
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
-        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = colors.textPrimary,
-                modifier = Modifier.clickable { onBack() })
-            Spacer(Modifier.size(10.dp))
-            Text(strings.trackingDetail, style = AppType.body, color = colors.textPrimary)
-        }
+        ScreenHeader(strings.trackingDetail, onBack)
 
         val r = result ?: return@Column
 

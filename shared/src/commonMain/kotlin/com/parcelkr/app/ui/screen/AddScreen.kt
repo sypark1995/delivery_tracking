@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material3.Icon
@@ -31,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.state.AddModel
 import com.parcelkr.app.ui.components.PrimaryButton
+import com.parcelkr.app.ui.components.ScreenHeader
 import com.parcelkr.app.ui.components.SectionHeader
 import com.parcelkr.app.ui.theme.AppShapes
 import com.parcelkr.app.ui.theme.AppType
@@ -46,12 +46,7 @@ fun AddScreen(model: AddModel, onBack: () -> Unit, onAdded: () -> Unit) {
     val scope = rememberCoroutineScope()
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
-        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = colors.textPrimary,
-                modifier = Modifier.clickable { onBack() })
-            Spacer(Modifier.size(10.dp))
-            Text(strings.addTrackingBar, style = AppType.body, color = colors.textPrimary)
-        }
+        ScreenHeader(strings.addTrackingBar, onBack)
         SectionHeader(strings.trackingNumber)
         Row(
             Modifier.fillMaxWidth().padding(horizontal = 16.dp)
