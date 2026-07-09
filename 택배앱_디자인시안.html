@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ParcelKR · 디자인 시안</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.24.0/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+ --bg:#EEEBE4; --ink:#17130E; --sub:#8A8375; --muted:#B4AD9E;
+ --green:#0E8F6E; --tint:#DCF3E9; --onTint:#0B5C46;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:40px 24px 80px}
+.head h1{font-size:28px;font-weight:500;margin:0 0 6px}
+.head p{font-size:14px;color:var(--sub);margin:0 0 8px;line-height:1.6}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin:14px 0 8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:10px;height:10px;border-radius:3px}
+h2.sec{font-size:16px;font-weight:500;margin:38px 0 4px}
+.grid{display:flex;gap:26px;flex-wrap:wrap;padding:18px 0}
+.col{display:flex;flex-direction:column;align-items:center}
+.cap{font-size:12px;color:var(--sub);margin-bottom:10px}
+/* phone */
+.ph{width:230px;border-radius:32px;overflow:hidden;background:#F4F2ED;color:#17130E;border:1px solid #E1DCD1;box-shadow:0 6px 24px rgba(60,50,35,.08)}
+.sb{display:flex;justify-content:space-between;align-items:center;padding:10px 17px 2px;font-size:11px;font-weight:500}
+.sbic{display:flex;gap:4px;font-size:12px}
+.hd{display:flex;justify-content:space-between;align-items:center;padding:8px 16px 10px}
+.hd h3{font-size:20px;font-weight:500;margin:0}
+.gl{display:inline-flex;align-items:center;gap:3px;font-size:11px;padding:3px 9px;border-radius:20px;background:#fff;border:1px solid #E4E0D7;color:#5A5346}
+.addbar{display:flex;align-items:center;gap:8px;margin:0 16px 12px;background:#fff;border:1px solid #E4E0D7;border-radius:14px;padding:11px 12px;font-size:12px;color:#9A9384}
+.addbar .r{margin-left:auto;display:flex;gap:9px;color:var(--green);font-size:15px}
+.seg{display:flex;margin:0 16px 12px;background:#EAE7E0;border-radius:20px;padding:3px}
+.seg span{flex:1;text-align:center;font-size:11px;font-weight:500;padding:6px 0;border-radius:16px;color:#7A756B}
+.seg .on{background:var(--green);color:#fff}
+.hero{margin:0 16px;background:#fff;border:1px solid #E9E5DC;border-radius:20px;padding:15px;display:flex;flex-direction:column;gap:9px}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;align-self:flex-start}
+.p-out{background:#FBECD9;color:#8A4A12}
+.p-del{background:#DCF3E9;color:#0B5C46}
+.p-tr{background:#E3ECFA;color:#1E3E7A}
+.big{font-size:21px;font-weight:500;line-height:1.15}
+.meta{font-size:12px;color:var(--sub)}
+.track{height:6px;border-radius:20px;background:#EEEAE1;position:relative;overflow:hidden}
+.trf{position:absolute;left:0;top:0;bottom:0;border-radius:20px}
+.cta{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:500;padding:10px 0;border-radius:20px;background:var(--green);color:#fff}
+.sec2{font-size:12px;font-weight:500;color:#9A9384;padding:15px 17px 8px}
+.list{padding:0 16px 18px;display:flex;flex-direction:column;gap:8px}
+.li{background:#fff;border:1px solid #EBE7DE;border-radius:14px;padding:12px;display:flex;align-items:center;gap:8px}
+.nm{font-size:13px;font-weight:500}
+.stx{font-size:11px;color:var(--sub);margin-top:1px}
+.tag{margin-left:auto;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px}
+.tbar{display:flex;align-items:center;gap:10px;padding:11px 16px 12px;font-size:14px;font-weight:500}
+.tbar i{font-size:18px}
+.card{margin:0 16px 12px;background:#fff;border:1px solid #E9E5DC;border-radius:16px;padding:13px 14px}
+.tl{display:flex;flex-direction:column}
+.tstep{display:flex;gap:10px}
+.tcol{display:flex;flex-direction:column;align-items:center;width:14px}
+.tdot{width:12px;height:12px;border-radius:50%;flex:0 0 auto;margin-top:2px}
+.tline{flex:1;width:2px;background:#E4DFD5;margin:2px 0}
+.tbody{padding-bottom:13px}
+.tst{font-size:12px;font-weight:500}
+.kr{font-size:10px;color:var(--muted)}
+.ttime{font-size:10px;color:#9A9384;margin-top:1px}
+.field{margin:0 16px 10px;background:#fff;border:1px solid #E4E0D7;border-radius:14px;padding:12px 13px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.field .pst{margin-left:auto;font-size:11px;font-weight:500;color:var(--green)}
+.detect{margin:0 16px 12px;display:flex;align-items:center;gap:7px;font-size:11px;color:var(--sub)}
+.methods{margin:0 16px 14px;display:flex;gap:8px}
+.m{flex:1;background:#fff;border:1px solid #E9E5DC;border-radius:14px;padding:11px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:10px;color:#5A5346}
+.m i{font-size:18px;color:var(--green)}
+.btn{margin:0 16px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:500;padding:12px 0;border-radius:16px;background:var(--green);color:#fff}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 22px 20px;gap:10px}
+.ecirc{width:64px;height:64px;border-radius:50%;background:var(--tint);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:30px;margin-top:8px}
+.eh{font-size:17px;font-weight:500}
+.esub{font-size:12px;color:var(--sub);line-height:1.5}
+.brand{padding:22px 18px 6px}
+.brand h2{font-size:22px;font-weight:500;margin:0}
+.brand p{font-size:12px;color:var(--sub);margin:6px 0 0;line-height:1.5}
+.lang{display:flex;align-items:center;gap:10px;padding:11px 13px;background:#fff;border:1px solid #EBE7DE;border-radius:12px;margin:0 16px 8px;font-size:13px}
+.lang.on{border-color:var(--green);background:#F2FBF7}
+.lang .ck{margin-left:auto;color:var(--green);font-size:16px}
+.lang .na{color:var(--sub);font-size:11px;margin-left:auto}
+.msg{background:#F2FBF7;border:1px solid #CFEBDF;border-radius:12px;padding:10px 11px;margin:0 16px 10px}
+.msg .en{font-size:12px}
+.msg .ko{font-size:12px;color:#0B5C46;margin-top:5px;padding-top:6px;border-top:1px dashed #CFEBDF}
+.msg .lb{font-size:9px;color:#9A9384;text-transform:uppercase;letter-spacing:.4px}
+.srow{display:flex;align-items:center;gap:11px;padding:12px 13px;background:#fff;border:1px solid #EBE7DE;border-radius:12px;margin:0 16px 8px;font-size:13px}
+.srow i.lead{font-size:17px;color:#5A5346}
+.srow .rv{margin-left:auto;color:var(--sub);font-size:12px;display:flex;align-items:center;gap:4px}
+.tg{width:34px;height:20px;border-radius:20px;background:var(--green);position:relative}
+.tg::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;right:2px}
+.push{margin:0 16px 12px;background:#fff;border:1px solid #E4E0D7;border-radius:16px;padding:11px 12px;display:flex;gap:10px;align-items:flex-start}
+.push .ic{width:30px;height:30px;border-radius:8px;background:var(--tint);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 auto}
+.push .tt{font-size:12px;font-weight:500}
+.push .bd{font-size:11px;color:var(--sub);margin-top:2px;line-height:1.4}
+.push .tm{font-size:9px;color:var(--muted);margin-left:auto}
+.nrow{display:flex;gap:10px;padding:10px 16px;border-bottom:1px solid #EBE7DE;align-items:flex-start}
+.ndot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex:0 0 auto}
+.nrow .nb{font-size:12px;font-weight:500}
+.nrow .ns{font-size:11px;color:var(--sub);margin-top:1px}
+.p-fail{background:#FBE6E3;color:#8A2A22}
+.grp{font-size:10px;font-weight:500;color:#8A8375;letter-spacing:.3px;padding:2px 0 7px}
+.lock{background:#211C16;color:#F1EDE6}
+.clock{text-align:center;padding:24px 0 6px}
+.clock .t1{font-size:13px;color:#C9C2B6}
+.clock .t2{font-size:44px;font-weight:500;letter-spacing:1px;line-height:1}
+.la{margin:0 14px 16px;background:#F6F3EC;color:#17130E;border-radius:18px;padding:12px 13px;display:flex;flex-direction:column;gap:7px}
+.la .top{display:flex;align-items:center;gap:8px}
+.la .ico{width:24px;height:24px;border-radius:7px;background:#DCF3E9;color:#0E8F6E;display:flex;align-items:center;justify-content:center;font-size:14px}
+.la .an{font-size:11px;font-weight:500}
+.la .tmm{margin-left:auto;font-size:10px;color:#8A8375}
+.photo{margin:0 16px 12px;height:96px;border-radius:14px;background:#E3E7DD;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#7E8676;border:1px solid #D6DBCC}
+.photo i{font-size:26px}.photo span{font-size:10px}
+.map{margin:0 16px 10px;height:74px;border-radius:14px;background:#E7EAE1;position:relative;overflow:hidden;border:1px solid #DADFCF}
+.map i{position:absolute;font-size:18px}
+.pk{display:flex;align-items:center;gap:9px;padding:9px 16px;border-bottom:1px solid #EBE7DE;font-size:12px}
+.pk i{font-size:15px;color:#0E8F6E}.pk .dist{margin-left:auto;font-size:11px;color:#8A8375}
+.src{background:#EEEBE4;padding:12px 16px 16px;border-bottom:1px solid #E1DCD1}
+.src .ml{font-size:10px;color:#9A9384;margin-bottom:4px}
+.src .mt{font-size:12px;font-weight:500}.src .mb{font-size:11px;color:#8A8375;margin-top:3px;line-height:1.4}
+.sheet{background:#fff;border-radius:20px 20px 0 0;margin-top:-8px;padding:8px 16px 16px;box-shadow:0 -6px 18px rgba(60,50,35,.10);position:relative}
+.grab{width:34px;height:4px;border-radius:4px;background:#DDD8CE;margin:2px auto 12px}
+.shd{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.shd .ico{width:28px;height:28px;border-radius:8px;background:#DCF3E9;color:#0E8F6E;display:flex;align-items:center;justify-content:center;font-size:15px}
+.shd .nm{font-size:13px;font-weight:500}
+.det{background:#F7F5EF;border:1px solid #E7E2D8;border-radius:12px;padding:10px 11px;margin-bottom:12px;display:flex;flex-direction:column;gap:5px}
+.det .num{font-size:13px;font-weight:500}
+.foot{margin-top:40px;font-size:12px;color:var(--muted);border-top:1px solid #DED9CE;padding-top:16px}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="head">
+<h1>ParcelKR — 디자인 시안</h1>
+<p>한국 거주 외국인 대상 택배 조회 앱 · Compose Multiplatform (Android + iOS) · 백엔드 없음<br>확정 방향: 라이트 에디토리얼 · 웜 뉴트럴 배경 + 그린 액센트 + 라이브 트래킹 히어로</p>
+<div class="legend">
+<span><span class="sw" style="background:#0E8F6E"></span>브랜드/액션</span>
+<span><span class="sw" style="background:#D9822B"></span>배송출발</span>
+<span><span class="sw" style="background:#2E5AAC"></span>배송중</span>
+<span><span class="sw" style="background:#0E8F6E"></span>배송완료</span>
+<span><span class="sw" style="background:#6B7280"></span>접수</span>
+</div>
+</div>
+
+<h2 class="sec">핵심 화면 (English)</h2>
+<div class="grid">
+
+<div class="col"><div class="cap">홈 · 배송 목록</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="hd"><h3>Your parcels</h3><span class="gl"><i class="ti ti-world"></i>EN</span></div>
+<div class="addbar"><i class="ti ti-search"></i>Add tracking number<span class="r"><i class="ti ti-clipboard"></i><i class="ti ti-scan"></i></span></div>
+<div class="seg"><span class="on">Active</span><span>Delivered</span><span>All</span></div>
+<div class="hero">
+<span class="pill p-out"><i class="ti ti-truck-delivery"></i>Out for delivery</span>
+<span class="big">Today, 2 – 4 PM</span>
+<span class="meta">Nike Air Max · CJ Logistics</span>
+<div class="track"><div class="trf" style="width:72%;background:#D9822B"></div></div>
+<div class="cta"><i class="ti ti-phone"></i>Call driver</div>
+</div>
+<div class="sec2">Recent</div>
+<div class="list">
+<div class="li"><div><div class="nm">Groceries</div><div class="stx">Coupang</div></div><span class="tag p-del">Delivered</span></div>
+<div class="li"><div><div class="nm">Documents</div><div class="stx">Korea Post</div></div><span class="tag p-tr">In transit</span></div>
+</div>
+</div></div>
+
+<div class="col"><div class="cap">배송 상세 · 타임라인</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="tbar"><i class="ti ti-arrow-left"></i>Tracking detail</div>
+<div class="card" style="display:flex;flex-direction:column;gap:5px">
+<span class="pill p-out"><i class="ti ti-truck-delivery"></i>Out for delivery</span>
+<span class="big" style="font-size:18px;margin-top:2px">Nike Air Max</span>
+<span class="meta">CJ Logistics · 657606146365</span>
+</div>
+<div class="card">
+<div class="tl">
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#D9822B;box-shadow:0 0 0 3px #FBECD9"></span><span class="tline"></span></div><div class="tbody"><div class="tst" style="color:#8A4A12">Out for delivery</div><div class="kr">배송출발</div><div class="ttime">Today 08:15 · Gangnam</div></div></div>
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#B4AD9E"></span><span class="tline"></span></div><div class="tbody"><div class="tst">Arrived at hub</div><div class="kr">간선하차</div><div class="ttime">Jul 9 18:40 · Okcheon</div></div></div>
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#B4AD9E"></span><span class="tline"></span></div><div class="tbody"><div class="tst">Picked up</div><div class="kr">집화처리</div><div class="ttime">Jul 9 10:20 · Busan</div></div></div>
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#fff;border:2px solid #E4DFD5"></span></div><div class="tbody" style="padding-bottom:0"><div class="tst" style="color:#B4AD9E">Delivered</div><div class="ttime">Expected today</div></div></div>
+</div>
+</div>
+<div style="padding:2px 16px 16px"><div class="cta"><i class="ti ti-phone"></i>Call driver</div></div>
+</div></div>
+
+<div class="col"><div class="cap">송장 추가</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="tbar"><i class="ti ti-arrow-left"></i>Add tracking</div>
+<div class="sec2" style="padding-top:4px">Tracking number</div>
+<div class="field"><i class="ti ti-package"></i>657606146365<span class="pst">Paste</span></div>
+<div class="detect"><i class="ti ti-sparkles" style="color:#0E8F6E"></i>Detected carrier: <b style="color:#17130E;font-weight:500">CJ Logistics</b> · Change</div>
+<div class="sec2">Or add another way</div>
+<div class="methods">
+<div class="m"><i class="ti ti-clipboard"></i>Paste</div>
+<div class="m"><i class="ti ti-scan"></i>Scan</div>
+<div class="m"><i class="ti ti-keyboard"></i>Manual</div>
+</div>
+<div class="btn"><i class="ti ti-plus"></i>Add parcel</div>
+<div style="height:16px"></div>
+</div></div>
+
+<div class="col"><div class="cap">빈 상태 · 첫 실행</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="hd"><h3>ParcelKR</h3><span class="gl"><i class="ti ti-world"></i>EN</span></div>
+<div class="empty">
+<div class="ecirc"><i class="ti ti-package"></i></div>
+<div class="eh">Track your first parcel</div>
+<div class="esub">Paste a tracking number to start. We'll translate every update into your language.</div>
+</div>
+<div class="field" style="margin-top:4px"><i class="ti ti-search"></i>Tracking number<span class="pst">Paste</span></div>
+<div class="btn"><i class="ti ti-plus"></i>Add parcel</div>
+<div style="display:flex;justify-content:center;gap:14px;padding:16px 0 20px;color:#B4AD9E;font-size:11px"><span><i class="ti ti-scan"></i> Scan</span><span><i class="ti ti-keyboard"></i> Manual</span></div>
+</div></div>
+
+<div class="col"><div class="cap">온보딩 · 언어 선택</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="brand"><h2>ParcelKR</h2><p>Track parcels in Korea — in your own language.</p></div>
+<div class="sec2">Choose your language</div>
+<div class="lang on">English<span class="ck"><i class="ti ti-check"></i></span></div>
+<div class="lang">한국어<span class="na">Korean</span></div>
+<div class="lang">中文（简体）<span class="na">Chinese</span></div>
+<div class="lang">Tiếng Việt<span class="na">Vietnamese</span></div>
+<div class="lang">Русский<span class="na">Russian</span></div>
+<div style="height:8px"></div>
+<div class="cta" style="margin:0 16px"><i class="ti ti-arrow-right"></i>Continue</div>
+<div style="height:16px"></div>
+</div></div>
+
+<div class="col"><div class="cap">기사 연락</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="tbar"><i class="ti ti-arrow-left"></i>Contact driver</div>
+<div class="card" style="display:flex;flex-direction:column;gap:6px">
+<span class="pill p-out"><i class="ti ti-truck-delivery"></i>Out for delivery</span>
+<span style="font-size:15px;font-weight:500;margin-top:2px">Driver · Kim Minsu</span>
+<span class="meta">Nike Air Max · CJ Logistics</span>
+</div>
+<div style="padding:0 0 12px"><div class="cta" style="margin:0 16px"><i class="ti ti-phone"></i>Call driver</div></div>
+<div class="sec2" style="padding-top:2px">Send a message (auto-translated)</div>
+<div class="msg">
+<div class="lb">You</div><div class="en">Please leave it at the door.</div>
+<div class="lb" style="margin-top:6px">Sent in Korean</div><div class="ko">문 앞에 놓아주세요.</div>
+</div>
+<div class="srow" style="justify-content:center;color:#0E8F6E;font-weight:500"><i class="ti ti-message"></i>Send message</div>
+<div style="height:14px"></div>
+</div></div>
+
+<div class="col"><div class="cap">설정</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="tbar" style="font-size:20px">Settings</div>
+<div class="sec2">Customs</div>
+<div class="srow"><i class="ti ti-id lead"></i>Personal clearance code<span class="rv">P1234•••<i class="ti ti-copy"></i></span></div>
+<div class="sec2">Preferences</div>
+<div class="srow"><i class="ti ti-world lead"></i>Language<span class="rv">English<i class="ti ti-chevron-right"></i></span></div>
+<div class="srow"><i class="ti ti-bell lead"></i>Notifications<span class="rv"><span class="tg"></span></span></div>
+<div class="srow"><i class="ti ti-moon lead"></i>Theme<span class="rv">System<i class="ti ti-chevron-right"></i></span></div>
+<div class="sec2">About</div>
+<div class="srow"><i class="ti ti-info-circle lead"></i>Version<span class="rv">1.0.0</span></div>
+<div style="height:14px"></div>
+</div></div>
+
+<div class="col"><div class="cap">알림 · Updates</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="tbar" style="font-size:20px">Updates</div>
+<div class="push">
+<span class="ic"><i class="ti ti-truck-delivery"></i></span>
+<div><div class="tt">Out for delivery</div><div class="bd">Nike Air Max is on its way — arriving 2–4 PM today.</div></div>
+<span class="tm">now</span>
+</div>
+<div class="sec2">Earlier</div>
+<div class="nrow"><span class="ndot" style="background:#2E5AAC"></span><div><div class="nb">Documents · Korea Post</div><div class="ns">Customs clearance in progress</div></div></div>
+<div class="nrow"><span class="ndot" style="background:#0E8F6E"></span><div><div class="nb">Groceries · Coupang</div><div class="ns">Delivered — left at the door</div></div></div>
+<div class="nrow" style="border-bottom:none"><span class="ndot" style="background:#6B7280"></span><div><div class="nb">Nike Air Max · CJ</div><div class="ns">Picked up in Busan</div></div></div>
+<div style="height:14px"></div>
+</div></div>
+
+</div>
+
+<h2 class="sec">한국어 버전</h2>
+<div class="grid">
+<div class="col"><div class="cap">홈 · 배송 목록 (한국어)</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="hd"><h3>내 택배</h3><span class="gl"><i class="ti ti-world"></i>한국어</span></div>
+<div class="addbar"><i class="ti ti-search"></i>운송장 번호 추가<span class="r"><i class="ti ti-clipboard"></i><i class="ti ti-scan"></i></span></div>
+<div class="seg"><span class="on">진행중</span><span>배송완료</span><span>전체</span></div>
+<div class="hero">
+<span class="pill p-out"><i class="ti ti-truck-delivery"></i>배송출발</span>
+<span class="big">오늘 오후 2~4시 도착</span>
+<span class="meta">나이키 에어맥스 · CJ대한통운</span>
+<div class="track"><div class="trf" style="width:72%;background:#D9822B"></div></div>
+<div class="cta"><i class="ti ti-phone"></i>기사님께 전화</div>
+</div>
+<div class="sec2">최근</div>
+<div class="list">
+<div class="li"><div><div class="nm">식료품</div><div class="stx">쿠팡</div></div><span class="tag p-del">배송완료</span></div>
+<div class="li"><div><div class="nm">서류</div><div class="stx">우체국택배</div></div><span class="tag p-tr">배송중</span></div>
+</div>
+</div></div>
+</div>
+
+<h2 class="sec">확장 기능 화면 (Phase 2~3)</h2>
+<div class="grid">
+
+<div class="col"><div class="cap">홈 위젯 · 라이브 액티비티</div>
+<div class="ph lock">
+<div class="sb" style="color:#F1EDE6"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="clock"><div class="t1">Thursday, July 9</div><div class="t2">9:41</div></div>
+<div style="height:130px"></div>
+<div class="la">
+<div class="top"><span class="ico"><i class="ti ti-truck-delivery"></i></span><span class="an">ParcelKR · Out for delivery</span><span class="tmm">2–4 PM</span></div>
+<div style="font-size:15px;font-weight:500">Nike Air Max arriving today</div>
+<div class="track"><div class="trf" style="width:72%;background:#D9822B"></div></div>
+</div>
+</div></div>
+
+<div class="col"><div class="cap">배송 상세 · 배송 사진</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="tbar"><i class="ti ti-arrow-left"></i>Tracking detail</div>
+<div class="card" style="display:flex;flex-direction:column;gap:5px">
+<span class="pill p-del"><i class="ti ti-circle-check"></i>Delivered</span>
+<span class="big" style="font-size:18px;margin-top:2px">Nike Air Max</span>
+<span class="meta">CJ Logistics · Today 2:38 PM</span>
+</div>
+<div class="sec2" style="padding-top:0">Delivery photo</div>
+<div class="photo"><i class="ti ti-photo"></i><span>Front door · Today 2:38 PM</span></div>
+<div class="card">
+<div class="tl">
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#0E8F6E"></span><span class="tline"></span></div><div class="tbody"><div class="tst" style="color:#0B5C46">Delivered</div><div class="kr">배송완료</div><div class="ttime">Today 14:38 · Left at door</div></div></div>
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#B4AD9E"></span></div><div class="tbody" style="padding-bottom:0"><div class="tst">Out for delivery</div><div class="kr">배송출발</div><div class="ttime">Today 08:15 · Gangnam</div></div></div>
+</div>
+</div>
+</div></div>
+
+<div class="col"><div class="cap">무인택배함 · 재배송</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="tbar"><i class="ti ti-arrow-left"></i>Pickup &amp; redelivery</div>
+<div class="card" style="display:flex;flex-direction:column;gap:5px">
+<span class="pill p-fail"><i class="ti ti-alert-triangle"></i>Delivery attempted</span>
+<span class="meta" style="margin-top:2px">You weren't home · 11:20 AM</span>
+</div>
+<div class="cta"><i class="ti ti-external-link"></i>Request redelivery</div>
+<div class="sec2">Pick up nearby</div>
+<div class="map"><i class="ti ti-map-pin" style="left:60px;top:16px;color:#0E8F6E"></i><i class="ti ti-map-pin" style="left:120px;top:38px;color:#8A8375"></i><i class="ti ti-map-pin" style="left:30px;top:44px;color:#8A8375"></i></div>
+<div class="pk"><i class="ti ti-box"></i><div>Parcel locker · Your building B1</div><span class="dist">0 m</span></div>
+<div class="pk"><i class="ti ti-building-store"></i><div>GS25 Gangnam-daero</div><span class="dist">120 m</span></div>
+<div class="pk" style="border-bottom:none"><i class="ti ti-building-store"></i><div>CU Yeoksam</div><span class="dist">300 m</span></div>
+<div style="height:12px"></div>
+</div></div>
+
+<div class="col"><div class="cap">공유 익스텐션 · 자동 등록</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="src">
+<div class="ml"><i class="ti ti-mail"></i> Mail</div>
+<div class="mt">Your Coupang order has shipped</div>
+<div class="mb">Tracking number: 657606146365 (CJ Logistics). Tap to track your delivery…</div>
+</div>
+<div class="sheet">
+<div class="grab"></div>
+<div class="shd"><span class="ico"><i class="ti ti-package"></i></span><span class="nm">Add to ParcelKR</span></div>
+<div class="det">
+<span class="meta">Detected tracking number</span>
+<span class="num">657606146365</span>
+<span class="pill p-tr" style="align-self:flex-start"><i class="ti ti-truck"></i>CJ Logistics</span>
+</div>
+<div class="cta" style="margin:0"><i class="ti ti-plus"></i>Add parcel</div>
+<div style="text-align:center;font-size:12px;color:#8A8375;padding:10px 0 2px">Cancel</div>
+</div>
+</div></div>
+
+<div class="col"><div class="cap">배대지 · end-to-end</div>
+<div class="ph">
+<div class="sb"><span>9:41</span><span class="sbic"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+<div class="tbar"><i class="ti ti-arrow-left"></i>Tracking detail</div>
+<div class="card" style="display:flex;flex-direction:column;gap:5px">
+<span class="pill p-out"><i class="ti ti-truck-delivery"></i>Out for delivery</span>
+<span class="big" style="font-size:18px;margin-top:2px">Sneakers</span>
+<span class="meta">Amazon US → 배대지 → CJ Logistics</span>
+</div>
+<div class="card">
+<div class="grp">DOMESTIC (KOREA)</div>
+<div class="tl">
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#D9822B"></span><span class="tline"></span></div><div class="tbody"><div class="tst" style="color:#8A4A12">Out for delivery</div><div class="ttime">Today · CJ Logistics</div></div></div>
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#2E5AAC"></span></div><div class="tbody" style="padding-bottom:6px"><div class="tst">Customs cleared</div><div class="ttime">Jul 8 · Incheon</div></div></div>
+</div>
+<div class="grp" style="padding-top:4px">INTERNATIONAL</div>
+<div class="tl">
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#B4AD9E"></span><span class="tline"></span></div><div class="tbody"><div class="tst">Departed</div><div class="ttime">Jul 3 · Los Angeles</div></div></div>
+<div class="tstep"><div class="tcol"><span class="tdot" style="background:#B4AD9E"></span></div><div class="tbody" style="padding-bottom:0"><div class="tst">Shipped · Amazon US</div><div class="ttime">Jun 30 · warehouse</div></div></div>
+</div>
+</div>
+</div></div>
+
+</div>
+
+<div class="foot">ParcelKR 디자인 시안 · 핵심 8화면 + 확장 5화면 · 함께 보는 문서: 기능명세서.md, 로드맵.md, 디자인가이드라인.md</div>
+</div>
+</body>
+</html>
