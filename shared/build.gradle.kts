@@ -10,6 +10,10 @@ plugins {
 kotlin {
     androidTarget()
 
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
