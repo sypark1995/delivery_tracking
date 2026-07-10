@@ -60,6 +60,9 @@ interface AppStrings {
     val earlier: String
     val expectedToday: String
     val delivered: String
+    val pasteEmailHint: String
+    val pasteEmailConfirm: String
+    val pasteEmailFailed: String
 }
 
 object EnStrings : AppStrings {
@@ -109,6 +112,9 @@ object EnStrings : AppStrings {
     override val earlier = "Earlier"
     override val expectedToday = "Expected today"
     override val delivered = "Delivered"
+    override val pasteEmailHint = "Paste order email text"
+    override val pasteEmailConfirm = "Extract tracking number"
+    override val pasteEmailFailed = "Couldn't find a tracking number — try manual entry"
 }
 
 object KoStrings : AppStrings {
@@ -158,6 +164,9 @@ object KoStrings : AppStrings {
     override val earlier = "지난 소식"
     override val expectedToday = "오늘 도착 예정"
     override val delivered = "배송완료"
+    override val pasteEmailHint = "주문 확인 메일 내용을 붙여넣으세요"
+    override val pasteEmailConfirm = "운송장번호 추출"
+    override val pasteEmailFailed = "운송장번호를 찾지 못했어요 — 직접 입력해 주세요"
 }
 
 object ZhStrings : AppStrings {
@@ -207,6 +216,9 @@ object ZhStrings : AppStrings {
     override val earlier = "更早"
     override val expectedToday = "预计今天送达"
     override val delivered = "已送达"
+    override val pasteEmailHint = "粘贴订单确认邮件内容"
+    override val pasteEmailConfirm = "提取运单号"
+    override val pasteEmailFailed = "未能找到运单号 — 请尝试手动输入"
 }
 
 object ViStrings : AppStrings {
@@ -256,6 +268,9 @@ object ViStrings : AppStrings {
     override val earlier = "Trước đó"
     override val expectedToday = "Dự kiến hôm nay"
     override val delivered = "Đã giao"
+    override val pasteEmailHint = "Dán nội dung email xác nhận đơn hàng"
+    override val pasteEmailConfirm = "Trích xuất mã vận đơn"
+    override val pasteEmailFailed = "Không tìm thấy mã vận đơn — vui lòng nhập thủ công"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {
