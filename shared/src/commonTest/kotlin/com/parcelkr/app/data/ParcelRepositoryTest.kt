@@ -39,4 +39,15 @@ class ParcelRepositoryTest {
         r.setCustomsCode("P12345678901")
         assertEquals("P12345678901", r.customsCode())
     }
+
+    @Test fun onboarding_done_defaults_to_false() = runTest {
+        val r = repo()
+        assertEquals(false, r.isOnboardingDone())
+    }
+
+    @Test fun onboarding_done_becomes_true_after_set() = runTest {
+        val r = repo()
+        r.setOnboardingDone()
+        assertEquals(true, r.isOnboardingDone())
+    }
 }

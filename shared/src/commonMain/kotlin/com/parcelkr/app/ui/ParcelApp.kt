@@ -37,9 +37,9 @@ import org.koin.compose.koinInject
 fun ParcelApp() {
     var lang by remember { mutableStateOf(deviceLang()) }
     var dark by remember { mutableStateOf(false) }
-    var current by remember { mutableStateOf<Screen>(Screen.Onboarding) }
-
     val repo = koinInject<ParcelRepository>()
+    var current by remember { mutableStateOf<Screen>(if (repo.isOnboardingDone()) Screen.Home else Screen.Onboarding) }
+
     val detector = koinInject<CarrierDetector>()
     val api = koinInject<TrackingApi>()
     val scope = rememberCoroutineScope()
@@ -56,7 +56,10 @@ fun ParcelApp() {
                     Screen.Onboarding -> OnboardingScreen(
                         selected = lang,
                         onSelect = { lang = it },
-                        onContinue = { current = Screen.Home },
+                        onContinue = {
+                            current = Screen.Home
+                            scope.launch { repo.setOnboardingDone() }
+                        },
                     )
                     Screen.Home -> HomeScreen(
                         model = homeModel,
