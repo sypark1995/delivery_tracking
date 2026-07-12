@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 private const val KEY_CUSTOMS = "customs_code"
+private const val KEY_ONBOARDING_DONE = "onboarding_done"
 
 class ParcelRepository(private val db: ParcelDb) {
     private val q = db.parcelQueries
@@ -43,4 +44,8 @@ class ParcelRepository(private val db: ParcelDb) {
     fun customsCode(): String? = q.getSetting(KEY_CUSTOMS).executeAsOneOrNull()
 
     suspend fun setCustomsCode(code: String) = q.putSetting(KEY_CUSTOMS, code)
+
+    fun isOnboardingDone(): Boolean = q.getSetting(KEY_ONBOARDING_DONE).executeAsOneOrNull() == "true"
+
+    suspend fun setOnboardingDone() = q.putSetting(KEY_ONBOARDING_DONE, "true")
 }
