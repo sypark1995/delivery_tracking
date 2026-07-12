@@ -46,6 +46,10 @@ interface AppStrings {
     val settings: String
     val customs: String
     val personalClearanceCode: String
+    val enterCustomsCode: String
+    val saveCustomsCode: String
+    val copyCustomsCode: String
+    val customsCodeCopied: String
     val preferences: String
     val language: String
     val notifications: String
@@ -56,6 +60,9 @@ interface AppStrings {
     val earlier: String
     val expectedToday: String
     val delivered: String
+    val pasteEmailHint: String
+    val pasteEmailConfirm: String
+    val pasteEmailFailed: String
 }
 
 object EnStrings : AppStrings {
@@ -91,6 +98,10 @@ object EnStrings : AppStrings {
     override val settings = "Settings"
     override val customs = "Customs"
     override val personalClearanceCode = "Personal clearance code"
+    override val enterCustomsCode = "Enter your personal clearance code"
+    override val saveCustomsCode = "Save"
+    override val copyCustomsCode = "Copy"
+    override val customsCodeCopied = "Copied"
     override val preferences = "Preferences"
     override val language = "Language"
     override val notifications = "Notifications"
@@ -101,6 +112,9 @@ object EnStrings : AppStrings {
     override val earlier = "Earlier"
     override val expectedToday = "Expected today"
     override val delivered = "Delivered"
+    override val pasteEmailHint = "Paste order email text"
+    override val pasteEmailConfirm = "Extract tracking number"
+    override val pasteEmailFailed = "Couldn't find a tracking number — try manual entry"
 }
 
 object KoStrings : AppStrings {
@@ -136,6 +150,10 @@ object KoStrings : AppStrings {
     override val settings = "설정"
     override val customs = "통관"
     override val personalClearanceCode = "개인통관고유부호"
+    override val enterCustomsCode = "개인통관고유부호를 입력하세요"
+    override val saveCustomsCode = "저장"
+    override val copyCustomsCode = "복사"
+    override val customsCodeCopied = "복사됨"
     override val preferences = "환경설정"
     override val language = "언어"
     override val notifications = "알림"
@@ -146,6 +164,9 @@ object KoStrings : AppStrings {
     override val earlier = "지난 소식"
     override val expectedToday = "오늘 도착 예정"
     override val delivered = "배송완료"
+    override val pasteEmailHint = "주문 확인 메일 내용을 붙여넣으세요"
+    override val pasteEmailConfirm = "운송장번호 추출"
+    override val pasteEmailFailed = "운송장번호를 찾지 못했어요 — 직접 입력해 주세요"
 }
 
 object ZhStrings : AppStrings {
@@ -181,6 +202,10 @@ object ZhStrings : AppStrings {
     override val settings = "设置"
     override val customs = "清关"
     override val personalClearanceCode = "个人通关编码"
+    override val enterCustomsCode = "请输入个人通关编码"
+    override val saveCustomsCode = "保存"
+    override val copyCustomsCode = "复制"
+    override val customsCodeCopied = "已复制"
     override val preferences = "偏好设置"
     override val language = "语言"
     override val notifications = "通知"
@@ -191,6 +216,9 @@ object ZhStrings : AppStrings {
     override val earlier = "更早"
     override val expectedToday = "预计今天送达"
     override val delivered = "已送达"
+    override val pasteEmailHint = "粘贴订单确认邮件内容"
+    override val pasteEmailConfirm = "提取运单号"
+    override val pasteEmailFailed = "未能找到运单号 — 请尝试手动输入"
 }
 
 object ViStrings : AppStrings {
@@ -226,6 +254,10 @@ object ViStrings : AppStrings {
     override val settings = "Cài đặt"
     override val customs = "Hải quan"
     override val personalClearanceCode = "Mã thông quan cá nhân"
+    override val enterCustomsCode = "Nhập mã thông quan cá nhân của bạn"
+    override val saveCustomsCode = "Lưu"
+    override val copyCustomsCode = "Sao chép"
+    override val customsCodeCopied = "Đã sao chép"
     override val preferences = "Tùy chọn"
     override val language = "Ngôn ngữ"
     override val notifications = "Thông báo"
@@ -236,6 +268,9 @@ object ViStrings : AppStrings {
     override val earlier = "Trước đó"
     override val expectedToday = "Dự kiến hôm nay"
     override val delivered = "Đã giao"
+    override val pasteEmailHint = "Dán nội dung email xác nhận đơn hàng"
+    override val pasteEmailConfirm = "Trích xuất mã vận đơn"
+    override val pasteEmailFailed = "Không tìm thấy mã vận đơn — vui lòng nhập thủ công"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {

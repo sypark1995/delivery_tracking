@@ -30,6 +30,7 @@ import com.parcelkr.app.ui.screen.SettingsScreen
 import com.parcelkr.app.ui.screen.UpdatesScreen
 import com.parcelkr.app.ui.theme.AppTheme
 import com.parcelkr.app.ui.theme.LocalColors
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 @Composable
@@ -91,6 +92,10 @@ fun ParcelApp() {
                         onBack = { current = Screen.Home },
                         onPickLanguage = { lang = it },
                         onToggleTheme = { dark = !dark },
+                        onSetCustomsCode = { code ->
+                            customsCode = code
+                            scope.launch { repo.setCustomsCode(code) }
+                        },
                     )
                     Screen.Updates -> UpdatesScreen(onBack = { current = Screen.Home })
                 }

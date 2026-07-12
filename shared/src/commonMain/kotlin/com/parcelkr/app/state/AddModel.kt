@@ -2,6 +2,7 @@ package com.parcelkr.app.state
 
 import com.parcelkr.app.data.ParcelRepository
 import com.parcelkr.app.domain.CarrierDetector
+import com.parcelkr.app.domain.OrderEmailParser
 import com.parcelkr.app.domain.TrackingApi
 import com.parcelkr.app.domain.model.CarrierGuess
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,9 +20,23 @@ class AddModel(
     private val _guess = MutableStateFlow<CarrierGuess?>(null)
     val guess: StateFlow<CarrierGuess?> = _guess.asStateFlow()
 
+    private val _pasteFailed = MutableStateFlow(false)
+    val pasteFailed: StateFlow<Boolean> = _pasteFailed.asStateFlow()
+
     fun onInput(text: String) {
         _input.value = text
         _guess.value = if (text.isBlank()) null else detector.detect(text)
+        _pasteFailed.value = false
+    }
+
+    /** Parses a pasted order-confirmation email and, if a tracking number is found, prefills [input]. */
+    fun onPasteEmail(emailText: String) {
+        val number = OrderEmailParser.extractTrackingNumber(emailText)
+        if (number != null) {
+            onInput(number)
+        } else {
+            _pasteFailed.value = true
+        }
     }
 
     suspend fun confirmAdd(): Long? {
