@@ -41,3 +41,5 @@ data class TrackingResult(
 )
 
 data class CarrierGuess(val carrier: Carrier, val confident: Boolean)
+
+data class MonthlyCount(val month: String, val count: Long)

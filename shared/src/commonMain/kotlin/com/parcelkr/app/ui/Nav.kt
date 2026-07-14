@@ -8,4 +8,5 @@ sealed interface Screen {
     data class Contact(val trackingNumber: String, val carrierName: String) : Screen
     data object Settings : Screen
     data object Updates : Screen
+    data object History : Screen
 }

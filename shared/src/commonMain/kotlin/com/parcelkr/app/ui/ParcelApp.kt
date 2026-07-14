@@ -22,10 +22,12 @@ import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.i18n.stringsFor
 import com.parcelkr.app.state.AddModel
 import com.parcelkr.app.state.DetailModel
+import com.parcelkr.app.state.HistoryModel
 import com.parcelkr.app.state.HomeModel
 import com.parcelkr.app.ui.screen.AddScreen
 import com.parcelkr.app.ui.screen.ContactScreen
 import com.parcelkr.app.ui.screen.DetailScreen
+import com.parcelkr.app.ui.screen.HistoryScreen
 import com.parcelkr.app.ui.screen.HomeScreen
 import com.parcelkr.app.ui.screen.OnboardingScreen
 import com.parcelkr.app.ui.screen.SettingsScreen
@@ -112,8 +114,13 @@ fun ParcelApp() {
                             customsCode = code
                             scope.launch { repo.setCustomsCode(code) }
                         },
+                        onOpenHistory = { current = Screen.History },
                     )
                     Screen.Updates -> UpdatesScreen(onBack = { current = Screen.Home })
+                    Screen.History -> HistoryScreen(
+                        model = remember { HistoryModel(repo, scope) },
+                        onBack = { current = Screen.Settings },
+                    )
                 }
             }
         }
