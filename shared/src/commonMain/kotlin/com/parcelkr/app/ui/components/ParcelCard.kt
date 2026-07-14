@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,13 +18,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.parcelkr.app.domain.model.DeliveryStatus
+import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.ui.theme.AppShapes
 import com.parcelkr.app.ui.theme.AppType
 import com.parcelkr.app.ui.theme.LocalColors
 
 @Composable
-fun ParcelCard(itemName: String, carrierName: String, status: DeliveryStatus, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun ParcelCard(
+    itemName: String,
+    carrierName: String,
+    status: DeliveryStatus,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDelete: (() -> Unit)? = null,
+) {
     val colors = LocalColors.current
+    val strings = LocalStrings.current
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -36,5 +49,13 @@ fun ParcelCard(itemName: String, carrierName: String, status: DeliveryStatus, on
             Text(carrierName, style = AppType.caption, color = colors.textSecondary)
         }
         StatusPill(status)
+        if (onDelete != null) {
+            Icon(
+                Icons.Outlined.Delete,
+                contentDescription = strings.deleteParcel,
+                tint = colors.textMuted,
+                modifier = Modifier.padding(start = 8.dp).size(18.dp).clickable { onDelete() },
+            )
+        }
     }
 }
