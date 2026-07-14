@@ -126,6 +126,7 @@ fun DetailScreen(
                             filled = i == 0,
                             showOriginal = showOriginal,
                             isLast = i == r.events.lastIndex,
+                            explanation = StatusDictionary.explanation(e.labelKo, lang.code),
                         )
                     }
                 }
