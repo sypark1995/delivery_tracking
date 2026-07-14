@@ -52,6 +52,7 @@ fun AddScreen(model: AddModel, onBack: () -> Unit, onAdded: () -> Unit) {
     val input by model.input.collectAsState()
     val guess by model.guess.collectAsState()
     val pasteFailed by model.pasteFailed.collectAsState()
+    val trackingFailed by model.trackingFailed.collectAsState()
     val scope = rememberCoroutineScope()
     var pasteFieldOpen by remember { mutableStateOf(false) }
     var pasteText by remember { mutableStateOf("") }
@@ -150,6 +151,14 @@ fun AddScreen(model: AddModel, onBack: () -> Unit, onAdded: () -> Unit) {
             }
         }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.Bottom) {
+            if (trackingFailed) {
+                Text(
+                    strings.trackingLookupFailed,
+                    style = AppType.caption,
+                    color = colors.textSecondary,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                )
+            }
             PrimaryButton(
                 strings.addParcel,
                 onClick = { scope.launch { if (model.confirmAdd() != null) onAdded() } },

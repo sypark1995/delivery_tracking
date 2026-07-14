@@ -5,6 +5,9 @@ import com.parcelkr.app.data.ParcelRepository
 import com.parcelkr.app.data.fake.FakeCarrierDetector
 import com.parcelkr.app.data.fake.FakeTrackingApi
 import com.parcelkr.app.db.ParcelDb
+import com.parcelkr.app.domain.TrackingApi
+import com.parcelkr.app.domain.model.Carrier
+import com.parcelkr.app.domain.model.TrackingResult
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -12,6 +15,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+
+private class BoomTrackingApi : TrackingApi {
+    override suspend fun track(trackingNumber: String, carrier: Carrier): TrackingResult =
+        throw RuntimeException("boom")
+}
 
 class AddModelTest {
     private fun repo(): ParcelRepository {
@@ -74,5 +82,29 @@ class AddModelTest {
         m.onInput("657606146365")
 
         assertFalse(m.pasteFailed.value)
+    }
+
+    @Test fun failing_track_call_sets_tracking_failed_and_confirm_add_returns_null_without_persisting() = runTest {
+        val r = repo()
+        val m = AddModel(r, FakeCarrierDetector(), BoomTrackingApi())
+        m.onInput("657606146365")
+
+        val id = m.confirmAdd()
+
+        assertNull(id)
+        assertTrue(m.trackingFailed.value)
+        assertEquals(0, r.observeParcels().first().size)
+    }
+
+    @Test fun editing_input_after_tracking_failure_resets_tracking_failed() = runTest {
+        val r = repo()
+        val m = AddModel(r, FakeCarrierDetector(), BoomTrackingApi())
+        m.onInput("657606146365")
+        m.confirmAdd()
+        assertTrue(m.trackingFailed.value)
+
+        m.onInput("111111111111")
+
+        assertFalse(m.trackingFailed.value)
     }
 }

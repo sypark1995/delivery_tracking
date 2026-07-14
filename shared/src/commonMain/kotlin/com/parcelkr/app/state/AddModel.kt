@@ -23,10 +23,14 @@ class AddModel(
     private val _pasteFailed = MutableStateFlow(false)
     val pasteFailed: StateFlow<Boolean> = _pasteFailed.asStateFlow()
 
+    private val _trackingFailed = MutableStateFlow(false)
+    val trackingFailed: StateFlow<Boolean> = _trackingFailed.asStateFlow()
+
     fun onInput(text: String) {
         _input.value = text
         _guess.value = if (text.isBlank()) null else detector.detect(text)
         _pasteFailed.value = false
+        _trackingFailed.value = false
     }
 
     /** Parses a pasted order-confirmation email and, if a tracking number is found, prefills [input]. */
@@ -43,7 +47,16 @@ class AddModel(
         val number = _input.value.trim()
         if (number.isBlank()) return null
         val carrier = detector.detect(number).carrier
-        val result = api.track(number, carrier)
+        val result = try {
+            val r = api.track(number, carrier)
+            _trackingFailed.value = false
+            r
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            _trackingFailed.value = true
+            return null
+        }
         return repo.add(number, carrier, result.itemName, result.status, result.etaText, result.progress)
     }
 }
