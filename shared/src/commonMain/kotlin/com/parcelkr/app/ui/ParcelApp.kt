@@ -69,7 +69,7 @@ fun ParcelApp() {
                         model = homeModel,
                         onAdd = { current = Screen.Add },
                         onOpenParcel = { current = Screen.Detail(it.trackingNumber, it.carrier.displayName) },
-                        onCallDriver = { current = Screen.Contact },
+                        onCallDriver = { current = Screen.Contact(it.trackingNumber, it.carrier.displayName) },
                         onOpenUpdates = { current = Screen.Updates },
                         onOpenSettings = { current = Screen.Settings },
                     )
@@ -83,12 +83,12 @@ fun ParcelApp() {
                         carrierName = screen.carrierName,
                         model = remember { DetailModel(api) },
                         onBack = { current = Screen.Home },
-                        onContactDriver = { current = Screen.Contact },
+                        onContactDriver = { current = Screen.Contact(screen.trackingNumber, screen.carrierName) },
                     )
-                    Screen.Contact -> ContactScreen(
-                        driverName = "Kim Minsu",
-                        itemName = "Nike Air Max",
-                        carrierName = "CJ Logistics",
+                    is Screen.Contact -> ContactScreen(
+                        trackingNumber = screen.trackingNumber,
+                        carrierName = screen.carrierName,
+                        model = remember { DetailModel(api) },
                         onBack = { current = Screen.Home },
                         onCall = {},
                     )
