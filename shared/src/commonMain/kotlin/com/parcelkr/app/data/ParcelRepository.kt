@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.map
 
 private const val KEY_CUSTOMS = "customs_code"
 private const val KEY_ONBOARDING_DONE = "onboarding_done"
+private const val KEY_LANG = "lang"
+private const val KEY_DARK = "dark_mode"
 
 class ParcelRepository(private val db: ParcelDb) {
     private val q = db.parcelQueries
@@ -48,4 +50,12 @@ class ParcelRepository(private val db: ParcelDb) {
     fun isOnboardingDone(): Boolean = q.getSetting(KEY_ONBOARDING_DONE).executeAsOneOrNull() == "true"
 
     suspend fun setOnboardingDone() = q.putSetting(KEY_ONBOARDING_DONE, "true")
+
+    fun savedLang(): String? = q.getSetting(KEY_LANG).executeAsOneOrNull()
+
+    suspend fun setLang(code: String) = q.putSetting(KEY_LANG, code)
+
+    fun isDarkMode(): Boolean = q.getSetting(KEY_DARK).executeAsOneOrNull() == "true"
+
+    suspend fun setDarkMode(dark: Boolean) = q.putSetting(KEY_DARK, if (dark) "true" else "false")
 }

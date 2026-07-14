@@ -15,6 +15,7 @@ import com.parcelkr.app.data.ParcelRepository
 import com.parcelkr.app.deviceLang
 import com.parcelkr.app.domain.CarrierDetector
 import com.parcelkr.app.domain.TrackingApi
+import com.parcelkr.app.i18n.Lang
 import com.parcelkr.app.i18n.LocalLang
 import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.i18n.stringsFor
@@ -35,9 +36,9 @@ import org.koin.compose.koinInject
 
 @Composable
 fun ParcelApp() {
-    var lang by remember { mutableStateOf(deviceLang()) }
-    var dark by remember { mutableStateOf(false) }
     val repo = koinInject<ParcelRepository>()
+    var lang by remember { mutableStateOf(repo.savedLang()?.let { Lang.fromCode(it) } ?: deviceLang()) }
+    var dark by remember { mutableStateOf(repo.isDarkMode()) }
     var current by remember { mutableStateOf<Screen>(if (repo.isOnboardingDone()) Screen.Home else Screen.Onboarding) }
 
     val detector = koinInject<CarrierDetector>()
@@ -55,7 +56,10 @@ fun ParcelApp() {
                 when (val screen = current) {
                     Screen.Onboarding -> OnboardingScreen(
                         selected = lang,
-                        onSelect = { lang = it },
+                        onSelect = {
+                            lang = it
+                            scope.launch { repo.setLang(it.code) }
+                        },
                         onContinue = {
                             current = Screen.Home
                             scope.launch { repo.setOnboardingDone() }
@@ -93,8 +97,15 @@ fun ParcelApp() {
                         dark = dark,
                         customsCode = customsCode,
                         onBack = { current = Screen.Home },
-                        onPickLanguage = { lang = it },
-                        onToggleTheme = { dark = !dark },
+                        onPickLanguage = {
+                            lang = it
+                            scope.launch { repo.setLang(it.code) }
+                        },
+                        onToggleTheme = {
+                            val newValue = !dark
+                            dark = newValue
+                            scope.launch { repo.setDarkMode(newValue) }
+                        },
                         onSetCustomsCode = { code ->
                             customsCode = code
                             scope.launch { repo.setCustomsCode(code) }
