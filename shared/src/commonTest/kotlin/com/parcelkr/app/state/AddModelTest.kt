@@ -107,4 +107,30 @@ class AddModelTest {
 
         assertFalse(m.trackingFailed.value)
     }
+
+    @Test fun manual_carrier_selection_overrides_detected_carrier_on_confirm() = runTest {
+        val r = repo()
+        val m = AddModel(r, FakeCarrierDetector(), FakeTrackingApi())
+        m.onInput("657606146365")
+        assertEquals(Carrier.CJ, m.guess.value?.carrier)
+
+        m.selectCarrier(Carrier.KOREA_POST)
+        m.confirmAdd()
+
+        val parcels = r.observeParcels().first()
+        assertEquals(1, parcels.size)
+        assertEquals(Carrier.KOREA_POST, parcels[0].carrier)
+    }
+
+    @Test fun editing_input_after_manual_selection_resets_manual_carrier() = runTest {
+        val r = repo()
+        val m = AddModel(r, FakeCarrierDetector(), FakeTrackingApi())
+        m.onInput("657606146365")
+        m.selectCarrier(Carrier.KOREA_POST)
+        assertEquals(Carrier.KOREA_POST, m.manualCarrier.value)
+
+        m.onInput("111111111111")
+
+        assertNull(m.manualCarrier.value)
+    }
 }

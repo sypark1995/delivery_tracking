@@ -19,8 +19,10 @@ import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.QrCodeScanner
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import com.parcelkr.app.domain.model.Carrier
 import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.state.AddModel
 import com.parcelkr.app.ui.components.PrimaryButton
@@ -51,11 +54,14 @@ fun AddScreen(model: AddModel, onBack: () -> Unit, onAdded: () -> Unit) {
     val strings = LocalStrings.current
     val input by model.input.collectAsState()
     val guess by model.guess.collectAsState()
+    val manualCarrier by model.manualCarrier.collectAsState()
     val pasteFailed by model.pasteFailed.collectAsState()
     val trackingFailed by model.trackingFailed.collectAsState()
+    val effectiveCarrier = manualCarrier ?: guess?.carrier
     val scope = rememberCoroutineScope()
     var pasteFieldOpen by remember { mutableStateOf(false) }
     var pasteText by remember { mutableStateOf("") }
+    var pickerOpen by remember { mutableStateOf(false) }
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
         ScreenHeader(strings.addTrackingBar, onBack)
@@ -79,11 +85,19 @@ fun AddScreen(model: AddModel, onBack: () -> Unit, onAdded: () -> Unit) {
                 },
             )
         }
-        guess?.let { g ->
+        guess?.let {
+            val carrier = effectiveCarrier ?: it.carrier
             Row(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Outlined.AutoAwesome, contentDescription = null, tint = colors.brand, modifier = Modifier.size(16.dp))
                 Spacer(Modifier.size(7.dp))
-                Text("${strings.detectedCarrier}: ${g.carrier.displayName}", style = AppType.caption, color = colors.textSecondary)
+                Text("${strings.detectedCarrier}: ${carrier.displayName}", style = AppType.caption, color = colors.textSecondary)
+                Spacer(Modifier.size(4.dp))
+                Text(
+                    "· ${strings.change}",
+                    style = AppType.caption,
+                    color = colors.brand,
+                    modifier = Modifier.clickable { pickerOpen = true },
+                )
             }
         }
         SectionHeader(strings.addAnotherWay)
@@ -166,6 +180,33 @@ fun AddScreen(model: AddModel, onBack: () -> Unit, onAdded: () -> Unit) {
                 modifier = Modifier.padding(16.dp),
             )
         }
+    }
+    if (pickerOpen) {
+        AlertDialog(
+            onDismissRequest = { pickerOpen = false },
+            title = { Text(strings.detectedCarrier) },
+            text = {
+                Column {
+                    Carrier.entries.filter { it != Carrier.UNKNOWN }.forEach { carrier ->
+                        Text(
+                            carrier.displayName,
+                            style = AppType.body,
+                            color = if (carrier == effectiveCarrier) colors.brand else colors.textPrimary,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    model.selectCarrier(carrier)
+                                    pickerOpen = false
+                                }
+                                .padding(vertical = 12.dp),
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { pickerOpen = false }) { Text(strings.cancel) }
+            },
+        )
     }
 }
 
