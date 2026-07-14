@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import com.parcelkr.app.data.ParcelRepository
 import com.parcelkr.app.deviceLang
 import com.parcelkr.app.domain.CarrierDetector
+import com.parcelkr.app.domain.DialerLauncher
 import com.parcelkr.app.domain.TrackingApi
 import com.parcelkr.app.i18n.Lang
 import com.parcelkr.app.i18n.LocalLang
@@ -43,6 +44,7 @@ fun ParcelApp() {
 
     val detector = koinInject<CarrierDetector>()
     val api = koinInject<TrackingApi>()
+    val dialer = koinInject<DialerLauncher>()
     val scope = rememberCoroutineScope()
     val homeModel = remember { HomeModel(repo, scope) }
     var customsCode by remember { mutableStateOf(repo.customsCode()) }
@@ -89,8 +91,8 @@ fun ParcelApp() {
                         trackingNumber = screen.trackingNumber,
                         carrierName = screen.carrierName,
                         model = remember { DetailModel(api) },
+                        dialer = dialer,
                         onBack = { current = Screen.Home },
-                        onCall = {},
                     )
                     Screen.Settings -> SettingsScreen(
                         currentLang = lang,

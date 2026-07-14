@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.parcelkr.app.domain.DialerLauncher
 import com.parcelkr.app.domain.model.Carrier
 import com.parcelkr.app.domain.model.TrackingResult
 import com.parcelkr.app.i18n.LocalStrings
@@ -45,8 +46,8 @@ fun ContactScreen(
     trackingNumber: String,
     carrierName: String,
     model: DetailModel,
+    dialer: DialerLauncher,
     onBack: () -> Unit,
-    onCall: () -> Unit,
 ) {
     val colors = LocalColors.current
     val strings = LocalStrings.current
@@ -94,7 +95,7 @@ fun ContactScreen(
                 }
                 Spacer(Modifier.size(12.dp))
                 if (r.driverPhone != null) {
-                    PrimaryButton(strings.callDriver, onClick = onCall, leadingIcon = Icons.Outlined.Phone, modifier = Modifier.padding(horizontal = 16.dp))
+                    PrimaryButton(strings.callDriver, onClick = { r.driverPhone?.let { dialer.launch(it) } }, leadingIcon = Icons.Outlined.Phone, modifier = Modifier.padding(horizontal = 16.dp))
                     Spacer(Modifier.size(12.dp))
                     SectionHeader(strings.sendMessageAutoTranslated)
                     Column(
