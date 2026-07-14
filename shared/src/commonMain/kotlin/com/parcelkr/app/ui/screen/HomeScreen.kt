@@ -23,11 +23,16 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -65,6 +70,7 @@ fun HomeScreen(
     val hero = heroOf(parcels)
     // The hero is the live in-progress shipment; it headlines Active/All but not the Delivered filter.
     val showHero = hero != null && segment != Segment.DELIVERED
+    var pendingDeleteId by remember { mutableStateOf<Long?>(null) }
 
     Column(Modifier.fillMaxSize().background(colors.bg).verticalScroll(rememberScrollState())) {
         Row(
@@ -125,10 +131,32 @@ fun HomeScreen(
             filterBySegment(parcels, segment)
                 .filter { !showHero || it.id != hero?.id }
                 .forEach { p ->
-                    ParcelCard(p.itemName, p.carrier.displayName, p.status, onClick = { onOpenParcel(p) })
+                    ParcelCard(
+                        p.itemName, p.carrier.displayName, p.status,
+                        onClick = { onOpenParcel(p) },
+                        onDelete = { pendingDeleteId = p.id },
+                    )
                 }
         }
         Spacer(Modifier.height(24.dp))
+    }
+
+    val deleteId = pendingDeleteId
+    if (deleteId != null) {
+        AlertDialog(
+            onDismissRequest = { pendingDeleteId = null },
+            title = { Text(strings.deleteParcelConfirmTitle) },
+            text = { Text(strings.deleteParcelConfirmMessage) },
+            confirmButton = {
+                TextButton(onClick = {
+                    model.delete(deleteId)
+                    pendingDeleteId = null
+                }) { Text(strings.delete) }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingDeleteId = null }) { Text(strings.cancel) }
+            },
+        )
     }
 }
 
