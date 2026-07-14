@@ -50,4 +50,26 @@ class ParcelRepositoryTest {
         r.setOnboardingDone()
         assertEquals(true, r.isOnboardingDone())
     }
+
+    @Test fun lang_defaults_to_null() = runTest {
+        val r = repo()
+        assertNull(r.savedLang())
+    }
+
+    @Test fun lang_roundtrips_after_set() = runTest {
+        val r = repo()
+        r.setLang("ko")
+        assertEquals("ko", r.savedLang())
+    }
+
+    @Test fun dark_mode_defaults_to_false() = runTest {
+        val r = repo()
+        assertEquals(false, r.isDarkMode())
+    }
+
+    @Test fun dark_mode_becomes_true_after_set() = runTest {
+        val r = repo()
+        r.setDarkMode(true)
+        assertEquals(true, r.isDarkMode())
+    }
 }
