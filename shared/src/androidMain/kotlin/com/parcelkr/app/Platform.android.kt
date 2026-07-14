@@ -4,3 +4,5 @@ import com.parcelkr.app.i18n.Lang
 import java.util.Locale
 
 actual fun deviceLang(): Lang = Lang.fromCode(Locale.getDefault().language)
+
+actual fun currentTimeMillis(): Long = System.currentTimeMillis()

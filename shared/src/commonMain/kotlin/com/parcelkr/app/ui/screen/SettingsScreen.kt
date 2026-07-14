@@ -15,7 +15,9 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
@@ -54,6 +56,7 @@ fun SettingsScreen(
     onPickLanguage: (Lang) -> Unit,
     onToggleTheme: () -> Unit,
     onSetCustomsCode: (String) -> Unit,
+    onOpenHistory: () -> Unit,
 ) {
     val colors = LocalColors.current
     val strings = LocalStrings.current
@@ -71,6 +74,9 @@ fun SettingsScreen(
         }
         SettingRow(Icons.Outlined.DarkMode, strings.theme, onClick = onToggleTheme) {
             Switch(checked = dark, onCheckedChange = { onToggleTheme() })
+        }
+        SettingRow(Icons.Outlined.History, strings.deliveryHistory, onClick = onOpenHistory) {
+            Icon(Icons.Outlined.ChevronRight, contentDescription = null, tint = colors.textMuted, modifier = Modifier.size(18.dp))
         }
         SectionHeader(strings.about)
         SettingRow(Icons.Outlined.Badge, strings.version) {

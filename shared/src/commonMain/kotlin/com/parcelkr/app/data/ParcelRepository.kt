@@ -2,9 +2,11 @@ package com.parcelkr.app.data
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import com.parcelkr.app.currentTimeMillis
 import com.parcelkr.app.db.ParcelDb
 import com.parcelkr.app.domain.model.Carrier
 import com.parcelkr.app.domain.model.DeliveryStatus
+import com.parcelkr.app.domain.model.MonthlyCount
 import com.parcelkr.app.domain.model.Parcel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -36,12 +38,18 @@ class ParcelRepository(private val db: ParcelDb) {
     suspend fun add(
         trackingNumber: String, carrier: Carrier, itemName: String,
         status: DeliveryStatus, etaText: String?, progress: Float,
+        addedAt: Long = currentTimeMillis(),
     ): Long {
-        q.insertParcel(trackingNumber, carrier.name, itemName, status.name, etaText, progress.toDouble())
+        q.insertParcel(trackingNumber, carrier.name, itemName, status.name, etaText, progress.toDouble(), addedAt)
         return q.lastInsertRowId().executeAsOne()
     }
 
     suspend fun delete(id: Long) = q.deleteParcel(id)
+
+    fun observeMonthlyCounts(): Flow<List<MonthlyCount>> =
+        q.monthlyCounts().asFlow().mapToList(Dispatchers.Default).map { rows ->
+            rows.map { MonthlyCount(month = it.month.orEmpty(), count = it.count) }
+        }
 
     fun customsCode(): String? = q.getSetting(KEY_CUSTOMS).executeAsOneOrNull()
 

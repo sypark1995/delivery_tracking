@@ -5,7 +5,8 @@ CREATE TABLE parcel (
     itemName TEXT NOT NULL,
     status TEXT NOT NULL,
     etaText TEXT,
-    progress REAL NOT NULL
+    progress REAL NOT NULL,
+    addedAt INTEGER NOT NULL
 );
 
 CREATE TABLE settings (
@@ -17,14 +18,20 @@ selectAll:
 SELECT * FROM parcel ORDER BY id DESC;
 
 insertParcel:
-INSERT INTO parcel(trackingNumber, carrier, itemName, status, etaText, progress)
-VALUES (?, ?, ?, ?, ?, ?);
+INSERT INTO parcel(trackingNumber, carrier, itemName, status, etaText, progress, addedAt)
+VALUES (?, ?, ?, ?, ?, ?, ?);
 
 lastInsertRowId:
 SELECT last_insert_rowid();
 
 deleteParcel:
 DELETE FROM parcel WHERE id = ?;
+
+monthlyCounts:
+SELECT strftime('%Y-%m', addedAt / 1000, 'unixepoch') AS month, COUNT(*) AS count
+FROM parcel
+GROUP BY month
+ORDER BY month DESC;
 
 getSetting:
 SELECT value FROM settings WHERE key = ?;

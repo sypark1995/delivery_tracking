@@ -4,6 +4,7 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.parcelkr.app.db.ParcelDb
 import com.parcelkr.app.domain.model.Carrier
 import com.parcelkr.app.domain.model.DeliveryStatus
+import com.parcelkr.app.domain.model.MonthlyCount
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -71,5 +72,19 @@ class ParcelRepositoryTest {
         val r = repo()
         r.setDarkMode(true)
         assertEquals(true, r.isDarkMode())
+    }
+
+    @Test fun observe_monthly_counts_groups_by_month_newest_first() = runTest {
+        val r = repo()
+        r.add("111", Carrier.CJ, "Item A", DeliveryStatus.DELIVERED, null, 1f, addedAt = 1781481600000L)
+        r.add("222", Carrier.CJ, "Item B", DeliveryStatus.DELIVERED, null, 1f, addedAt = 1784505600000L)
+        r.add("333", Carrier.CJ, "Item C", DeliveryStatus.DELIVERED, null, 1f, addedAt = 1784678400000L)
+        val counts = r.observeMonthlyCounts().first()
+        assertEquals(listOf(MonthlyCount("2026-07", 2), MonthlyCount("2026-06", 1)), counts)
+    }
+
+    @Test fun observe_monthly_counts_empty_when_no_parcels() = runTest {
+        val r = repo()
+        assertEquals(emptyList(), r.observeMonthlyCounts().first())
     }
 }

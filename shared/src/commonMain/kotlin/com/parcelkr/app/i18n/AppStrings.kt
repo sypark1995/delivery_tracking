@@ -73,6 +73,9 @@ interface AppStrings {
     val trackingDetailFailedTitle: String
     val trackingDetailFailedMessage: String
     val noDriverInfo: String
+    val deliveryHistory: String
+    val historyEmptyMessage: String
+    val parcelsUnit: String
 }
 
 object EnStrings : AppStrings {
@@ -135,6 +138,9 @@ object EnStrings : AppStrings {
     override val trackingDetailFailedTitle = "Couldn't load tracking info"
     override val trackingDetailFailedMessage = "Something went wrong looking this up. Try again."
     override val noDriverInfo = "Driver contact isn't available for this parcel yet."
+    override val deliveryHistory = "Delivery history"
+    override val historyEmptyMessage = "No delivery history yet."
+    override val parcelsUnit = "parcels"
 }
 
 object KoStrings : AppStrings {
@@ -197,6 +203,9 @@ object KoStrings : AppStrings {
     override val trackingDetailFailedTitle = "배송 정보를 불러오지 못했어요"
     override val trackingDetailFailedMessage = "조회 중 문제가 발생했어요. 다시 시도해 주세요."
     override val noDriverInfo = "아직 이 택배의 기사님 연락처가 없어요."
+    override val deliveryHistory = "배송 이력"
+    override val historyEmptyMessage = "아직 배송 이력이 없습니다."
+    override val parcelsUnit = "개"
 }
 
 object ZhStrings : AppStrings {
@@ -259,6 +268,9 @@ object ZhStrings : AppStrings {
     override val trackingDetailFailedTitle = "未能加载配送信息"
     override val trackingDetailFailedMessage = "查询时出现问题，请重试。"
     override val noDriverInfo = "该包裹暂无快递员联系方式。"
+    override val deliveryHistory = "配送历史"
+    override val historyEmptyMessage = "暂无配送历史。"
+    override val parcelsUnit = "个"
 }
 
 object ViStrings : AppStrings {
@@ -321,6 +333,9 @@ object ViStrings : AppStrings {
     override val trackingDetailFailedTitle = "Không thể tải thông tin vận chuyển"
     override val trackingDetailFailedMessage = "Đã có lỗi xảy ra khi tra cứu. Vui lòng thử lại."
     override val noDriverInfo = "Chưa có thông tin liên hệ tài xế cho bưu kiện này."
+    override val deliveryHistory = "Lịch sử giao hàng"
+    override val historyEmptyMessage = "Chưa có lịch sử giao hàng."
+    override val parcelsUnit = "kiện"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {
