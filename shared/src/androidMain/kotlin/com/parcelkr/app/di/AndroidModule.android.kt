@@ -5,6 +5,8 @@ import com.parcelkr.app.data.DriverFactory
 import com.parcelkr.app.data.fake.FakeTrackingApi
 import com.parcelkr.app.data.real.RealTrackingApi
 import com.parcelkr.app.db.ParcelDb
+import com.parcelkr.app.domain.AndroidDialerLauncher
+import com.parcelkr.app.domain.DialerLauncher
 import com.parcelkr.app.domain.TrackingApi
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -35,6 +37,7 @@ fun androidModule(
             FakeTrackingApi()
         }
     }
+    single<DialerLauncher> { AndroidDialerLauncher(context) }
 }
 
 fun initKoin(context: Context, trackerClientId: String, trackerClientSecret: String) {
