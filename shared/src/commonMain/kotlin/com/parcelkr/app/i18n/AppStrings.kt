@@ -68,6 +68,10 @@ interface AppStrings {
     val deleteParcelConfirmMessage: String
     val cancel: String
     val delete: String
+    val trackingLookupFailed: String
+    val retry: String
+    val trackingDetailFailedTitle: String
+    val trackingDetailFailedMessage: String
 }
 
 object EnStrings : AppStrings {
@@ -125,6 +129,10 @@ object EnStrings : AppStrings {
     override val deleteParcelConfirmMessage = "This tracking number will be removed from your list. This can't be undone."
     override val cancel = "Cancel"
     override val delete = "Delete"
+    override val trackingLookupFailed = "Couldn't find this tracking number. Check it and try again."
+    override val retry = "Retry"
+    override val trackingDetailFailedTitle = "Couldn't load tracking info"
+    override val trackingDetailFailedMessage = "Something went wrong looking this up. Try again."
 }
 
 object KoStrings : AppStrings {
@@ -182,6 +190,10 @@ object KoStrings : AppStrings {
     override val deleteParcelConfirmMessage = "이 운송장이 목록에서 삭제됩니다. 이 작업은 되돌릴 수 없어요."
     override val cancel = "취소"
     override val delete = "삭제"
+    override val trackingLookupFailed = "운송장번호를 찾지 못했어요. 번호를 확인하고 다시 시도해 주세요."
+    override val retry = "다시 시도"
+    override val trackingDetailFailedTitle = "배송 정보를 불러오지 못했어요"
+    override val trackingDetailFailedMessage = "조회 중 문제가 발생했어요. 다시 시도해 주세요."
 }
 
 object ZhStrings : AppStrings {
@@ -239,6 +251,10 @@ object ZhStrings : AppStrings {
     override val deleteParcelConfirmMessage = "该运单将从你的列表中删除，此操作无法撤销。"
     override val cancel = "取消"
     override val delete = "删除"
+    override val trackingLookupFailed = "未能找到该运单号。请检查后重试。"
+    override val retry = "重试"
+    override val trackingDetailFailedTitle = "未能加载配送信息"
+    override val trackingDetailFailedMessage = "查询时出现问题，请重试。"
 }
 
 object ViStrings : AppStrings {
@@ -296,6 +312,10 @@ object ViStrings : AppStrings {
     override val deleteParcelConfirmMessage = "Mã vận đơn này sẽ bị xóa khỏi danh sách của bạn. Không thể hoàn tác."
     override val cancel = "Hủy"
     override val delete = "Xóa"
+    override val trackingLookupFailed = "Không tìm thấy mã vận đơn này. Kiểm tra lại và thử lại."
+    override val retry = "Thử lại"
+    override val trackingDetailFailedTitle = "Không thể tải thông tin vận chuyển"
+    override val trackingDetailFailedMessage = "Đã có lỗi xảy ra khi tra cứu. Vui lòng thử lại."
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {

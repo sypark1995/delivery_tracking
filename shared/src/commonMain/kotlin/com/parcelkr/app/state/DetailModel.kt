@@ -13,8 +13,21 @@ class DetailModel(
     private val _showOriginal = MutableStateFlow(false)
     val showOriginal: StateFlow<Boolean> = _showOriginal.asStateFlow()
 
+    private val _loadFailed = MutableStateFlow(false)
+    val loadFailed: StateFlow<Boolean> = _loadFailed.asStateFlow()
+
     fun toggleOriginal() { _showOriginal.value = !_showOriginal.value }
 
-    suspend fun load(trackingNumber: String, carrier: Carrier): TrackingResult =
-        api.track(trackingNumber, carrier)
+    suspend fun load(trackingNumber: String, carrier: Carrier): TrackingResult? {
+        return try {
+            val result = api.track(trackingNumber, carrier)
+            _loadFailed.value = false
+            result
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            _loadFailed.value = true
+            null
+        }
+    }
 }
