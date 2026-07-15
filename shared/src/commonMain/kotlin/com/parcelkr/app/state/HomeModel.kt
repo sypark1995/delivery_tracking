@@ -38,6 +38,10 @@ fun sortParcels(all: List<Parcel>, sort: SortOrder): List<Parcel> = when (sort) 
     SortOrder.NAME -> all.sortedBy { it.itemName.lowercase() }
 }
 
+fun distinctTags(all: List<Parcel>): List<String> = all.mapNotNull { it.tag }.distinct().sorted()
+
+fun filterByTag(all: List<Parcel>, tag: String?): List<Parcel> = if (tag == null) all else all.filter { it.tag == tag }
+
 class HomeModel(private val repo: ParcelRepository, private val scope: CoroutineScope) {
     val parcels: StateFlow<List<Parcel>> =
         repo.observeParcels().stateIn(scope, SharingStarted.Eagerly, emptyList())
@@ -56,6 +60,15 @@ class HomeModel(private val repo: ParcelRepository, private val scope: Coroutine
     val sort: StateFlow<SortOrder> = _sort.asStateFlow()
 
     fun setSort(s: SortOrder) { _sort.value = s }
+
+    private val _tagFilter = MutableStateFlow<String?>(null)
+    val tagFilter: StateFlow<String?> = _tagFilter.asStateFlow()
+
+    fun setTagFilter(tag: String?) { _tagFilter.value = tag }
+
+    fun setTag(id: Long, tag: String?) {
+        scope.launch { repo.setTag(id, tag) }
+    }
 
     fun delete(id: Long) {
         scope.launch { repo.delete(id) }
