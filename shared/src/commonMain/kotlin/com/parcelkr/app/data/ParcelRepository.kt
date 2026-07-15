@@ -31,6 +31,7 @@ class ParcelRepository(private val db: ParcelDb) {
                     status = runCatching { DeliveryStatus.valueOf(row.status) }.getOrDefault(DeliveryStatus.RECEIVED),
                     etaText = row.etaText,
                     progress = row.progress.toFloat(),
+                    addedAt = row.addedAt,
                 )
             }
         }
