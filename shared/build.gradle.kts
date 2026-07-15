@@ -37,6 +37,7 @@ kotlin {
             implementation(libs.sqldelight.android.driver)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.work.runtime)
             implementation("androidx.compose.ui:ui-tooling-preview:1.7.0")
         }
         commonTest.dependencies {

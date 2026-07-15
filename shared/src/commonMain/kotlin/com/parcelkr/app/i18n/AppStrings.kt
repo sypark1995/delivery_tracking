@@ -84,6 +84,7 @@ interface AppStrings {
     val sortByRecent: String
     val sortByName: String
     val noSearchResults: String
+    val statusChangeNotificationTitle: String
 }
 
 object EnStrings : AppStrings {
@@ -154,6 +155,7 @@ object EnStrings : AppStrings {
     override val sortByRecent = "Recent"
     override val sortByName = "Name"
     override val noSearchResults = "No parcels match your search."
+    override val statusChangeNotificationTitle = "Delivery update"
 }
 
 object KoStrings : AppStrings {
@@ -224,6 +226,7 @@ object KoStrings : AppStrings {
     override val sortByRecent = "최신순"
     override val sortByName = "이름순"
     override val noSearchResults = "검색 결과가 없습니다."
+    override val statusChangeNotificationTitle = "배송 상태 업데이트"
 }
 
 object ZhStrings : AppStrings {
@@ -294,6 +297,7 @@ object ZhStrings : AppStrings {
     override val sortByRecent = "最新"
     override val sortByName = "名称"
     override val noSearchResults = "没有符合搜索条件的包裹。"
+    override val statusChangeNotificationTitle = "配送状态更新"
 }
 
 object ViStrings : AppStrings {
@@ -364,6 +368,7 @@ object ViStrings : AppStrings {
     override val sortByRecent = "Mới nhất"
     override val sortByName = "Tên"
     override val noSearchResults = "Không có bưu kiện nào khớp với tìm kiếm của bạn."
+    override val statusChangeNotificationTitle = "Cập nhật vận chuyển"
 }
 
 object ThStrings : AppStrings {
@@ -434,6 +439,7 @@ object ThStrings : AppStrings {
     override val sortByRecent = "ล่าสุด"
     override val sortByName = "ชื่อ"
     override val noSearchResults = "ไม่พบพัสดุที่ตรงกับการค้นหาของคุณ"
+    override val statusChangeNotificationTitle = "อัปเดตสถานะการจัดส่ง"
 }
 
 object RuStrings : AppStrings {
@@ -504,6 +510,7 @@ object RuStrings : AppStrings {
     override val sortByRecent = "Недавние"
     override val sortByName = "По имени"
     override val noSearchResults = "Посылок по вашему запросу не найдено."
+    override val statusChangeNotificationTitle = "Обновление доставки"
 }
 
 object JaStrings : AppStrings {
@@ -574,6 +581,7 @@ object JaStrings : AppStrings {
     override val sortByRecent = "新しい順"
     override val sortByName = "名前順"
     override val noSearchResults = "検索条件に一致する荷物がありません。"
+    override val statusChangeNotificationTitle = "配送状況の更新"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {
