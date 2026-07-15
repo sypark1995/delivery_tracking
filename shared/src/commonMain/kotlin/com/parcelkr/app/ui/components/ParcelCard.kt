@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,6 +29,7 @@ fun ParcelCard(
     itemName: String,
     carrierName: String,
     status: DeliveryStatus,
+    stalledDays: Long? = null,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     onDelete: (() -> Unit)? = null,
@@ -47,6 +49,10 @@ fun ParcelCard(
         Column(Modifier.weight(1f)) {
             Text(itemName, style = AppType.label, color = colors.textPrimary)
             Text(carrierName, style = AppType.caption, color = colors.textSecondary)
+            if (stalledDays != null) {
+                Spacer(Modifier.size(4.dp))
+                StalledBadge(stalledDays)
+            }
         }
         StatusPill(status)
         if (onDelete != null) {

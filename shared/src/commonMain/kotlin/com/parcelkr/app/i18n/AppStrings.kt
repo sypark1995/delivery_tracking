@@ -76,6 +76,7 @@ interface AppStrings {
     val deliveryHistory: String
     val historyEmptyMessage: String
     val parcelsUnit: String
+    val stalledBadge: String
 }
 
 object EnStrings : AppStrings {
@@ -141,6 +142,7 @@ object EnStrings : AppStrings {
     override val deliveryHistory = "Delivery history"
     override val historyEmptyMessage = "No delivery history yet."
     override val parcelsUnit = "parcels"
+    override val stalledBadge = "Stalled {days}d"
 }
 
 object KoStrings : AppStrings {
@@ -206,6 +208,7 @@ object KoStrings : AppStrings {
     override val deliveryHistory = "배송 이력"
     override val historyEmptyMessage = "아직 배송 이력이 없습니다."
     override val parcelsUnit = "개"
+    override val stalledBadge = "{days}일째 정지"
 }
 
 object ZhStrings : AppStrings {
@@ -271,6 +274,7 @@ object ZhStrings : AppStrings {
     override val deliveryHistory = "配送历史"
     override val historyEmptyMessage = "暂无配送历史。"
     override val parcelsUnit = "个"
+    override val stalledBadge = "停滞 {days} 天"
 }
 
 object ViStrings : AppStrings {
@@ -336,6 +340,7 @@ object ViStrings : AppStrings {
     override val deliveryHistory = "Lịch sử giao hàng"
     override val historyEmptyMessage = "Chưa có lịch sử giao hàng."
     override val parcelsUnit = "kiện"
+    override val stalledBadge = "Đình trệ {days} ngày"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {
