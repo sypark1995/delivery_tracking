@@ -16,6 +16,7 @@ private const val KEY_CUSTOMS = "customs_code"
 private const val KEY_ONBOARDING_DONE = "onboarding_done"
 private const val KEY_LANG = "lang"
 private const val KEY_DARK = "dark_mode"
+private const val KEY_NOTIFICATIONS_ENABLED = "notifications_enabled"
 
 class ParcelRepository(private val db: ParcelDb) {
     private val q = db.parcelQueries
@@ -47,6 +48,9 @@ class ParcelRepository(private val db: ParcelDb) {
 
     suspend fun delete(id: Long) = q.deleteParcel(id)
 
+    suspend fun updateStatus(id: Long, status: DeliveryStatus, etaText: String?, progress: Float) =
+        q.updateParcelStatus(status.name, etaText, progress.toDouble(), id)
+
     fun observeMonthlyCounts(): Flow<List<MonthlyCount>> =
         q.monthlyCounts().asFlow().mapToList(Dispatchers.Default).map { rows ->
             rows.map { MonthlyCount(month = it.month.orEmpty(), count = it.count) }
@@ -67,4 +71,8 @@ class ParcelRepository(private val db: ParcelDb) {
     fun isDarkMode(): Boolean = q.getSetting(KEY_DARK).executeAsOneOrNull() == "true"
 
     suspend fun setDarkMode(dark: Boolean) = q.putSetting(KEY_DARK, if (dark) "true" else "false")
+
+    fun notificationsEnabled(): Boolean = q.getSetting(KEY_NOTIFICATIONS_ENABLED).executeAsOneOrNull() == "true"
+
+    suspend fun setNotificationsEnabled(enabled: Boolean) = q.putSetting(KEY_NOTIFICATIONS_ENABLED, if (enabled) "true" else "false")
 }

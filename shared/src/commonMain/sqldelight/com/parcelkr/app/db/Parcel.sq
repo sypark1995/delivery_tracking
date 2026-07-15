@@ -27,6 +27,9 @@ SELECT last_insert_rowid();
 deleteParcel:
 DELETE FROM parcel WHERE id = ?;
 
+updateParcelStatus:
+UPDATE parcel SET status = ?, etaText = ?, progress = ? WHERE id = ?;
+
 monthlyCounts:
 SELECT strftime('%Y-%m', addedAt / 1000, 'unixepoch') AS month, COUNT(*) AS count
 FROM parcel
