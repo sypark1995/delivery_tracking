@@ -88,4 +88,21 @@ class ParcelRepositoryTest {
         val r = repo()
         assertEquals(emptyList(), r.observeMonthlyCounts().first())
     }
+
+    @Test fun update_status_changes_stored_parcel() = runTest {
+        val r = repo()
+        val id = r.add("111", Carrier.CJ, "Item A", DeliveryStatus.RECEIVED, null, 0.1f)
+        r.updateStatus(id, DeliveryStatus.OUT_FOR_DELIVERY, "Today", 0.9f)
+        val list = r.observeParcels().first()
+        assertEquals(DeliveryStatus.OUT_FOR_DELIVERY, list[0].status)
+        assertEquals("Today", list[0].etaText)
+        assertEquals(0.9f, list[0].progress)
+    }
+
+    @Test fun notifications_enabled_defaults_to_false_then_roundtrips() = runTest {
+        val r = repo()
+        assertEquals(false, r.notificationsEnabled())
+        r.setNotificationsEnabled(true)
+        assertEquals(true, r.notificationsEnabled())
+    }
 }
