@@ -43,6 +43,7 @@ fun ParcelApp(initialSharedText: String? = null) {
     val repo = koinInject<ParcelRepository>()
     var lang by remember { mutableStateOf(repo.savedLang()?.let { Lang.fromCode(it) } ?: deviceLang()) }
     var dark by remember { mutableStateOf(repo.isDarkMode()) }
+    var notificationsEnabled by remember { mutableStateOf(repo.notificationsEnabled()) }
     var current by remember { mutableStateOf<Screen>(if (repo.isOnboardingDone()) Screen.Home else Screen.Onboarding) }
 
     val detector = koinInject<CarrierDetector>()
@@ -108,6 +109,7 @@ fun ParcelApp(initialSharedText: String? = null) {
                     Screen.Settings -> SettingsScreen(
                         currentLang = lang,
                         dark = dark,
+                        notificationsEnabled = notificationsEnabled,
                         customsCode = customsCode,
                         onBack = { current = Screen.Home },
                         onPickLanguage = {
@@ -118,6 +120,11 @@ fun ParcelApp(initialSharedText: String? = null) {
                             val newValue = !dark
                             dark = newValue
                             scope.launch { repo.setDarkMode(newValue) }
+                        },
+                        onToggleNotifications = {
+                            val newValue = !notificationsEnabled
+                            notificationsEnabled = newValue
+                            scope.launch { repo.setNotificationsEnabled(newValue) }
                         },
                         onSetCustomsCode = { code ->
                             customsCode = code

@@ -51,10 +51,12 @@ import kotlinx.coroutines.delay
 fun SettingsScreen(
     currentLang: Lang,
     dark: Boolean,
+    notificationsEnabled: Boolean,
     customsCode: String?,
     onBack: () -> Unit,
     onPickLanguage: (Lang) -> Unit,
     onToggleTheme: () -> Unit,
+    onToggleNotifications: () -> Unit,
     onSetCustomsCode: (String) -> Unit,
     onOpenHistory: () -> Unit,
 ) {
@@ -69,8 +71,8 @@ fun SettingsScreen(
         SettingRow(Icons.Outlined.Language, strings.language, onClick = { onPickLanguage(nextLang) }) {
             Text(currentLang.nativeName, style = AppType.caption, color = colors.textSecondary)
         }
-        SettingRow(Icons.Outlined.Notifications, strings.notifications) {
-            Switch(checked = true, onCheckedChange = null)
+        SettingRow(Icons.Outlined.Notifications, strings.notifications, onClick = onToggleNotifications) {
+            Switch(checked = notificationsEnabled, onCheckedChange = { onToggleNotifications() })
         }
         SettingRow(Icons.Outlined.DarkMode, strings.theme, onClick = onToggleTheme) {
             Switch(checked = dark, onCheckedChange = { onToggleTheme() })
