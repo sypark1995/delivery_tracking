@@ -7,9 +7,11 @@ import com.parcelkr.app.data.real.RealTrackingApi
 import com.parcelkr.app.db.ParcelDb
 import com.parcelkr.app.domain.AndroidCsvExporter
 import com.parcelkr.app.domain.AndroidDialerLauncher
+import com.parcelkr.app.domain.AndroidUrlLauncher
 import com.parcelkr.app.domain.CsvExporter
 import com.parcelkr.app.domain.DialerLauncher
 import com.parcelkr.app.domain.TrackingApi
+import com.parcelkr.app.domain.UrlLauncher
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -40,6 +42,7 @@ fun androidModule(
         }
     }
     single<DialerLauncher> { AndroidDialerLauncher(context) }
+    single<UrlLauncher> { AndroidUrlLauncher(context) }
     single<CsvExporter> { AndroidCsvExporter(context) }
 }
 

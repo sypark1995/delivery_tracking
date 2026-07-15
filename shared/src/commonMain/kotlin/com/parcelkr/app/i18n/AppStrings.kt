@@ -96,6 +96,9 @@ interface AppStrings {
     val dndLabel: String
     val dndStartLabel: String
     val dndEndLabel: String
+    val pickupRedeliveryTitle: String
+    val viewOnMap: String
+    val requestRedelivery: String
 }
 
 object EnStrings : AppStrings {
@@ -178,6 +181,9 @@ object EnStrings : AppStrings {
     override val dndLabel = "Do not disturb"
     override val dndStartLabel = "Start"
     override val dndEndLabel = "End"
+    override val pickupRedeliveryTitle = "Missed delivery"
+    override val viewOnMap = "View pickup location"
+    override val requestRedelivery = "Request redelivery"
 }
 
 object KoStrings : AppStrings {
@@ -260,6 +266,9 @@ object KoStrings : AppStrings {
     override val dndLabel = "방해금지"
     override val dndStartLabel = "시작"
     override val dndEndLabel = "종료"
+    override val pickupRedeliveryTitle = "부재중 배송"
+    override val viewOnMap = "픽업 위치 보기"
+    override val requestRedelivery = "재배송 신청"
 }
 
 object ZhStrings : AppStrings {
@@ -342,6 +351,9 @@ object ZhStrings : AppStrings {
     override val dndLabel = "免打扰"
     override val dndStartLabel = "开始"
     override val dndEndLabel = "结束"
+    override val pickupRedeliveryTitle = "配送未成功"
+    override val viewOnMap = "查看取件地点"
+    override val requestRedelivery = "申请重新配送"
 }
 
 object ViStrings : AppStrings {
@@ -424,6 +436,9 @@ object ViStrings : AppStrings {
     override val dndLabel = "Không làm phiền"
     override val dndStartLabel = "Bắt đầu"
     override val dndEndLabel = "Kết thúc"
+    override val pickupRedeliveryTitle = "Giao hàng không thành công"
+    override val viewOnMap = "Xem địa điểm nhận hàng"
+    override val requestRedelivery = "Yêu cầu giao lại"
 }
 
 object ThStrings : AppStrings {
@@ -506,6 +521,9 @@ object ThStrings : AppStrings {
     override val dndLabel = "ห้ามรบกวน"
     override val dndStartLabel = "เริ่ม"
     override val dndEndLabel = "สิ้นสุด"
+    override val pickupRedeliveryTitle = "จัดส่งไม่สำเร็จ"
+    override val viewOnMap = "ดูตำแหน่งจุดรับพัสดุ"
+    override val requestRedelivery = "ขอจัดส่งใหม่"
 }
 
 object RuStrings : AppStrings {
@@ -588,6 +606,9 @@ object RuStrings : AppStrings {
     override val dndLabel = "Не беспокоить"
     override val dndStartLabel = "Начало"
     override val dndEndLabel = "Конец"
+    override val pickupRedeliveryTitle = "Доставка не удалась"
+    override val viewOnMap = "Посмотреть место получения"
+    override val requestRedelivery = "Запросить повторную доставку"
 }
 
 object JaStrings : AppStrings {
@@ -670,6 +691,9 @@ object JaStrings : AppStrings {
     override val dndLabel = "通知しない時間帯"
     override val dndStartLabel = "開始"
     override val dndEndLabel = "終了"
+    override val pickupRedeliveryTitle = "不在配達"
+    override val viewOnMap = "受け取り場所を見る"
+    override val requestRedelivery = "再配達を依頼"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {
