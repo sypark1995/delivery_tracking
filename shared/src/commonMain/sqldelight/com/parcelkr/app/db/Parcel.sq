@@ -6,7 +6,8 @@ CREATE TABLE parcel (
     status TEXT NOT NULL,
     etaText TEXT,
     progress REAL NOT NULL,
-    addedAt INTEGER NOT NULL
+    addedAt INTEGER NOT NULL,
+    tag TEXT
 );
 
 CREATE TABLE settings (
@@ -29,6 +30,9 @@ DELETE FROM parcel WHERE id = ?;
 
 updateParcelStatus:
 UPDATE parcel SET status = ?, etaText = ?, progress = ? WHERE id = ?;
+
+updateParcelTag:
+UPDATE parcel SET tag = ? WHERE id = ?;
 
 monthlyCounts:
 SELECT strftime('%Y-%m', addedAt / 1000, 'unixepoch') AS month, COUNT(*) AS count
