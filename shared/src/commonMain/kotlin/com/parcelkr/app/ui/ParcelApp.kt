@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,7 +39,7 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 @Composable
-fun ParcelApp() {
+fun ParcelApp(initialSharedText: String? = null) {
     val repo = koinInject<ParcelRepository>()
     var lang by remember { mutableStateOf(repo.savedLang()?.let { Lang.fromCode(it) } ?: deviceLang()) }
     var dark by remember { mutableStateOf(repo.isDarkMode()) }
@@ -49,7 +50,15 @@ fun ParcelApp() {
     val dialer = koinInject<DialerLauncher>()
     val scope = rememberCoroutineScope()
     val homeModel = remember { HomeModel(repo, scope) }
+    val addModel = remember { AddModel(repo, detector, api) }
     var customsCode by remember { mutableStateOf(repo.customsCode()) }
+
+    LaunchedEffect(Unit) {
+        if (initialSharedText != null && repo.isOnboardingDone()) {
+            current = Screen.Add
+            addModel.onPasteEmail(initialSharedText)
+        }
+    }
 
     AppTheme(dark = dark) {
         CompositionLocalProvider(
@@ -78,7 +87,7 @@ fun ParcelApp() {
                         onOpenSettings = { current = Screen.Settings },
                     )
                     Screen.Add -> AddScreen(
-                        model = remember { AddModel(repo, detector, api) },
+                        model = addModel,
                         onBack = { current = Screen.Home },
                         onAdded = { current = Screen.Home },
                     )
