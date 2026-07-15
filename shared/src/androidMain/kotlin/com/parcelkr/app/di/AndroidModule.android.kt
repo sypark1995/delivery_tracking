@@ -5,7 +5,9 @@ import com.parcelkr.app.data.DriverFactory
 import com.parcelkr.app.data.fake.FakeTrackingApi
 import com.parcelkr.app.data.real.RealTrackingApi
 import com.parcelkr.app.db.ParcelDb
+import com.parcelkr.app.domain.AndroidCsvExporter
 import com.parcelkr.app.domain.AndroidDialerLauncher
+import com.parcelkr.app.domain.CsvExporter
 import com.parcelkr.app.domain.DialerLauncher
 import com.parcelkr.app.domain.TrackingApi
 import io.ktor.client.HttpClient
@@ -38,6 +40,7 @@ fun androidModule(
         }
     }
     single<DialerLauncher> { AndroidDialerLauncher(context) }
+    single<CsvExporter> { AndroidCsvExporter(context) }
 }
 
 fun initKoin(context: Context, trackerClientId: String, trackerClientSecret: String) {

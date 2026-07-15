@@ -2,6 +2,7 @@ package com.parcelkr.app.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Inventory2
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -39,7 +41,17 @@ fun HistoryScreen(model: HistoryModel, onBack: () -> Unit) {
     val counts by model.monthlyCounts.collectAsState()
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
-        ScreenHeader(strings.deliveryHistory, onBack, titleStyle = AppType.title)
+        ScreenHeader(
+            strings.deliveryHistory, onBack, titleStyle = AppType.title,
+            trailing = {
+                Icon(
+                    Icons.Outlined.Download,
+                    contentDescription = strings.exportHistory,
+                    tint = colors.textSecondary,
+                    modifier = Modifier.clickable { model.exportCsv() }.padding(4.dp),
+                )
+            },
+        )
         if (counts.isEmpty()) {
             EmptyHistoryState()
         } else {
