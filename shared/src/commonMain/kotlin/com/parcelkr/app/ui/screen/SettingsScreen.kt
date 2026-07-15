@@ -17,6 +17,7 @@ import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.DoNotDisturbOn
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Notifications
@@ -52,11 +53,16 @@ fun SettingsScreen(
     currentLang: Lang,
     dark: Boolean,
     notificationsEnabled: Boolean,
+    dndEnabled: Boolean,
+    dndStartMinute: Int,
+    dndEndMinute: Int,
     customsCode: String?,
     onBack: () -> Unit,
     onPickLanguage: (Lang) -> Unit,
     onToggleTheme: () -> Unit,
     onToggleNotifications: () -> Unit,
+    onToggleDnd: () -> Unit,
+    onSetDndWindow: (startMinute: Int, endMinute: Int) -> Unit,
     onSetCustomsCode: (String) -> Unit,
     onOpenHistory: () -> Unit,
 ) {
@@ -73,6 +79,12 @@ fun SettingsScreen(
         }
         SettingRow(Icons.Outlined.Notifications, strings.notifications, onClick = onToggleNotifications) {
             Switch(checked = notificationsEnabled, onCheckedChange = { onToggleNotifications() })
+        }
+        SettingRow(Icons.Outlined.DoNotDisturbOn, strings.dndLabel, onClick = onToggleDnd) {
+            Switch(checked = dndEnabled, onCheckedChange = { onToggleDnd() })
+        }
+        if (dndEnabled) {
+            DndWindowRow(startMinute = dndStartMinute, endMinute = dndEndMinute, onSave = onSetDndWindow)
         }
         SettingRow(Icons.Outlined.DarkMode, strings.theme, onClick = onToggleTheme) {
             Switch(checked = dark, onCheckedChange = { onToggleTheme() })
@@ -178,6 +190,93 @@ private fun CustomsCodeRow(customsCode: String?, onSave: (String) -> Unit) {
             }
         }
     }
+}
+
+@Composable
+private fun DndWindowRow(startMinute: Int, endMinute: Int, onSave: (Int, Int) -> Unit) {
+    val colors = LocalColors.current
+    val strings = LocalStrings.current
+    var editing by remember { mutableStateOf(false) }
+    var startDraft by remember(startMinute) { mutableStateOf(formatMinuteOfDay(startMinute)) }
+    var endDraft by remember(endMinute) { mutableStateOf(formatMinuteOfDay(endMinute)) }
+
+    Column(
+        Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)
+            .clip(AppShapes.field).background(colors.surface)
+            .border(1.dp, colors.border, AppShapes.field)
+            .let {
+                if (!editing) {
+                    it.clickable {
+                        startDraft = formatMinuteOfDay(startMinute)
+                        endDraft = formatMinuteOfDay(endMinute)
+                        editing = true
+                    }
+                } else it
+            }
+            .padding(horizontal = 13.dp, vertical = 12.dp),
+    ) {
+        if (!editing) {
+            Text(
+                "${formatMinuteOfDay(startMinute)} – ${formatMinuteOfDay(endMinute)}",
+                style = AppType.caption,
+                color = colors.textSecondary,
+            )
+        } else {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(strings.dndStartLabel, style = AppType.caption, color = colors.textSecondary)
+                Spacer(Modifier.size(6.dp))
+                BasicTextField(
+                    value = startDraft,
+                    onValueChange = { startDraft = it },
+                    singleLine = true,
+                    textStyle = TextStyle(color = colors.textPrimary, fontSize = AppType.body.fontSize),
+                    cursorBrush = SolidColor(colors.brand),
+                    modifier = Modifier.weight(1f),
+                )
+                Spacer(Modifier.size(12.dp))
+                Text(strings.dndEndLabel, style = AppType.caption, color = colors.textSecondary)
+                Spacer(Modifier.size(6.dp))
+                BasicTextField(
+                    value = endDraft,
+                    onValueChange = { endDraft = it },
+                    singleLine = true,
+                    textStyle = TextStyle(color = colors.textPrimary, fontSize = AppType.body.fontSize),
+                    cursorBrush = SolidColor(colors.brand),
+                    modifier = Modifier.weight(1f),
+                )
+            }
+            Spacer(Modifier.size(8.dp))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Text(
+                    strings.saveTag,
+                    style = AppType.label,
+                    color = colors.brand,
+                    modifier = Modifier.clickable {
+                        val parsedStart = parseMinuteOfDay(startDraft)
+                        val parsedEnd = parseMinuteOfDay(endDraft)
+                        if (parsedStart != null && parsedEnd != null) {
+                            onSave(parsedStart, parsedEnd)
+                        }
+                        editing = false
+                    }.padding(8.dp),
+                )
+            }
+        }
+    }
+}
+
+private fun formatMinuteOfDay(minute: Int): String {
+    val h = (minute / 60).coerceIn(0, 23)
+    val m = (minute % 60).coerceIn(0, 59)
+    return h.toString().padStart(2, '0') + ":" + m.toString().padStart(2, '0')
+}
+
+private fun parseMinuteOfDay(text: String): Int? {
+    val match = Regex("^([0-2]?[0-9]):([0-5][0-9])$").matchEntire(text.trim()) ?: return null
+    val hour = match.groupValues[1].toInt()
+    val minute = match.groupValues[2].toInt()
+    if (hour > 23) return null
+    return hour * 60 + minute
 }
 
 @Composable
