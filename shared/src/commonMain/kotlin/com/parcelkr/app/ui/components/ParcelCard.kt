@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Label
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,9 +31,11 @@ fun ParcelCard(
     carrierName: String,
     status: DeliveryStatus,
     stalledDays: Long? = null,
+    tag: String? = null,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     onDelete: (() -> Unit)? = null,
+    onEditTag: (() -> Unit)? = null,
 ) {
     val colors = LocalColors.current
     val strings = LocalStrings.current
@@ -53,6 +56,15 @@ fun ParcelCard(
                 Spacer(Modifier.size(4.dp))
                 StalledBadge(stalledDays)
             }
+            if (tag != null) {
+                Spacer(Modifier.size(4.dp))
+                Text(
+                    tag,
+                    style = AppType.caption,
+                    color = colors.brand,
+                    modifier = Modifier.clip(AppShapes.pill).background(colors.brandTint).padding(horizontal = 8.dp, vertical = 2.dp),
+                )
+            }
         }
         StatusPill(status)
         if (onDelete != null) {
@@ -61,6 +73,14 @@ fun ParcelCard(
                 contentDescription = strings.deleteParcel,
                 tint = colors.textMuted,
                 modifier = Modifier.padding(start = 8.dp).size(18.dp).clickable { onDelete() },
+            )
+        }
+        if (onEditTag != null) {
+            Icon(
+                Icons.Outlined.Label,
+                contentDescription = strings.tagLabel,
+                tint = colors.textMuted,
+                modifier = Modifier.padding(start = 8.dp).size(18.dp).clickable { onEditTag() },
             )
         }
     }

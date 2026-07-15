@@ -20,6 +20,7 @@ data class Parcel(
     val etaText: String?,
     val progress: Float,
     val addedAt: Long = 0L,
+    val tag: String? = null,
 )
 
 data class StatusEvent(

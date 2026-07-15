@@ -33,6 +33,7 @@ class ParcelRepository(private val db: ParcelDb) {
                     etaText = row.etaText,
                     progress = row.progress.toFloat(),
                     addedAt = row.addedAt,
+                    tag = row.tag,
                 )
             }
         }
@@ -50,6 +51,8 @@ class ParcelRepository(private val db: ParcelDb) {
 
     suspend fun updateStatus(id: Long, status: DeliveryStatus, etaText: String?, progress: Float) =
         q.updateParcelStatus(status.name, etaText, progress.toDouble(), id)
+
+    suspend fun setTag(id: Long, tag: String?) = q.updateParcelTag(tag, id)
 
     fun observeMonthlyCounts(): Flow<List<MonthlyCount>> =
         q.monthlyCounts().asFlow().mapToList(Dispatchers.Default).map { rows ->

@@ -105,4 +105,14 @@ class ParcelRepositoryTest {
         r.setNotificationsEnabled(true)
         assertEquals(true, r.notificationsEnabled())
     }
+
+    @Test fun set_tag_then_observe_returns_updated_tag() = runTest {
+        val r = repo()
+        val id = r.add("111", Carrier.CJ, "Item A", DeliveryStatus.RECEIVED, null, 0.1f)
+        assertEquals(null, r.observeParcels().first()[0].tag)
+
+        r.setTag(id, "Family")
+
+        assertEquals("Family", r.observeParcels().first()[0].tag)
+    }
 }

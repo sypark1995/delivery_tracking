@@ -85,6 +85,9 @@ interface AppStrings {
     val sortByName: String
     val noSearchResults: String
     val statusChangeNotificationTitle: String
+    val tagLabel: String
+    val addTagHint: String
+    val saveTag: String
 }
 
 object EnStrings : AppStrings {
@@ -156,6 +159,9 @@ object EnStrings : AppStrings {
     override val sortByName = "Name"
     override val noSearchResults = "No parcels match your search."
     override val statusChangeNotificationTitle = "Delivery update"
+    override val tagLabel = "Tag"
+    override val addTagHint = "Add a tag (e.g. Family)"
+    override val saveTag = "Save"
 }
 
 object KoStrings : AppStrings {
@@ -227,6 +233,9 @@ object KoStrings : AppStrings {
     override val sortByName = "이름순"
     override val noSearchResults = "검색 결과가 없습니다."
     override val statusChangeNotificationTitle = "배송 상태 업데이트"
+    override val tagLabel = "태그"
+    override val addTagHint = "태그 추가 (예: 가족)"
+    override val saveTag = "저장"
 }
 
 object ZhStrings : AppStrings {
@@ -298,6 +307,9 @@ object ZhStrings : AppStrings {
     override val sortByName = "名称"
     override val noSearchResults = "没有符合搜索条件的包裹。"
     override val statusChangeNotificationTitle = "配送状态更新"
+    override val tagLabel = "标签"
+    override val addTagHint = "添加标签（例如：家人）"
+    override val saveTag = "保存"
 }
 
 object ViStrings : AppStrings {
@@ -369,6 +381,9 @@ object ViStrings : AppStrings {
     override val sortByName = "Tên"
     override val noSearchResults = "Không có bưu kiện nào khớp với tìm kiếm của bạn."
     override val statusChangeNotificationTitle = "Cập nhật vận chuyển"
+    override val tagLabel = "Thẻ"
+    override val addTagHint = "Thêm thẻ (vd: Gia đình)"
+    override val saveTag = "Lưu"
 }
 
 object ThStrings : AppStrings {
@@ -440,6 +455,9 @@ object ThStrings : AppStrings {
     override val sortByName = "ชื่อ"
     override val noSearchResults = "ไม่พบพัสดุที่ตรงกับการค้นหาของคุณ"
     override val statusChangeNotificationTitle = "อัปเดตสถานะการจัดส่ง"
+    override val tagLabel = "แท็ก"
+    override val addTagHint = "เพิ่มแท็ก (เช่น ครอบครัว)"
+    override val saveTag = "บันทึก"
 }
 
 object RuStrings : AppStrings {
@@ -511,6 +529,9 @@ object RuStrings : AppStrings {
     override val sortByName = "По имени"
     override val noSearchResults = "Посылок по вашему запросу не найдено."
     override val statusChangeNotificationTitle = "Обновление доставки"
+    override val tagLabel = "Тег"
+    override val addTagHint = "Добавить тег (например, Семья)"
+    override val saveTag = "Сохранить"
 }
 
 object JaStrings : AppStrings {
@@ -582,6 +603,9 @@ object JaStrings : AppStrings {
     override val sortByName = "名前順"
     override val noSearchResults = "検索条件に一致する荷物がありません。"
     override val statusChangeNotificationTitle = "配送状況の更新"
+    override val tagLabel = "タグ"
+    override val addTagHint = "タグを追加（例：家族）"
+    override val saveTag = "保存"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {
