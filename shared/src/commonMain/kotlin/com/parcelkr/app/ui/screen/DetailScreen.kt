@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Phone
+import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,8 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.parcelkr.app.domain.CarrierSupportLinks
 import com.parcelkr.app.domain.StatusDictionary
+import com.parcelkr.app.domain.UrlLauncher
 import com.parcelkr.app.domain.model.Carrier
+import com.parcelkr.app.domain.model.DeliveryStatus
 import com.parcelkr.app.domain.model.Parcel
 import com.parcelkr.app.domain.model.TrackingResult
 import com.parcelkr.app.i18n.LocalLang
@@ -54,6 +59,7 @@ fun DetailScreen(
     carrierName: String,
     cachedParcel: Parcel? = null,
     model: DetailModel,
+    urlLauncher: UrlLauncher,
     onBack: () -> Unit,
     onContactDriver: () -> Unit,
 ) {
@@ -161,6 +167,32 @@ fun DetailScreen(
                 if (r.driverPhone != null) {
                     PrimaryButton(strings.callDriver, onClick = onContactDriver, leadingIcon = Icons.Outlined.Phone,
                         modifier = Modifier.padding(horizontal = 16.dp))
+                }
+
+                if (r.status == DeliveryStatus.FAILED) {
+                    Spacer(Modifier.size(12.dp))
+                    Column(
+                        Modifier.padding(horizontal = 16.dp).fillMaxWidth()
+                            .clip(AppShapes.card).background(colors.surface)
+                            .border(1.dp, colors.border, AppShapes.card).padding(14.dp),
+                    ) {
+                        Text(strings.pickupRedeliveryTitle, style = AppType.label, color = colors.textPrimary)
+                        Spacer(Modifier.size(10.dp))
+                        val latestPlace = r.events.firstOrNull()?.place
+                        if (!latestPlace.isNullOrBlank()) {
+                            PrimaryButton(
+                                strings.viewOnMap,
+                                onClick = { urlLauncher.openMapSearch(latestPlace) },
+                                leadingIcon = Icons.Outlined.Place,
+                            )
+                            Spacer(Modifier.size(8.dp))
+                        }
+                        PrimaryButton(
+                            strings.requestRedelivery,
+                            onClick = { urlLauncher.openUrl(CarrierSupportLinks.urlFor(r.carrier)) },
+                            leadingIcon = Icons.AutoMirrored.Outlined.OpenInNew,
+                        )
+                    }
                 }
             }
         }

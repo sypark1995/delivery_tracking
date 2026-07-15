@@ -19,6 +19,7 @@ import com.parcelkr.app.domain.CarrierDetector
 import com.parcelkr.app.domain.CsvExporter
 import com.parcelkr.app.domain.DialerLauncher
 import com.parcelkr.app.domain.TrackingApi
+import com.parcelkr.app.domain.UrlLauncher
 import com.parcelkr.app.i18n.Lang
 import com.parcelkr.app.i18n.LocalLang
 import com.parcelkr.app.i18n.LocalStrings
@@ -54,6 +55,7 @@ fun ParcelApp(initialSharedText: String? = null) {
     val detector = koinInject<CarrierDetector>()
     val api = koinInject<TrackingApi>()
     val dialer = koinInject<DialerLauncher>()
+    val urlLauncher = koinInject<UrlLauncher>()
     val csvExporter = koinInject<CsvExporter>()
     val scope = rememberCoroutineScope()
     val homeModel = remember { HomeModel(repo, scope) }
@@ -104,6 +106,7 @@ fun ParcelApp(initialSharedText: String? = null) {
                         carrierName = screen.carrierName,
                         cachedParcel = cachedParcels.firstOrNull { it.trackingNumber == screen.trackingNumber },
                         model = remember { DetailModel(api) },
+                        urlLauncher = urlLauncher,
                         onBack = { current = Screen.Home },
                         onContactDriver = { current = Screen.Contact(screen.trackingNumber, screen.carrierName) },
                     )
