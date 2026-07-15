@@ -90,6 +90,7 @@ interface AppStrings {
     val saveTag: String
     val offlineCachedNotice: String
     val exportHistory: String
+    val widgetNoActiveParcel: String
 }
 
 object EnStrings : AppStrings {
@@ -166,6 +167,7 @@ object EnStrings : AppStrings {
     override val saveTag = "Save"
     override val offlineCachedNotice = "Showing last known status — you may be offline"
     override val exportHistory = "Export as CSV"
+    override val widgetNoActiveParcel = "No active deliveries"
 }
 
 object KoStrings : AppStrings {
@@ -242,6 +244,7 @@ object KoStrings : AppStrings {
     override val saveTag = "저장"
     override val offlineCachedNotice = "마지막으로 확인된 상태예요 — 오프라인일 수 있어요"
     override val exportHistory = "CSV로 내보내기"
+    override val widgetNoActiveParcel = "진행중인 배송이 없어요"
 }
 
 object ZhStrings : AppStrings {
@@ -318,6 +321,7 @@ object ZhStrings : AppStrings {
     override val saveTag = "保存"
     override val offlineCachedNotice = "显示最近一次已知状态 — 你可能处于离线状态"
     override val exportHistory = "导出为 CSV"
+    override val widgetNoActiveParcel = "暂无配送中的包裹"
 }
 
 object ViStrings : AppStrings {
@@ -394,6 +398,7 @@ object ViStrings : AppStrings {
     override val saveTag = "Lưu"
     override val offlineCachedNotice = "Đang hiển thị trạng thái đã biết gần nhất — có thể bạn đang ngoại tuyến"
     override val exportHistory = "Xuất ra CSV"
+    override val widgetNoActiveParcel = "Không có bưu kiện đang giao"
 }
 
 object ThStrings : AppStrings {
@@ -470,6 +475,7 @@ object ThStrings : AppStrings {
     override val saveTag = "บันทึก"
     override val offlineCachedNotice = "แสดงสถานะล่าสุดที่ทราบ — คุณอาจออฟไลน์อยู่"
     override val exportHistory = "ส่งออกเป็น CSV"
+    override val widgetNoActiveParcel = "ไม่มีพัสดุที่กำลังจัดส่ง"
 }
 
 object RuStrings : AppStrings {
@@ -546,6 +552,7 @@ object RuStrings : AppStrings {
     override val saveTag = "Сохранить"
     override val offlineCachedNotice = "Показан последний известный статус — возможно, вы офлайн"
     override val exportHistory = "Экспорт в CSV"
+    override val widgetNoActiveParcel = "Нет активных доставок"
 }
 
 object JaStrings : AppStrings {
@@ -622,6 +629,7 @@ object JaStrings : AppStrings {
     override val saveTag = "保存"
     override val offlineCachedNotice = "最後に確認できた状態を表示しています — オフラインの可能性があります"
     override val exportHistory = "CSVとしてエクスポート"
+    override val widgetNoActiveParcel = "配送中の荷物はありません"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {

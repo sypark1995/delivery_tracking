@@ -38,6 +38,7 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.work.runtime)
+            implementation(libs.androidx.glance.appwidget)
             implementation("androidx.compose.ui:ui-tooling-preview:1.7.0")
         }
         commonTest.dependencies {
