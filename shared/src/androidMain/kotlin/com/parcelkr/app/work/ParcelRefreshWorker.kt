@@ -44,7 +44,7 @@ class ParcelRefreshWorker(
             return Result.retry()
         }
 
-        if (notificationsOn) {
+        if (notificationsOn && !repo.isCurrentlyDnd()) {
             changes.forEach { notify(it) }
         }
         if (hasWidget) {

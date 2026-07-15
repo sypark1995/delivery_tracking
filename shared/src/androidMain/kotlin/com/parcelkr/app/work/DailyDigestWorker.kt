@@ -27,6 +27,7 @@ class DailyDigestWorker(
         if (!repo.notificationsEnabled()) return Result.success()
         val activeCount = repo.observeParcels().first().count { it.status != DeliveryStatus.DELIVERED }
         if (activeCount == 0) return Result.success()
+        if (repo.isCurrentlyDnd()) return Result.success()
 
         val lang = repo.savedLang()?.let { Lang.fromCode(it) } ?: deviceLang()
         val strings = stringsFor(lang)
