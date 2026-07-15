@@ -4,6 +4,8 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.glance.appwidget.updateAll
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.parcelkr.app.data.ParcelRepository
@@ -14,6 +16,7 @@ import com.parcelkr.app.domain.TrackingApi
 import com.parcelkr.app.i18n.Lang
 import com.parcelkr.app.i18n.stringsFor
 import com.parcelkr.app.ui.components.statusLabel
+import com.parcelkr.app.widget.ParcelWidget
 import kotlinx.coroutines.CancellationException
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -29,7 +32,10 @@ class ParcelRefreshWorker(
     private val api: TrackingApi by inject()
 
     override suspend fun doWork(): Result {
-        if (!repo.notificationsEnabled()) return Result.success()
+        val hasWidget = GlanceAppWidgetManager(applicationContext).getGlanceIds(ParcelWidget::class.java).isNotEmpty()
+        val notificationsOn = repo.notificationsEnabled()
+        if (!notificationsOn && !hasWidget) return Result.success()
+
         val changes = try {
             ParcelRefresher(repo, api).refresh()
         } catch (e: CancellationException) {
@@ -37,7 +43,13 @@ class ParcelRefreshWorker(
         } catch (e: Exception) {
             return Result.retry()
         }
-        changes.forEach { notify(it) }
+
+        if (notificationsOn) {
+            changes.forEach { notify(it) }
+        }
+        if (hasWidget) {
+            ParcelWidget().updateAll(applicationContext)
+        }
         return Result.success()
     }
 
