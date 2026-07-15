@@ -19,6 +19,7 @@ data class Parcel(
     val status: DeliveryStatus,
     val etaText: String?,
     val progress: Float,
+    val addedAt: Long = 0L,
 )
 
 data class StatusEvent(

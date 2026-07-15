@@ -38,6 +38,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.parcelkr.app.currentTimeMillis
+import com.parcelkr.app.domain.daysSinceAdded
+import com.parcelkr.app.domain.isStalled
 import com.parcelkr.app.domain.model.Parcel
 import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.state.HomeModel
@@ -48,6 +51,7 @@ import com.parcelkr.app.ui.components.ParcelCard
 import com.parcelkr.app.ui.components.PrimaryButton
 import com.parcelkr.app.ui.components.SectionHeader
 import com.parcelkr.app.ui.components.SegmentedFilter
+import com.parcelkr.app.ui.components.StalledBadge
 import com.parcelkr.app.ui.components.StatusPill
 import com.parcelkr.app.ui.components.statusColorsFor
 import com.parcelkr.app.ui.theme.AppShapes
@@ -71,6 +75,7 @@ fun HomeScreen(
     // The hero is the live in-progress shipment; it headlines Active/All but not the Delivered filter.
     val showHero = hero != null && segment != Segment.DELIVERED
     var pendingDeleteId by remember { mutableStateOf<Long?>(null) }
+    val now = remember { currentTimeMillis() }
 
     Column(Modifier.fillMaxSize().background(colors.bg).verticalScroll(rememberScrollState())) {
         Row(
@@ -121,6 +126,10 @@ fun HomeScreen(
                 Box(Modifier.fillMaxWidth().height(6.dp).clip(AppShapes.pill).background(colors.segmentTrack)) {
                     Box(Modifier.fillMaxWidth(hero.progress).height(6.dp).clip(AppShapes.pill).background(sc.dot))
                 }
+                if (isStalled(hero, now)) {
+                    Spacer(Modifier.height(4.dp))
+                    StalledBadge(daysSinceAdded(hero, now))
+                }
                 PrimaryButton(strings.callDriver, onClick = { onCallDriver(hero) }, leadingIcon = Icons.Outlined.Phone)
             }
             Spacer(Modifier.height(4.dp))
@@ -135,6 +144,7 @@ fun HomeScreen(
                         p.itemName, p.carrier.displayName, p.status,
                         onClick = { onOpenParcel(p) },
                         onDelete = { pendingDeleteId = p.id },
+                        stalledDays = if (isStalled(p, now)) daysSinceAdded(p, now) else null,
                     )
                 }
         }

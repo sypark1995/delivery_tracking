@@ -20,11 +20,12 @@ class ParcelRepositoryTest {
 
     @Test fun add_then_observe_returns_parcel() = runTest {
         val r = repo()
-        r.add("657606146365", Carrier.CJ, "Nike Air Max", DeliveryStatus.OUT_FOR_DELIVERY, "Today", 0.72f)
+        r.add("657606146365", Carrier.CJ, "Nike Air Max", DeliveryStatus.OUT_FOR_DELIVERY, "Today", 0.72f, addedAt = 1700000000000L)
         val list = r.observeParcels().first()
         assertEquals(1, list.size)
         assertEquals(Carrier.CJ, list[0].carrier)
         assertEquals(DeliveryStatus.OUT_FOR_DELIVERY, list[0].status)
+        assertEquals(1700000000000L, list[0].addedAt)
     }
 
     @Test fun delete_removes_parcel() = runTest {
