@@ -21,7 +21,7 @@ import com.parcelkr.app.ui.theme.LocalColors
 
 /** Top bar with a localized back affordance and a title. Shared across detail-level screens. */
 @Composable
-fun ScreenHeader(title: String, onBack: () -> Unit, titleStyle: TextStyle = AppType.body) {
+fun ScreenHeader(title: String, onBack: () -> Unit, titleStyle: TextStyle = AppType.body, trailing: @Composable () -> Unit = {}) {
     val colors = LocalColors.current
     val strings = LocalStrings.current
     Row(
@@ -35,6 +35,7 @@ fun ScreenHeader(title: String, onBack: () -> Unit, titleStyle: TextStyle = AppT
             modifier = Modifier.clickable { onBack() },
         )
         Spacer(Modifier.size(10.dp))
-        Text(title, style = titleStyle, color = colors.textPrimary)
+        Text(title, style = titleStyle, color = colors.textPrimary, modifier = Modifier.weight(1f))
+        trailing()
     }
 }

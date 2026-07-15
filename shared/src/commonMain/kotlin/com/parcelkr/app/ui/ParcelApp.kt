@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import com.parcelkr.app.data.ParcelRepository
 import com.parcelkr.app.deviceLang
 import com.parcelkr.app.domain.CarrierDetector
+import com.parcelkr.app.domain.CsvExporter
 import com.parcelkr.app.domain.DialerLauncher
 import com.parcelkr.app.domain.TrackingApi
 import com.parcelkr.app.i18n.Lang
@@ -50,6 +51,7 @@ fun ParcelApp(initialSharedText: String? = null) {
     val detector = koinInject<CarrierDetector>()
     val api = koinInject<TrackingApi>()
     val dialer = koinInject<DialerLauncher>()
+    val csvExporter = koinInject<CsvExporter>()
     val scope = rememberCoroutineScope()
     val homeModel = remember { HomeModel(repo, scope) }
     val cachedParcels by homeModel.parcels.collectAsState()
@@ -137,7 +139,7 @@ fun ParcelApp(initialSharedText: String? = null) {
                     )
                     Screen.Updates -> UpdatesScreen(onBack = { current = Screen.Home })
                     Screen.History -> HistoryScreen(
-                        model = remember { HistoryModel(repo, scope) },
+                        model = remember { HistoryModel(repo, csvExporter, scope) },
                         onBack = { current = Screen.Settings },
                     )
                 }
