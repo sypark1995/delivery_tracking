@@ -88,6 +88,7 @@ interface AppStrings {
     val tagLabel: String
     val addTagHint: String
     val saveTag: String
+    val offlineCachedNotice: String
 }
 
 object EnStrings : AppStrings {
@@ -162,6 +163,7 @@ object EnStrings : AppStrings {
     override val tagLabel = "Tag"
     override val addTagHint = "Add a tag (e.g. Family)"
     override val saveTag = "Save"
+    override val offlineCachedNotice = "Showing last known status — you may be offline"
 }
 
 object KoStrings : AppStrings {
@@ -236,6 +238,7 @@ object KoStrings : AppStrings {
     override val tagLabel = "태그"
     override val addTagHint = "태그 추가 (예: 가족)"
     override val saveTag = "저장"
+    override val offlineCachedNotice = "마지막으로 확인된 상태예요 — 오프라인일 수 있어요"
 }
 
 object ZhStrings : AppStrings {
@@ -310,6 +313,7 @@ object ZhStrings : AppStrings {
     override val tagLabel = "标签"
     override val addTagHint = "添加标签（例如：家人）"
     override val saveTag = "保存"
+    override val offlineCachedNotice = "显示最近一次已知状态 — 你可能处于离线状态"
 }
 
 object ViStrings : AppStrings {
@@ -384,6 +388,7 @@ object ViStrings : AppStrings {
     override val tagLabel = "Thẻ"
     override val addTagHint = "Thêm thẻ (vd: Gia đình)"
     override val saveTag = "Lưu"
+    override val offlineCachedNotice = "Đang hiển thị trạng thái đã biết gần nhất — có thể bạn đang ngoại tuyến"
 }
 
 object ThStrings : AppStrings {
@@ -458,6 +463,7 @@ object ThStrings : AppStrings {
     override val tagLabel = "แท็ก"
     override val addTagHint = "เพิ่มแท็ก (เช่น ครอบครัว)"
     override val saveTag = "บันทึก"
+    override val offlineCachedNotice = "แสดงสถานะล่าสุดที่ทราบ — คุณอาจออฟไลน์อยู่"
 }
 
 object RuStrings : AppStrings {
@@ -532,6 +538,7 @@ object RuStrings : AppStrings {
     override val tagLabel = "Тег"
     override val addTagHint = "Добавить тег (например, Семья)"
     override val saveTag = "Сохранить"
+    override val offlineCachedNotice = "Показан последний известный статус — возможно, вы офлайн"
 }
 
 object JaStrings : AppStrings {
@@ -606,6 +613,7 @@ object JaStrings : AppStrings {
     override val tagLabel = "タグ"
     override val addTagHint = "タグを追加（例：家族）"
     override val saveTag = "保存"
+    override val offlineCachedNotice = "最後に確認できた状態を表示しています — オフラインの可能性があります"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {
