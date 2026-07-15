@@ -80,6 +80,10 @@ interface AppStrings {
     val historyEmptyMessage: String
     val parcelsUnit: String
     val stalledBadge: String
+    val searchHint: String
+    val sortByRecent: String
+    val sortByName: String
+    val noSearchResults: String
 }
 
 object EnStrings : AppStrings {
@@ -146,6 +150,10 @@ object EnStrings : AppStrings {
     override val historyEmptyMessage = "No delivery history yet."
     override val parcelsUnit = "parcels"
     override val stalledBadge = "Stalled {days}d"
+    override val searchHint = "Search your parcels"
+    override val sortByRecent = "Recent"
+    override val sortByName = "Name"
+    override val noSearchResults = "No parcels match your search."
 }
 
 object KoStrings : AppStrings {
@@ -212,6 +220,10 @@ object KoStrings : AppStrings {
     override val historyEmptyMessage = "아직 배송 이력이 없습니다."
     override val parcelsUnit = "개"
     override val stalledBadge = "{days}일째 정지"
+    override val searchHint = "택배 검색"
+    override val sortByRecent = "최신순"
+    override val sortByName = "이름순"
+    override val noSearchResults = "검색 결과가 없습니다."
 }
 
 object ZhStrings : AppStrings {
@@ -278,6 +290,10 @@ object ZhStrings : AppStrings {
     override val historyEmptyMessage = "暂无配送历史。"
     override val parcelsUnit = "个"
     override val stalledBadge = "停滞 {days} 天"
+    override val searchHint = "搜索包裹"
+    override val sortByRecent = "最新"
+    override val sortByName = "名称"
+    override val noSearchResults = "没有符合搜索条件的包裹。"
 }
 
 object ViStrings : AppStrings {
@@ -344,6 +360,10 @@ object ViStrings : AppStrings {
     override val historyEmptyMessage = "Chưa có lịch sử giao hàng."
     override val parcelsUnit = "kiện"
     override val stalledBadge = "Đình trệ {days} ngày"
+    override val searchHint = "Tìm kiếm bưu kiện"
+    override val sortByRecent = "Mới nhất"
+    override val sortByName = "Tên"
+    override val noSearchResults = "Không có bưu kiện nào khớp với tìm kiếm của bạn."
 }
 
 object ThStrings : AppStrings {
@@ -410,6 +430,10 @@ object ThStrings : AppStrings {
     override val historyEmptyMessage = "ยังไม่มีประวัติการจัดส่ง"
     override val parcelsUnit = "ชิ้น"
     override val stalledBadge = "ค้าง {days} วัน"
+    override val searchHint = "ค้นหาพัสดุของคุณ"
+    override val sortByRecent = "ล่าสุด"
+    override val sortByName = "ชื่อ"
+    override val noSearchResults = "ไม่พบพัสดุที่ตรงกับการค้นหาของคุณ"
 }
 
 object RuStrings : AppStrings {
@@ -476,6 +500,10 @@ object RuStrings : AppStrings {
     override val historyEmptyMessage = "Пока нет истории доставок."
     override val parcelsUnit = "посылок"
     override val stalledBadge = "Задержка {days} дн."
+    override val searchHint = "Поиск посылок"
+    override val sortByRecent = "Недавние"
+    override val sortByName = "По имени"
+    override val noSearchResults = "Посылок по вашему запросу не найдено."
 }
 
 object JaStrings : AppStrings {
@@ -542,6 +570,10 @@ object JaStrings : AppStrings {
     override val historyEmptyMessage = "配送履歴はまだありません。"
     override val parcelsUnit = "件"
     override val stalledBadge = "{days}日間停滞"
+    override val searchHint = "荷物を検索"
+    override val sortByRecent = "新しい順"
+    override val sortByName = "名前順"
+    override val noSearchResults = "検索条件に一致する荷物がありません。"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {
