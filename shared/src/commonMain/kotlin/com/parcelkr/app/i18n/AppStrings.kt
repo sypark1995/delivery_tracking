@@ -91,6 +91,8 @@ interface AppStrings {
     val offlineCachedNotice: String
     val exportHistory: String
     val widgetNoActiveParcel: String
+    val dailyDigestTitle: String
+    val dailyDigestBody: String
 }
 
 object EnStrings : AppStrings {
@@ -168,6 +170,8 @@ object EnStrings : AppStrings {
     override val offlineCachedNotice = "Showing last known status — you may be offline"
     override val exportHistory = "Export as CSV"
     override val widgetNoActiveParcel = "No active deliveries"
+    override val dailyDigestTitle = "Daily delivery summary"
+    override val dailyDigestBody = "{count} deliveries in progress"
 }
 
 object KoStrings : AppStrings {
@@ -245,6 +249,8 @@ object KoStrings : AppStrings {
     override val offlineCachedNotice = "마지막으로 확인된 상태예요 — 오프라인일 수 있어요"
     override val exportHistory = "CSV로 내보내기"
     override val widgetNoActiveParcel = "진행중인 배송이 없어요"
+    override val dailyDigestTitle = "오늘의 배송 요약"
+    override val dailyDigestBody = "{count}건의 배송이 진행중이에요"
 }
 
 object ZhStrings : AppStrings {
@@ -322,6 +328,8 @@ object ZhStrings : AppStrings {
     override val offlineCachedNotice = "显示最近一次已知状态 — 你可能处于离线状态"
     override val exportHistory = "导出为 CSV"
     override val widgetNoActiveParcel = "暂无配送中的包裹"
+    override val dailyDigestTitle = "每日配送摘要"
+    override val dailyDigestBody = "{count} 件包裹正在配送中"
 }
 
 object ViStrings : AppStrings {
@@ -399,6 +407,8 @@ object ViStrings : AppStrings {
     override val offlineCachedNotice = "Đang hiển thị trạng thái đã biết gần nhất — có thể bạn đang ngoại tuyến"
     override val exportHistory = "Xuất ra CSV"
     override val widgetNoActiveParcel = "Không có bưu kiện đang giao"
+    override val dailyDigestTitle = "Tóm tắt giao hàng hằng ngày"
+    override val dailyDigestBody = "{count} bưu kiện đang được giao"
 }
 
 object ThStrings : AppStrings {
@@ -476,6 +486,8 @@ object ThStrings : AppStrings {
     override val offlineCachedNotice = "แสดงสถานะล่าสุดที่ทราบ — คุณอาจออฟไลน์อยู่"
     override val exportHistory = "ส่งออกเป็น CSV"
     override val widgetNoActiveParcel = "ไม่มีพัสดุที่กำลังจัดส่ง"
+    override val dailyDigestTitle = "สรุปการจัดส่งประจำวัน"
+    override val dailyDigestBody = "มีพัสดุกำลังจัดส่ง {count} ชิ้น"
 }
 
 object RuStrings : AppStrings {
@@ -553,6 +565,8 @@ object RuStrings : AppStrings {
     override val offlineCachedNotice = "Показан последний известный статус — возможно, вы офлайн"
     override val exportHistory = "Экспорт в CSV"
     override val widgetNoActiveParcel = "Нет активных доставок"
+    override val dailyDigestTitle = "Ежедневная сводка доставок"
+    override val dailyDigestBody = "Посылок в пути: {count}"
 }
 
 object JaStrings : AppStrings {
@@ -630,6 +644,8 @@ object JaStrings : AppStrings {
     override val offlineCachedNotice = "最後に確認できた状態を表示しています — オフラインの可能性があります"
     override val exportHistory = "CSVとしてエクスポート"
     override val widgetNoActiveParcel = "配送中の荷物はありません"
+    override val dailyDigestTitle = "本日の配送サマリー"
+    override val dailyDigestBody = "配送中の荷物が{count}件あります"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {
