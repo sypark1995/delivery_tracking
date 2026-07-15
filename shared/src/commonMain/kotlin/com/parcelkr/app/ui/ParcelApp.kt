@@ -46,6 +46,9 @@ fun ParcelApp(initialSharedText: String? = null) {
     var lang by remember { mutableStateOf(repo.savedLang()?.let { Lang.fromCode(it) } ?: deviceLang()) }
     var dark by remember { mutableStateOf(repo.isDarkMode()) }
     var notificationsEnabled by remember { mutableStateOf(repo.notificationsEnabled()) }
+    var dndEnabled by remember { mutableStateOf(repo.dndEnabled()) }
+    var dndStartMinute by remember { mutableStateOf(repo.dndStartMinute()) }
+    var dndEndMinute by remember { mutableStateOf(repo.dndEndMinute()) }
     var current by remember { mutableStateOf<Screen>(if (repo.isOnboardingDone()) Screen.Home else Screen.Onboarding) }
 
     val detector = koinInject<CarrierDetector>()
@@ -115,6 +118,9 @@ fun ParcelApp(initialSharedText: String? = null) {
                         currentLang = lang,
                         dark = dark,
                         notificationsEnabled = notificationsEnabled,
+                        dndEnabled = dndEnabled,
+                        dndStartMinute = dndStartMinute,
+                        dndEndMinute = dndEndMinute,
                         customsCode = customsCode,
                         onBack = { current = Screen.Home },
                         onPickLanguage = {
@@ -130,6 +136,19 @@ fun ParcelApp(initialSharedText: String? = null) {
                             val newValue = !notificationsEnabled
                             notificationsEnabled = newValue
                             scope.launch { repo.setNotificationsEnabled(newValue) }
+                        },
+                        onToggleDnd = {
+                            val newValue = !dndEnabled
+                            dndEnabled = newValue
+                            scope.launch { repo.setDndEnabled(newValue) }
+                        },
+                        onSetDndWindow = { start, end ->
+                            dndStartMinute = start
+                            dndEndMinute = end
+                            scope.launch {
+                                repo.setDndStartMinute(start)
+                                repo.setDndEndMinute(end)
+                            }
                         },
                         onSetCustomsCode = { code ->
                             customsCode = code

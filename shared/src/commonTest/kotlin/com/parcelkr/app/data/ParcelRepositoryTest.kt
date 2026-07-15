@@ -106,6 +106,21 @@ class ParcelRepositoryTest {
         assertEquals(true, r.notificationsEnabled())
     }
 
+    @Test fun dnd_settings_default_then_roundtrip() = runTest {
+        val r = repo()
+        assertEquals(false, r.dndEnabled())
+        assertEquals(22 * 60, r.dndStartMinute())
+        assertEquals(8 * 60, r.dndEndMinute())
+
+        r.setDndEnabled(true)
+        r.setDndStartMinute(21 * 60)
+        r.setDndEndMinute(7 * 60 + 30)
+
+        assertEquals(true, r.dndEnabled())
+        assertEquals(21 * 60, r.dndStartMinute())
+        assertEquals(7 * 60 + 30, r.dndEndMinute())
+    }
+
     @Test fun set_tag_then_observe_returns_updated_tag() = runTest {
         val r = repo()
         val id = r.add("111", Carrier.CJ, "Item A", DeliveryStatus.RECEIVED, null, 0.1f)

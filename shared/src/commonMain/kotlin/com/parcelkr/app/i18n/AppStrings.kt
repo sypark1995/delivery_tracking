@@ -93,6 +93,9 @@ interface AppStrings {
     val widgetNoActiveParcel: String
     val dailyDigestTitle: String
     val dailyDigestBody: String
+    val dndLabel: String
+    val dndStartLabel: String
+    val dndEndLabel: String
 }
 
 object EnStrings : AppStrings {
@@ -172,6 +175,9 @@ object EnStrings : AppStrings {
     override val widgetNoActiveParcel = "No active deliveries"
     override val dailyDigestTitle = "Daily delivery summary"
     override val dailyDigestBody = "{count} deliveries in progress"
+    override val dndLabel = "Do not disturb"
+    override val dndStartLabel = "Start"
+    override val dndEndLabel = "End"
 }
 
 object KoStrings : AppStrings {
@@ -251,6 +257,9 @@ object KoStrings : AppStrings {
     override val widgetNoActiveParcel = "진행중인 배송이 없어요"
     override val dailyDigestTitle = "오늘의 배송 요약"
     override val dailyDigestBody = "{count}건의 배송이 진행중이에요"
+    override val dndLabel = "방해금지"
+    override val dndStartLabel = "시작"
+    override val dndEndLabel = "종료"
 }
 
 object ZhStrings : AppStrings {
@@ -330,6 +339,9 @@ object ZhStrings : AppStrings {
     override val widgetNoActiveParcel = "暂无配送中的包裹"
     override val dailyDigestTitle = "每日配送摘要"
     override val dailyDigestBody = "{count} 件包裹正在配送中"
+    override val dndLabel = "免打扰"
+    override val dndStartLabel = "开始"
+    override val dndEndLabel = "结束"
 }
 
 object ViStrings : AppStrings {
@@ -409,6 +421,9 @@ object ViStrings : AppStrings {
     override val widgetNoActiveParcel = "Không có bưu kiện đang giao"
     override val dailyDigestTitle = "Tóm tắt giao hàng hằng ngày"
     override val dailyDigestBody = "{count} bưu kiện đang được giao"
+    override val dndLabel = "Không làm phiền"
+    override val dndStartLabel = "Bắt đầu"
+    override val dndEndLabel = "Kết thúc"
 }
 
 object ThStrings : AppStrings {
@@ -488,6 +503,9 @@ object ThStrings : AppStrings {
     override val widgetNoActiveParcel = "ไม่มีพัสดุที่กำลังจัดส่ง"
     override val dailyDigestTitle = "สรุปการจัดส่งประจำวัน"
     override val dailyDigestBody = "มีพัสดุกำลังจัดส่ง {count} ชิ้น"
+    override val dndLabel = "ห้ามรบกวน"
+    override val dndStartLabel = "เริ่ม"
+    override val dndEndLabel = "สิ้นสุด"
 }
 
 object RuStrings : AppStrings {
@@ -567,6 +585,9 @@ object RuStrings : AppStrings {
     override val widgetNoActiveParcel = "Нет активных доставок"
     override val dailyDigestTitle = "Ежедневная сводка доставок"
     override val dailyDigestBody = "Посылок в пути: {count}"
+    override val dndLabel = "Не беспокоить"
+    override val dndStartLabel = "Начало"
+    override val dndEndLabel = "Конец"
 }
 
 object JaStrings : AppStrings {
@@ -646,6 +667,9 @@ object JaStrings : AppStrings {
     override val widgetNoActiveParcel = "配送中の荷物はありません"
     override val dailyDigestTitle = "本日の配送サマリー"
     override val dailyDigestBody = "配送中の荷物が{count}件あります"
+    override val dndLabel = "通知しない時間帯"
+    override val dndStartLabel = "開始"
+    override val dndEndLabel = "終了"
 }
 
 fun stringsFor(lang: Lang): AppStrings = when (lang) {

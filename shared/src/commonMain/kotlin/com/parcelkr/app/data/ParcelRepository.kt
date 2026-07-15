@@ -17,6 +17,9 @@ private const val KEY_ONBOARDING_DONE = "onboarding_done"
 private const val KEY_LANG = "lang"
 private const val KEY_DARK = "dark_mode"
 private const val KEY_NOTIFICATIONS_ENABLED = "notifications_enabled"
+private const val KEY_DND_ENABLED = "dnd_enabled"
+private const val KEY_DND_START = "dnd_start_minute"
+private const val KEY_DND_END = "dnd_end_minute"
 
 class ParcelRepository(private val db: ParcelDb) {
     private val q = db.parcelQueries
@@ -78,4 +81,16 @@ class ParcelRepository(private val db: ParcelDb) {
     fun notificationsEnabled(): Boolean = q.getSetting(KEY_NOTIFICATIONS_ENABLED).executeAsOneOrNull() == "true"
 
     suspend fun setNotificationsEnabled(enabled: Boolean) = q.putSetting(KEY_NOTIFICATIONS_ENABLED, if (enabled) "true" else "false")
+
+    fun dndEnabled(): Boolean = q.getSetting(KEY_DND_ENABLED).executeAsOneOrNull() == "true"
+
+    suspend fun setDndEnabled(enabled: Boolean) = q.putSetting(KEY_DND_ENABLED, if (enabled) "true" else "false")
+
+    fun dndStartMinute(): Int = q.getSetting(KEY_DND_START).executeAsOneOrNull()?.toIntOrNull() ?: (22 * 60)
+
+    suspend fun setDndStartMinute(minute: Int) = q.putSetting(KEY_DND_START, minute.toString())
+
+    fun dndEndMinute(): Int = q.getSetting(KEY_DND_END).executeAsOneOrNull()?.toIntOrNull() ?: (8 * 60)
+
+    suspend fun setDndEndMinute(minute: Int) = q.putSetting(KEY_DND_END, minute.toString())
 }
