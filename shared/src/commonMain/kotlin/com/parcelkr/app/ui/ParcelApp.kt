@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,6 +52,7 @@ fun ParcelApp(initialSharedText: String? = null) {
     val dialer = koinInject<DialerLauncher>()
     val scope = rememberCoroutineScope()
     val homeModel = remember { HomeModel(repo, scope) }
+    val cachedParcels by homeModel.parcels.collectAsState()
     val addModel = remember { AddModel(repo, detector, api) }
     var customsCode by remember { mutableStateOf(repo.customsCode()) }
 
@@ -95,6 +97,7 @@ fun ParcelApp(initialSharedText: String? = null) {
                     is Screen.Detail -> DetailScreen(
                         trackingNumber = screen.trackingNumber,
                         carrierName = screen.carrierName,
+                        cachedParcel = cachedParcels.firstOrNull { it.trackingNumber == screen.trackingNumber },
                         model = remember { DetailModel(api) },
                         onBack = { current = Screen.Home },
                         onContactDriver = { current = Screen.Contact(screen.trackingNumber, screen.carrierName) },

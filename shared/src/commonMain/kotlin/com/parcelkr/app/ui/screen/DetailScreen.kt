@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.parcelkr.app.domain.StatusDictionary
 import com.parcelkr.app.domain.model.Carrier
+import com.parcelkr.app.domain.model.Parcel
 import com.parcelkr.app.domain.model.TrackingResult
 import com.parcelkr.app.i18n.LocalLang
 import com.parcelkr.app.i18n.LocalStrings
@@ -51,6 +52,7 @@ import com.parcelkr.app.ui.theme.LocalColors
 fun DetailScreen(
     trackingNumber: String,
     carrierName: String,
+    cachedParcel: Parcel? = null,
     model: DetailModel,
     onBack: () -> Unit,
     onContactDriver: () -> Unit,
@@ -76,17 +78,42 @@ fun DetailScreen(
                 CircularProgressIndicator(color = colors.brand)
             }
         } else if (result == null && loadFailed) {
-            Column(
-                Modifier.fillMaxWidth().padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Icon(Icons.Outlined.ErrorOutline, contentDescription = null, tint = colors.textSecondary, modifier = Modifier.size(30.dp))
-                Spacer(Modifier.size(10.dp))
-                Text(strings.trackingDetailFailedTitle, style = AppType.title, color = colors.textPrimary, textAlign = TextAlign.Center)
-                Spacer(Modifier.size(6.dp))
-                Text(strings.trackingDetailFailedMessage, style = AppType.caption, color = colors.textSecondary, textAlign = TextAlign.Center)
-                Spacer(Modifier.size(16.dp))
-                PrimaryButton(strings.retry, onClick = { retryToken++ }, leadingIcon = Icons.Outlined.Refresh)
+            val cached = cachedParcel
+            if (cached != null) {
+                Column(
+                    Modifier.padding(horizontal = 16.dp).fillMaxWidth()
+                        .clip(AppShapes.card).background(colors.surface)
+                        .border(1.dp, colors.border, AppShapes.card).padding(14.dp),
+                ) {
+                    StatusPill(cached.status)
+                    Text(cached.itemName, style = AppType.title, color = colors.textPrimary, modifier = Modifier.padding(top = 6.dp))
+                    Text("${cached.carrier.displayName} · $trackingNumber", style = AppType.caption, color = colors.textSecondary)
+                }
+                Spacer(Modifier.size(8.dp))
+                Text(
+                    strings.offlineCachedNotice,
+                    style = AppType.caption,
+                    color = colors.textSecondary,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                )
+                Spacer(Modifier.size(12.dp))
+                PrimaryButton(
+                    strings.retry, onClick = { retryToken++ }, leadingIcon = Icons.Outlined.Refresh,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                )
+            } else {
+                Column(
+                    Modifier.fillMaxWidth().padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Icon(Icons.Outlined.ErrorOutline, contentDescription = null, tint = colors.textSecondary, modifier = Modifier.size(30.dp))
+                    Spacer(Modifier.size(10.dp))
+                    Text(strings.trackingDetailFailedTitle, style = AppType.title, color = colors.textPrimary, textAlign = TextAlign.Center)
+                    Spacer(Modifier.size(6.dp))
+                    Text(strings.trackingDetailFailedMessage, style = AppType.caption, color = colors.textSecondary, textAlign = TextAlign.Center)
+                    Spacer(Modifier.size(16.dp))
+                    PrimaryButton(strings.retry, onClick = { retryToken++ }, leadingIcon = Icons.Outlined.Refresh)
+                }
             }
         } else {
             val r = result
