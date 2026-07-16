@@ -30,10 +30,26 @@ import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-private val WidgetBg = Color(0xFFF4F2ED)
-private val WidgetTextPrimary = Color(0xFF17130E)
-private val WidgetTextSecondary = Color(0xFF8A8375)
-private val WidgetBrand = Color(0xFF0E8F6E)
+private class WidgetPalette(
+    val bg: Color,
+    val textPrimary: Color,
+    val textSecondary: Color,
+    val brand: Color,
+)
+
+// Mirrors shared/src/commonMain/kotlin/com/parcelkr/app/ui/theme/Color.kt's LightColors/DarkColors.
+private val WidgetLightPalette = WidgetPalette(
+    bg = Color(0xFFF4F2ED),
+    textPrimary = Color(0xFF17130E),
+    textSecondary = Color(0xFF8A8375),
+    brand = Color(0xFF0E8F6E),
+)
+private val WidgetDarkPalette = WidgetPalette(
+    bg = Color(0xFF16130F),
+    textPrimary = Color(0xFFF0ECE4),
+    textSecondary = Color(0xFFA8A192),
+    brand = Color(0xFF2FB98F),
+)
 
 private const val MAIN_ACTIVITY_CLASS_NAME = "com.parcelkr.app.MainActivity"
 
@@ -45,6 +61,7 @@ class ParcelWidget : GlanceAppWidget(), KoinComponent {
         val hero = heroOf(parcels)
         val lang = repo.savedLang()?.let { Lang.fromCode(it) } ?: deviceLang()
         val strings = stringsFor(lang)
+        val palette = if (repo.isDarkMode()) WidgetDarkPalette else WidgetLightPalette
         // MainActivity lives in the androidApp module, which shared does not (and should not)
         // depend on. Android manifest/component resolution is package-name based, so we can
         // target it via an explicit component name instead of a compile-time class reference.
@@ -54,7 +71,7 @@ class ParcelWidget : GlanceAppWidget(), KoinComponent {
             Column(
                 modifier = GlanceModifier
                     .fillMaxSize()
-                    .background(ColorProvider(WidgetBg))
+                    .background(ColorProvider(palette.bg))
                     .padding(12.dp)
                     .clickable(actionStartActivity(openAppIntent)),
                 verticalAlignment = Alignment.Vertical.CenterVertically,
@@ -64,7 +81,7 @@ class ParcelWidget : GlanceAppWidget(), KoinComponent {
                     Text(
                         text = hero.itemName,
                         style = TextStyle(
-                            color = ColorProvider(WidgetTextPrimary),
+                            color = ColorProvider(palette.textPrimary),
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
                         ),
@@ -73,7 +90,7 @@ class ParcelWidget : GlanceAppWidget(), KoinComponent {
                     Text(
                         text = "${hero.carrier.displayName} · ${statusLabel(hero.status, strings)}",
                         style = TextStyle(
-                            color = ColorProvider(WidgetTextSecondary),
+                            color = ColorProvider(palette.textSecondary),
                             fontSize = 12.sp,
                         ),
                         maxLines = 1,
@@ -81,7 +98,7 @@ class ParcelWidget : GlanceAppWidget(), KoinComponent {
                     Text(
                         text = "${(hero.progress * 100).toInt()}%",
                         style = TextStyle(
-                            color = ColorProvider(WidgetBrand),
+                            color = ColorProvider(palette.brand),
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
                         ),
@@ -90,7 +107,7 @@ class ParcelWidget : GlanceAppWidget(), KoinComponent {
                     Text(
                         text = strings.widgetNoActiveParcel,
                         style = TextStyle(
-                            color = ColorProvider(WidgetTextPrimary),
+                            color = ColorProvider(palette.textPrimary),
                             fontSize = 13.sp,
                         ),
                     )
