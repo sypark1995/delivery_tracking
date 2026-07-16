@@ -11,6 +11,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.parcelkr.app.ui.ParcelApp
 
+const val ACTION_ADD_PARCEL = "com.parcelkr.app.action.ADD_PARCEL"
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,7 @@ class MainActivity : ComponentActivity() {
         } else {
             null
         }
-        setContent { ParcelApp(initialSharedText = sharedText) }
+        val openAddDirectly = intent?.action == ACTION_ADD_PARCEL
+        setContent { ParcelApp(initialSharedText = sharedText, openAddDirectly = openAddDirectly) }
     }
 }
