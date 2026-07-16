@@ -42,7 +42,12 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 @Composable
-fun ParcelApp(initialSharedText: String? = null, openAddDirectly: Boolean = false) {
+fun ParcelApp(
+    initialSharedText: String? = null,
+    openAddDirectly: Boolean = false,
+    initialDetailTrackingNumber: String? = null,
+    initialDetailCarrierName: String? = null,
+) {
     val repo = koinInject<ParcelRepository>()
     var lang by remember { mutableStateOf(repo.savedLang()?.let { Lang.fromCode(it) } ?: deviceLang()) }
     var dark by remember { mutableStateOf(repo.isDarkMode()) }
@@ -69,6 +74,8 @@ fun ParcelApp(initialSharedText: String? = null, openAddDirectly: Boolean = fals
             addModel.onPasteEmail(initialSharedText)
         } else if (openAddDirectly && repo.isOnboardingDone()) {
             current = Screen.Add
+        } else if (initialDetailTrackingNumber != null && initialDetailCarrierName != null && repo.isOnboardingDone()) {
+            current = Screen.Detail(initialDetailTrackingNumber, initialDetailCarrierName)
         }
     }
 

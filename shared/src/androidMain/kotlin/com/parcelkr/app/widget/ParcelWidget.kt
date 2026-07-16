@@ -52,6 +52,8 @@ private val WidgetDarkPalette = WidgetPalette(
 )
 
 private const val MAIN_ACTIVITY_CLASS_NAME = "com.parcelkr.app.MainActivity"
+const val EXTRA_TRACKING_NUMBER = "com.parcelkr.app.extra.TRACKING_NUMBER"
+const val EXTRA_CARRIER_NAME = "com.parcelkr.app.extra.CARRIER_NAME"
 
 class ParcelWidget : GlanceAppWidget(), KoinComponent {
     private val repo: ParcelRepository by inject()
@@ -65,7 +67,12 @@ class ParcelWidget : GlanceAppWidget(), KoinComponent {
         // MainActivity lives in the androidApp module, which shared does not (and should not)
         // depend on. Android manifest/component resolution is package-name based, so we can
         // target it via an explicit component name instead of a compile-time class reference.
-        val openAppIntent = Intent().setClassName(context.packageName, MAIN_ACTIVITY_CLASS_NAME)
+        val openAppIntent = Intent().setClassName(context.packageName, MAIN_ACTIVITY_CLASS_NAME).apply {
+            if (hero != null) {
+                putExtra(EXTRA_TRACKING_NUMBER, hero.trackingNumber)
+                putExtra(EXTRA_CARRIER_NAME, hero.carrier.displayName)
+            }
+        }
 
         provideContent {
             Column(
