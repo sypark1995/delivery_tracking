@@ -63,6 +63,8 @@ sqldelight {
     databases {
         create("ParcelDb") {
             packageName.set("com.parcelkr.app.db")
+            verifyMigrations.set(true)
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
         }
     }
 }
