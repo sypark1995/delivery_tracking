@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="add_parcel"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_add"
+        android:shortcutShortLabel="@string/shortcut_add_parcel_short"
+        android:shortcutLongLabel="@string/shortcut_add_parcel_long">
+        <intent
+            android:action="com.parcelkr.app.action.ADD_PARCEL"
+            android:targetPackage="com.parcelkr.app"
+            android:targetClass="com.parcelkr.app.MainActivity" />
+    </shortcut>
+</shortcuts>

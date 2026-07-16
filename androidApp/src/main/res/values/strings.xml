@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ParcelKR</string>
+    <string name="shortcut_add_parcel_short">Add parcel</string>
+    <string name="shortcut_add_parcel_long">Add a new parcel</string>
 </resources>
