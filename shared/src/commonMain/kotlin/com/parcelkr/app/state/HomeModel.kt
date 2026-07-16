@@ -1,6 +1,8 @@
 package com.parcelkr.app.state
 
 import com.parcelkr.app.data.ParcelRepository
+import com.parcelkr.app.domain.ParcelRefresher
+import com.parcelkr.app.domain.TrackingApi
 import com.parcelkr.app.domain.model.DeliveryStatus
 import com.parcelkr.app.domain.model.Parcel
 import kotlinx.coroutines.CoroutineScope
@@ -42,9 +44,27 @@ fun distinctTags(all: List<Parcel>): List<String> = all.mapNotNull { it.tag }.di
 
 fun filterByTag(all: List<Parcel>, tag: String?): List<Parcel> = if (tag == null) all else all.filter { it.tag == tag }
 
-class HomeModel(private val repo: ParcelRepository, private val scope: CoroutineScope) {
+class HomeModel(
+    private val repo: ParcelRepository,
+    private val api: TrackingApi,
+    private val scope: CoroutineScope,
+) {
     val parcels: StateFlow<List<Parcel>> =
         repo.observeParcels().stateIn(scope, SharingStarted.Eagerly, emptyList())
+
+    private val _refreshing = MutableStateFlow(false)
+    val refreshing: StateFlow<Boolean> = _refreshing.asStateFlow()
+
+    fun refresh() {
+        scope.launch {
+            _refreshing.value = true
+            try {
+                ParcelRefresher(repo, api).refresh()
+            } finally {
+                _refreshing.value = false
+            }
+        }
+    }
 
     private val _segment = MutableStateFlow(Segment.ACTIVE)
     val segment: StateFlow<Segment> = _segment.asStateFlow()
