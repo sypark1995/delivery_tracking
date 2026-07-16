@@ -26,9 +26,11 @@ import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -69,6 +71,7 @@ import com.parcelkr.app.ui.theme.AppShapes
 import com.parcelkr.app.ui.theme.AppType
 import com.parcelkr.app.ui.theme.LocalColors
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     model: HomeModel,
@@ -85,6 +88,7 @@ fun HomeScreen(
     val query by model.query.collectAsState()
     val sort by model.sort.collectAsState()
     val tagFilter by model.tagFilter.collectAsState()
+    val refreshing by model.refreshing.collectAsState()
     val hero = heroOf(parcels)
     // The hero is the live in-progress shipment; it headlines Active/All but not the Delivered filter.
     val showHero = hero != null && segment != Segment.DELIVERED
@@ -92,134 +96,140 @@ fun HomeScreen(
     var pendingTagEditId by remember { mutableStateOf<Long?>(null) }
     val now = remember { currentTimeMillis() }
 
-    Column(Modifier.fillMaxSize().background(colors.bg).verticalScroll(rememberScrollState())) {
-        Row(
-            Modifier.fillMaxWidth().padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(strings.homeTitle, style = AppType.title, color = colors.textPrimary, modifier = Modifier.weight(1f))
-            Icon(Icons.Outlined.Notifications, contentDescription = strings.updates, tint = colors.textSecondary,
-                modifier = Modifier.clickable { onOpenUpdates() }.padding(4.dp))
-            Spacer(Modifier.size(8.dp))
-            Icon(Icons.Outlined.Settings, contentDescription = strings.settings, tint = colors.textSecondary,
-                modifier = Modifier.clickable { onOpenSettings() }.padding(4.dp))
-        }
-
-        if (parcels.isEmpty()) {
-            EmptyState(onAdd)
-            return@Column
-        }
-
-        Row(
-            Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                .clip(AppShapes.field).background(colors.surface)
-                .border(1.dp, colors.border, AppShapes.field)
-                .clickable { onAdd() }.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(Icons.Outlined.Search, contentDescription = null, tint = colors.textMuted, modifier = Modifier.size(18.dp))
-            Spacer(Modifier.size(8.dp))
-            Text(strings.addTrackingBar, style = AppType.caption, color = colors.textMuted)
-        }
-        Spacer(Modifier.height(12.dp))
-
-        SegmentedFilter(segment, model::setSegment, Modifier.padding(horizontal = 16.dp))
-        Spacer(Modifier.height(12.dp))
-
-        Row(
-            Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                .clip(AppShapes.field).background(colors.surface)
-                .border(1.dp, colors.border, AppShapes.field).padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(Icons.Outlined.Search, contentDescription = null, tint = colors.textMuted, modifier = Modifier.size(18.dp))
-            Spacer(Modifier.size(8.dp))
-            BasicTextField(
-                value = query,
-                onValueChange = model::setQuery,
-                singleLine = true,
-                textStyle = TextStyle(color = colors.textPrimary, fontSize = AppType.body.fontSize),
-                cursorBrush = SolidColor(colors.brand),
-                modifier = Modifier.weight(1f),
-                decorationBox = { inner ->
-                    if (query.isEmpty()) Text(strings.searchHint, style = AppType.body, color = colors.textMuted)
-                    inner()
-                },
-            )
-        }
-        Spacer(Modifier.height(12.dp))
-
-        val tags = distinctTags(parcels)
-        if (tags.isNotEmpty()) {
+    PullToRefreshBox(
+        isRefreshing = refreshing,
+        onRefresh = model::refresh,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Column(Modifier.fillMaxSize().background(colors.bg).verticalScroll(rememberScrollState())) {
             Row(
-                Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                Modifier.fillMaxWidth().padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                val chips = listOf<String?>(null) + tags
-                chips.forEach { t ->
-                    val on = t == tagFilter
-                    Text(
-                        t ?: strings.segAll,
-                        style = AppType.caption,
-                        color = if (on) Color.White else colors.textSecondary,
-                        modifier = Modifier
-                            .clip(AppShapes.pill)
-                            .background(if (on) colors.brand else colors.segmentTrack)
-                            .clickable { model.setTagFilter(t) }
-                            .padding(horizontal = 10.dp, vertical = 6.dp),
+                Text(strings.homeTitle, style = AppType.title, color = colors.textPrimary, modifier = Modifier.weight(1f))
+                Icon(Icons.Outlined.Notifications, contentDescription = strings.updates, tint = colors.textSecondary,
+                    modifier = Modifier.clickable { onOpenUpdates() }.padding(4.dp))
+                Spacer(Modifier.size(8.dp))
+                Icon(Icons.Outlined.Settings, contentDescription = strings.settings, tint = colors.textSecondary,
+                    modifier = Modifier.clickable { onOpenSettings() }.padding(4.dp))
+            }
+
+            if (parcels.isEmpty()) {
+                EmptyState(onAdd)
+                return@Column
+            }
+
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                    .clip(AppShapes.field).background(colors.surface)
+                    .border(1.dp, colors.border, AppShapes.field)
+                    .clickable { onAdd() }.padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(Icons.Outlined.Search, contentDescription = null, tint = colors.textMuted, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.size(8.dp))
+                Text(strings.addTrackingBar, style = AppType.caption, color = colors.textMuted)
+            }
+            Spacer(Modifier.height(12.dp))
+
+            SegmentedFilter(segment, model::setSegment, Modifier.padding(horizontal = 16.dp))
+            Spacer(Modifier.height(12.dp))
+
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                    .clip(AppShapes.field).background(colors.surface)
+                    .border(1.dp, colors.border, AppShapes.field).padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(Icons.Outlined.Search, contentDescription = null, tint = colors.textMuted, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.size(8.dp))
+                BasicTextField(
+                    value = query,
+                    onValueChange = model::setQuery,
+                    singleLine = true,
+                    textStyle = TextStyle(color = colors.textPrimary, fontSize = AppType.body.fontSize),
+                    cursorBrush = SolidColor(colors.brand),
+                    modifier = Modifier.weight(1f),
+                    decorationBox = { inner ->
+                        if (query.isEmpty()) Text(strings.searchHint, style = AppType.body, color = colors.textMuted)
+                        inner()
+                    },
+                )
+            }
+            Spacer(Modifier.height(12.dp))
+
+            val tags = distinctTags(parcels)
+            if (tags.isNotEmpty()) {
+                Row(
+                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    val chips = listOf<String?>(null) + tags
+                    chips.forEach { t ->
+                        val on = t == tagFilter
+                        Text(
+                            t ?: strings.segAll,
+                            style = AppType.caption,
+                            color = if (on) Color.White else colors.textSecondary,
+                            modifier = Modifier
+                                .clip(AppShapes.pill)
+                                .background(if (on) colors.brand else colors.segmentTrack)
+                                .clickable { model.setTagFilter(t) }
+                                .padding(horizontal = 10.dp, vertical = 6.dp),
+                        )
+                    }
+                }
+                Spacer(Modifier.height(12.dp))
+            }
+
+            if (showHero && hero != null) {
+                val sc = statusColorsFor(hero.status)
+                Column(
+                    Modifier.padding(horizontal = 16.dp).fillMaxWidth()
+                        .clip(AppShapes.hero).background(colors.surface)
+                        .border(1.dp, colors.border, AppShapes.hero)
+                        .clickable { onOpenParcel(hero) }.padding(15.dp),
+                    verticalArrangement = Arrangement.spacedBy(9.dp),
+                ) {
+                    StatusPill(hero.status)
+                    Text(hero.etaText ?: strings.expectedToday, style = AppType.display, color = colors.textPrimary)
+                    Text("${hero.itemName} · ${hero.carrier.displayName}", style = AppType.caption, color = colors.textSecondary)
+                    Box(Modifier.fillMaxWidth().height(6.dp).clip(AppShapes.pill).background(colors.segmentTrack)) {
+                        Box(Modifier.fillMaxWidth(hero.progress).height(6.dp).clip(AppShapes.pill).background(sc.dot))
+                    }
+                    if (isStalled(hero, now)) {
+                        Spacer(Modifier.height(4.dp))
+                        StalledBadge(daysSinceAdded(hero, now))
+                    }
+                    PrimaryButton(strings.callDriver, onClick = { onCallDriver(hero) }, leadingIcon = Icons.Outlined.Phone)
+                }
+                Spacer(Modifier.height(4.dp))
+            }
+
+            Row(Modifier.fillMaxWidth().padding(end = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+                SectionHeader(strings.recent, Modifier.weight(1f))
+                SortToggle(sort, model::setSort)
+            }
+            Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val visible = sortParcels(searchParcels(filterByTag(filterBySegment(parcels, segment), tagFilter), query), sort)
+                    .filter { !showHero || it.id != hero?.id }
+                if (query.isNotBlank() && visible.isEmpty()) {
+                    Text(strings.noSearchResults, style = AppType.caption, color = colors.textSecondary, modifier = Modifier.padding(vertical = 8.dp))
+                }
+                visible.forEach { p ->
+                    ParcelCard(
+                        p.itemName, p.carrier.displayName, p.status,
+                        onClick = { onOpenParcel(p) },
+                        onDelete = { pendingDeleteId = p.id },
+                        stalledDays = if (isStalled(p, now)) daysSinceAdded(p, now) else null,
+                        tag = p.tag,
+                        onEditTag = { pendingTagEditId = p.id },
                     )
                 }
             }
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(24.dp))
         }
-
-        if (showHero && hero != null) {
-            val sc = statusColorsFor(hero.status)
-            Column(
-                Modifier.padding(horizontal = 16.dp).fillMaxWidth()
-                    .clip(AppShapes.hero).background(colors.surface)
-                    .border(1.dp, colors.border, AppShapes.hero)
-                    .clickable { onOpenParcel(hero) }.padding(15.dp),
-                verticalArrangement = Arrangement.spacedBy(9.dp),
-            ) {
-                StatusPill(hero.status)
-                Text(hero.etaText ?: strings.expectedToday, style = AppType.display, color = colors.textPrimary)
-                Text("${hero.itemName} · ${hero.carrier.displayName}", style = AppType.caption, color = colors.textSecondary)
-                Box(Modifier.fillMaxWidth().height(6.dp).clip(AppShapes.pill).background(colors.segmentTrack)) {
-                    Box(Modifier.fillMaxWidth(hero.progress).height(6.dp).clip(AppShapes.pill).background(sc.dot))
-                }
-                if (isStalled(hero, now)) {
-                    Spacer(Modifier.height(4.dp))
-                    StalledBadge(daysSinceAdded(hero, now))
-                }
-                PrimaryButton(strings.callDriver, onClick = { onCallDriver(hero) }, leadingIcon = Icons.Outlined.Phone)
-            }
-            Spacer(Modifier.height(4.dp))
         }
-
-        Row(Modifier.fillMaxWidth().padding(end = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-            SectionHeader(strings.recent, Modifier.weight(1f))
-            SortToggle(sort, model::setSort)
-        }
-        Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            val visible = sortParcels(searchParcels(filterByTag(filterBySegment(parcels, segment), tagFilter), query), sort)
-                .filter { !showHero || it.id != hero?.id }
-            if (query.isNotBlank() && visible.isEmpty()) {
-                Text(strings.noSearchResults, style = AppType.caption, color = colors.textSecondary, modifier = Modifier.padding(vertical = 8.dp))
-            }
-            visible.forEach { p ->
-                ParcelCard(
-                    p.itemName, p.carrier.displayName, p.status,
-                    onClick = { onOpenParcel(p) },
-                    onDelete = { pendingDeleteId = p.id },
-                    stalledDays = if (isStalled(p, now)) daysSinceAdded(p, now) else null,
-                    tag = p.tag,
-                    onEditTag = { pendingTagEditId = p.id },
-                )
-            }
-        }
-        Spacer(Modifier.height(24.dp))
-    }
 
     val deleteId = pendingDeleteId
     if (deleteId != null) {

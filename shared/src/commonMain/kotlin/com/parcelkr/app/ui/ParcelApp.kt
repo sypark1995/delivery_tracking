@@ -58,7 +58,7 @@ fun ParcelApp(initialSharedText: String? = null, openAddDirectly: Boolean = fals
     val urlLauncher = koinInject<UrlLauncher>()
     val csvExporter = koinInject<CsvExporter>()
     val scope = rememberCoroutineScope()
-    val homeModel = remember { HomeModel(repo, scope) }
+    val homeModel = remember { HomeModel(repo, api, scope) }
     val cachedParcels by homeModel.parcels.collectAsState()
     val addModel = remember { AddModel(repo, detector, api) }
     var customsCode by remember { mutableStateOf(repo.customsCode()) }

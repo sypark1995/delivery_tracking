@@ -2,14 +2,31 @@ package com.parcelkr.app.state
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.parcelkr.app.data.ParcelRepository
+import com.parcelkr.app.data.fake.FakeTrackingApi
 import com.parcelkr.app.db.ParcelDb
+import com.parcelkr.app.domain.TrackingApi
 import com.parcelkr.app.domain.model.Carrier
 import com.parcelkr.app.domain.model.DeliveryStatus
 import com.parcelkr.app.domain.model.Parcel
+import com.parcelkr.app.domain.model.StatusEvent
+import com.parcelkr.app.domain.model.TrackingResult
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+
+private class ScriptedTrackingApi(private val resultsByTrackingNumber: Map<String, TrackingResult>) : TrackingApi {
+    override suspend fun track(trackingNumber: String, carrier: Carrier): TrackingResult =
+        resultsByTrackingNumber.getValue(trackingNumber)
+}
+
+private fun result(status: DeliveryStatus) = TrackingResult(
+    trackingNumber = "A1", carrier = Carrier.CJ, itemName = "Item A",
+    status = status, etaText = "ETA", progress = 0.5f,
+    events = listOf(StatusEvent(status, "라벨", "time", "place")),
+    driverName = null, driverPhone = null,
+)
 
 class HomeModelTest {
     private fun p(id: Long, s: DeliveryStatus) =
@@ -38,7 +55,7 @@ class HomeModelTest {
         val r = repo()
         r.add("111", Carrier.CJ, "item1", DeliveryStatus.OUT_FOR_DELIVERY, null, 0f)
         val id = r.add("222", Carrier.CJ, "item2", DeliveryStatus.OUT_FOR_DELIVERY, null, 0f)
-        val m = HomeModel(r, backgroundScope)
+        val m = HomeModel(r, FakeTrackingApi(), backgroundScope)
 
         m.delete(id)
 
@@ -46,5 +63,18 @@ class HomeModelTest {
         // rather than racing a single snapshot read against the async query pipeline.
         val remaining = m.parcels.first { list -> list.isNotEmpty() && list.none { it.id == id } }
         assertEquals(listOf("111"), remaining.map { it.trackingNumber })
+    }
+
+    @Test fun refresh_updates_status_from_api_and_clears_refreshing_flag() = runTest {
+        val r = repo()
+        r.add("A1", Carrier.CJ, "Item A", DeliveryStatus.IN_TRANSIT, null, 0.3f)
+        val api = ScriptedTrackingApi(mapOf("A1" to result(DeliveryStatus.OUT_FOR_DELIVERY)))
+        val m = HomeModel(r, api, backgroundScope)
+
+        m.refresh()
+
+        val updated = m.parcels.first { list -> list.isNotEmpty() && list[0].status == DeliveryStatus.OUT_FOR_DELIVERY }
+        assertEquals(DeliveryStatus.OUT_FOR_DELIVERY, updated[0].status)
+        assertFalse(m.refreshing.value)
     }
 }
