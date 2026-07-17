@@ -45,3 +45,28 @@ data class TrackingResult(
 data class CarrierGuess(val carrier: Carrier, val confident: Boolean)
 
 data class MonthlyCount(val month: String, val count: Long)
+
+data class OverseasEvent(
+    val status: DeliveryStatus,
+    val description: String,
+    val timeText: String,
+    val location: String?,
+)
+
+data class OverseasTrackingResult(
+    val trackingNumber: String,
+    val carrierName: String?,
+    val status: DeliveryStatus,
+    val events: List<OverseasEvent>,
+)
+
+data class ForwardingParcel(
+    val id: Long,
+    val itemName: String,
+    val overseasTrackingNumber: String,
+    val overseasCarrierName: String?,
+    val overseasStatus: DeliveryStatus,
+    val domesticTrackingNumber: String? = null,
+    val domesticCarrier: Carrier? = null,
+    val addedAt: Long = 0L,
+)

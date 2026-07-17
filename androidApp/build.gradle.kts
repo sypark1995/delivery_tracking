@@ -23,6 +23,7 @@ android {
         versionName = "1.0.0"
         buildConfigField("String", "TRACKER_CLIENT_ID", "\"${localProps.getProperty("TRACKER_CLIENT_ID", "")}\"")
         buildConfigField("String", "TRACKER_CLIENT_SECRET", "\"${localProps.getProperty("TRACKER_CLIENT_SECRET", "")}\"")
+        buildConfigField("String", "TRACK17_API_KEY", "\"${localProps.getProperty("TRACK17_API_KEY", "")}\"")
     }
     buildFeatures {
         compose = true

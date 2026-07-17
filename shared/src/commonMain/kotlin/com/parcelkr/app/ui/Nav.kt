@@ -9,6 +9,9 @@ sealed interface Screen {
     data object Settings : Screen
     data object Updates : Screen
     data object History : Screen
+    data object Forwarding : Screen
+    data object ForwardingAdd : Screen
+    data class ForwardingDetail(val id: Long) : Screen
 }
 
 // Mirrors each screen's own onBack wiring in ParcelApp.kt, so the hardware/gesture back button
@@ -16,5 +19,7 @@ sealed interface Screen {
 fun backTargetFor(screen: Screen): Screen? = when (screen) {
     Screen.Home, Screen.Onboarding -> null
     Screen.History -> Screen.Settings
+    Screen.ForwardingAdd, is Screen.ForwardingDetail -> Screen.Forwarding
+    Screen.Forwarding -> Screen.Settings
     else -> Screen.Home
 }
