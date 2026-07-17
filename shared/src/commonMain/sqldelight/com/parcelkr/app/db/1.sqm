@@ -1,0 +1,10 @@
+CREATE TABLE forwarding_parcel (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    itemName TEXT NOT NULL,
+    overseasTrackingNumber TEXT NOT NULL,
+    overseasCarrierName TEXT,
+    overseasStatus TEXT NOT NULL,
+    domesticTrackingNumber TEXT,
+    domesticCarrier TEXT,
+    addedAt INTEGER NOT NULL
+);

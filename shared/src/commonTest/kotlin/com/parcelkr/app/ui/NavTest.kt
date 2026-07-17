@@ -14,6 +14,15 @@ class NavTest {
         assertEquals(Screen.Settings, backTargetFor(Screen.History))
     }
 
+    @Test fun forwarding_goes_back_to_settings() {
+        assertEquals(Screen.Settings, backTargetFor(Screen.Forwarding))
+    }
+
+    @Test fun forwarding_add_and_detail_go_back_to_forwarding_list() {
+        assertEquals(Screen.Forwarding, backTargetFor(Screen.ForwardingAdd))
+        assertEquals(Screen.Forwarding, backTargetFor(Screen.ForwardingDetail(1L)))
+    }
+
     @Test fun other_screens_go_back_to_home() {
         assertEquals(Screen.Home, backTargetFor(Screen.Add))
         assertEquals(Screen.Home, backTargetFor(Screen.Settings))

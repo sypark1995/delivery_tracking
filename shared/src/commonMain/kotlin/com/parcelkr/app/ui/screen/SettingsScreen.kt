@@ -21,6 +21,7 @@ import androidx.compose.material.icons.outlined.DoNotDisturbOn
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -65,6 +66,7 @@ fun SettingsScreen(
     onSetDndWindow: (startMinute: Int, endMinute: Int) -> Unit,
     onSetCustomsCode: (String) -> Unit,
     onOpenHistory: () -> Unit,
+    onOpenForwarding: () -> Unit,
 ) {
     val colors = LocalColors.current
     val strings = LocalStrings.current
@@ -90,6 +92,9 @@ fun SettingsScreen(
             Switch(checked = dark, onCheckedChange = { onToggleTheme() })
         }
         SettingRow(Icons.Outlined.History, strings.deliveryHistory, onClick = onOpenHistory) {
+            Icon(Icons.Outlined.ChevronRight, contentDescription = null, tint = colors.textMuted, modifier = Modifier.size(18.dp))
+        }
+        SettingRow(Icons.Outlined.Public, strings.forwardingTracking, onClick = onOpenForwarding) {
             Icon(Icons.Outlined.ChevronRight, contentDescription = null, tint = colors.textMuted, modifier = Modifier.size(18.dp))
         }
         SectionHeader(strings.about)

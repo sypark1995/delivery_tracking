@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 class ParcelApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoin(this, BuildConfig.TRACKER_CLIENT_ID, BuildConfig.TRACKER_CLIENT_SECRET)
+        initKoin(this, BuildConfig.TRACKER_CLIENT_ID, BuildConfig.TRACKER_CLIENT_SECRET, BuildConfig.TRACK17_API_KEY)
         createParcelRefreshNotificationChannel(this)
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             PARCEL_REFRESH_WORK_NAME,

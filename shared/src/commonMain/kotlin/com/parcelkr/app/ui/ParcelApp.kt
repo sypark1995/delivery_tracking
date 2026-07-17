@@ -14,11 +14,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.parcelkr.app.data.ForwardingParcelRepository
 import com.parcelkr.app.data.ParcelRepository
 import com.parcelkr.app.deviceLang
 import com.parcelkr.app.domain.CarrierDetector
 import com.parcelkr.app.domain.CsvExporter
 import com.parcelkr.app.domain.DialerLauncher
+import com.parcelkr.app.domain.OverseasTrackingApi
 import com.parcelkr.app.domain.TrackingApi
 import com.parcelkr.app.domain.UrlLauncher
 import com.parcelkr.app.i18n.Lang
@@ -27,11 +29,16 @@ import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.i18n.stringsFor
 import com.parcelkr.app.state.AddModel
 import com.parcelkr.app.state.DetailModel
+import com.parcelkr.app.state.ForwardingDetailModel
+import com.parcelkr.app.state.ForwardingModel
 import com.parcelkr.app.state.HistoryModel
 import com.parcelkr.app.state.HomeModel
 import com.parcelkr.app.ui.screen.AddScreen
 import com.parcelkr.app.ui.screen.ContactScreen
 import com.parcelkr.app.ui.screen.DetailScreen
+import com.parcelkr.app.ui.screen.ForwardingAddScreen
+import com.parcelkr.app.ui.screen.ForwardingDetailScreen
+import com.parcelkr.app.ui.screen.ForwardingListScreen
 import com.parcelkr.app.ui.screen.HistoryScreen
 import com.parcelkr.app.ui.screen.HomeScreen
 import com.parcelkr.app.ui.screen.OnboardingScreen
@@ -63,10 +70,13 @@ fun ParcelApp(
     val dialer = koinInject<DialerLauncher>()
     val urlLauncher = koinInject<UrlLauncher>()
     val csvExporter = koinInject<CsvExporter>()
+    val forwardingRepo = koinInject<ForwardingParcelRepository>()
+    val overseasApi = koinInject<OverseasTrackingApi>()
     val scope = rememberCoroutineScope()
     val homeModel = remember { HomeModel(repo, api, scope) }
     val cachedParcels by homeModel.parcels.collectAsState()
     val addModel = remember { AddModel(repo, detector, api) }
+    val forwardingModel = remember { ForwardingModel(forwardingRepo, overseasApi, api, detector, scope) }
     var customsCode by remember { mutableStateOf(repo.customsCode()) }
 
     LaunchedEffect(Unit) {
@@ -172,11 +182,29 @@ fun ParcelApp(
                             scope.launch { repo.setCustomsCode(code) }
                         },
                         onOpenHistory = { current = Screen.History },
+                        onOpenForwarding = { current = Screen.Forwarding },
                     )
                     Screen.Updates -> UpdatesScreen(onBack = { current = Screen.Home })
                     Screen.History -> HistoryScreen(
                         model = remember { HistoryModel(repo, csvExporter, scope) },
                         onBack = { current = Screen.Settings },
+                    )
+                    Screen.Forwarding -> ForwardingListScreen(
+                        model = forwardingModel,
+                        onBack = { current = Screen.Settings },
+                        onAdd = { current = Screen.ForwardingAdd },
+                        onOpenParcel = { current = Screen.ForwardingDetail(it.id) },
+                    )
+                    Screen.ForwardingAdd -> ForwardingAddScreen(
+                        model = forwardingModel,
+                        onBack = { current = Screen.Forwarding },
+                        onAdded = { current = Screen.Forwarding },
+                    )
+                    is Screen.ForwardingDetail -> ForwardingDetailScreen(
+                        id = screen.id,
+                        model = forwardingModel,
+                        detailModel = remember { ForwardingDetailModel(overseasApi, api) },
+                        onBack = { current = Screen.Forwarding },
                     )
                 }
             }
