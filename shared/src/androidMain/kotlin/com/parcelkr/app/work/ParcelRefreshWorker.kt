@@ -8,8 +8,12 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.updateAll
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.parcelkr.app.data.ForwardingParcelRepository
 import com.parcelkr.app.data.ParcelRepository
 import com.parcelkr.app.deviceLang
+import com.parcelkr.app.domain.ForwardingRefresher
+import com.parcelkr.app.domain.ForwardingStatusChange
+import com.parcelkr.app.domain.OverseasTrackingApi
 import com.parcelkr.app.domain.ParcelRefresher
 import com.parcelkr.app.domain.StatusChange
 import com.parcelkr.app.domain.TrackingApi
@@ -30,6 +34,8 @@ class ParcelRefreshWorker(
 ) : CoroutineWorker(context, params), KoinComponent {
     private val repo: ParcelRepository by inject()
     private val api: TrackingApi by inject()
+    private val forwardingRepo: ForwardingParcelRepository by inject()
+    private val overseasApi: OverseasTrackingApi by inject()
 
     override suspend fun doWork(): Result {
         val hasWidget = GlanceAppWidgetManager(applicationContext).getGlanceIds(ParcelWidget::class.java).isNotEmpty()
@@ -50,6 +56,22 @@ class ParcelRefreshWorker(
         if (hasWidget) {
             ParcelWidget().updateAll(applicationContext)
         }
+
+        // Forwarding (overseas) parcels have no widget surface, so they're only worth refreshing
+        // when there's a notification to show for them.
+        if (notificationsOn) {
+            val forwardingChanges = try {
+                ForwardingRefresher(forwardingRepo, overseasApi).refresh()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                emptyList()
+            }
+            if (!repo.isCurrentlyDnd()) {
+                forwardingChanges.forEach { notifyForwarding(it) }
+            }
+        }
+
         return Result.success()
     }
 
@@ -64,6 +86,21 @@ class ParcelRefreshWorker(
             .setAutoCancel(true)
             .build()
         manager.notify(change.parcel.id.toInt(), notification)
+    }
+
+    private fun notifyForwarding(change: ForwardingStatusChange) {
+        val lang = repo.savedLang()?.let { Lang.fromCode(it) } ?: deviceLang()
+        val strings = stringsFor(lang)
+        val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notification = Notification.Builder(applicationContext, PARCEL_REFRESH_CHANNEL_ID)
+            .setContentTitle(strings.statusChangeNotificationTitle)
+            .setContentText("${change.parcel.itemName} · ${change.parcel.overseasCarrierName ?: strings.overseasSection} — ${statusLabel(change.newStatus, strings)}")
+            .setSmallIcon(android.R.drawable.stat_sys_download_done)
+            .setAutoCancel(true)
+            .build()
+        // Forwarding parcel IDs share the same notification-id space as regular parcels; offset
+        // well clear of any plausible regular-parcel id range to avoid collisions.
+        manager.notify((1_000_000_000L + change.parcel.id).toInt(), notification)
     }
 }
 
