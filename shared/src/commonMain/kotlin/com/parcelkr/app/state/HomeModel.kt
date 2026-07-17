@@ -93,4 +93,8 @@ class HomeModel(
     fun delete(id: Long) {
         scope.launch { repo.delete(id) }
     }
+
+    fun clearDelivered() {
+        scope.launch { repo.deleteDelivered() }
+    }
 }

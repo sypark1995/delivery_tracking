@@ -32,6 +32,9 @@ SELECT last_insert_rowid();
 deleteParcel:
 DELETE FROM parcel WHERE id = ?;
 
+deleteDelivered:
+DELETE FROM parcel WHERE status = ?;
+
 updateParcelStatus:
 UPDATE parcel SET status = ?, etaText = ?, progress = ? WHERE id = ?;
 

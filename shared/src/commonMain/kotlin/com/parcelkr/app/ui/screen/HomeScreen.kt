@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import com.parcelkr.app.currentTimeMillis
 import com.parcelkr.app.domain.daysSinceAdded
 import com.parcelkr.app.domain.isStalled
+import com.parcelkr.app.domain.model.DeliveryStatus
 import com.parcelkr.app.domain.model.Parcel
 import com.parcelkr.app.i18n.LocalStrings
 import com.parcelkr.app.state.HomeModel
@@ -94,6 +95,7 @@ fun HomeScreen(
     val showHero = hero != null && segment != Segment.DELIVERED
     var pendingDeleteId by remember { mutableStateOf<Long?>(null) }
     var pendingTagEditId by remember { mutableStateOf<Long?>(null) }
+    var showClearDeliveredConfirm by remember { mutableStateOf(false) }
     val now = remember { currentTimeMillis() }
 
     PullToRefreshBox(
@@ -208,6 +210,14 @@ fun HomeScreen(
 
             Row(Modifier.fillMaxWidth().padding(end = 16.dp), verticalAlignment = Alignment.CenterVertically) {
                 SectionHeader(strings.recent, Modifier.weight(1f))
+                if (segment == Segment.DELIVERED && parcels.any { it.status == DeliveryStatus.DELIVERED }) {
+                    Text(
+                        strings.clearDeliveredAction,
+                        style = AppType.caption,
+                        color = colors.brand,
+                        modifier = Modifier.clickable { showClearDeliveredConfirm = true }.padding(horizontal = 8.dp, vertical = 4.dp),
+                    )
+                }
                 SortToggle(sort, model::setSort)
             }
             Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -276,6 +286,23 @@ fun HomeScreen(
             },
             dismissButton = {
                 TextButton(onClick = { pendingTagEditId = null }) { Text(strings.cancel) }
+            },
+        )
+    }
+
+    if (showClearDeliveredConfirm) {
+        AlertDialog(
+            onDismissRequest = { showClearDeliveredConfirm = false },
+            title = { Text(strings.clearDeliveredConfirmTitle) },
+            text = { Text(strings.clearDeliveredConfirmMessage) },
+            confirmButton = {
+                TextButton(onClick = {
+                    model.clearDelivered()
+                    showClearDeliveredConfirm = false
+                }) { Text(strings.delete) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showClearDeliveredConfirm = false }) { Text(strings.cancel) }
             },
         )
     }

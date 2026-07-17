@@ -77,4 +77,16 @@ class HomeModelTest {
         assertEquals(DeliveryStatus.OUT_FOR_DELIVERY, updated[0].status)
         assertFalse(m.refreshing.value)
     }
+
+    @Test fun clear_delivered_removes_only_delivered_parcels_from_flow() = runTest {
+        val r = repo()
+        r.add("111", Carrier.CJ, "item1", DeliveryStatus.DELIVERED, null, 1f)
+        r.add("222", Carrier.CJ, "item2", DeliveryStatus.OUT_FOR_DELIVERY, null, 0.5f)
+        val m = HomeModel(r, FakeTrackingApi(), backgroundScope)
+
+        m.clearDelivered()
+
+        val remaining = m.parcels.first { list -> list.isNotEmpty() && list.none { it.status == DeliveryStatus.DELIVERED } }
+        assertEquals(listOf("222"), remaining.map { it.trackingNumber })
+    }
 }
