@@ -80,6 +80,10 @@ fun ParcelApp(
         }
     }
 
+    PlatformBackHandler(enabled = backTargetFor(current) != null) {
+        backTargetFor(current)?.let { current = it }
+    }
+
     AppTheme(dark = dark) {
         CompositionLocalProvider(
             LocalLang provides lang,

@@ -10,3 +10,11 @@ sealed interface Screen {
     data object Updates : Screen
     data object History : Screen
 }
+
+// Mirrors each screen's own onBack wiring in ParcelApp.kt, so the hardware/gesture back button
+// navigates the same in-app screen stack instead of exiting the app entirely.
+fun backTargetFor(screen: Screen): Screen? = when (screen) {
+    Screen.Home, Screen.Onboarding -> null
+    Screen.History -> Screen.Settings
+    else -> Screen.Home
+}
