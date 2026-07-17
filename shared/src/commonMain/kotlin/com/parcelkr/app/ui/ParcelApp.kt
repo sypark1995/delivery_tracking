@@ -3,6 +3,7 @@ package com.parcelkr.app.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -84,7 +85,7 @@ fun ParcelApp(
             LocalLang provides lang,
             LocalStrings provides stringsFor(lang),
         ) {
-            Box(Modifier.fillMaxSize().background(LocalColors.current.bg)) {
+            Box(Modifier.fillMaxSize().background(LocalColors.current.bg).safeDrawingPadding()) {
                 when (val screen = current) {
                     Screen.Onboarding -> OnboardingScreen(
                         selected = lang,
