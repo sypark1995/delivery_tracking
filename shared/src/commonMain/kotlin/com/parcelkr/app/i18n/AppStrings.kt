@@ -63,6 +63,11 @@ interface AppStrings {
     val earlier: String
     val expectedToday: String
     val delivered: String
+    val statusReceived: String
+    val statusInTransit: String
+    val statusOutForDelivery: String
+    val statusDeliveryFailed: String
+    val statusDelayed: String
     val pasteEmailHint: String
     val pasteEmailConfirm: String
     val pasteEmailFailed: String
@@ -151,6 +156,11 @@ object EnStrings : AppStrings {
     override val earlier = "Earlier"
     override val expectedToday = "Expected today"
     override val delivered = "Delivered"
+    override val statusReceived = "Received"
+    override val statusInTransit = "In transit"
+    override val statusOutForDelivery = "Out for delivery"
+    override val statusDeliveryFailed = "Delivery failed"
+    override val statusDelayed = "Delayed"
     override val pasteEmailHint = "Paste order email text"
     override val pasteEmailConfirm = "Extract tracking number"
     override val pasteEmailFailed = "Couldn't find a tracking number — try manual entry"
@@ -239,6 +249,11 @@ object KoStrings : AppStrings {
     override val earlier = "지난 소식"
     override val expectedToday = "오늘 도착 예정"
     override val delivered = "배송완료"
+    override val statusReceived = "접수"
+    override val statusInTransit = "이동중"
+    override val statusOutForDelivery = "배송출발"
+    override val statusDeliveryFailed = "미배송"
+    override val statusDelayed = "지연"
     override val pasteEmailHint = "주문 확인 메일 내용을 붙여넣으세요"
     override val pasteEmailConfirm = "운송장번호 추출"
     override val pasteEmailFailed = "운송장번호를 찾지 못했어요 — 직접 입력해 주세요"
@@ -327,6 +342,11 @@ object ZhStrings : AppStrings {
     override val earlier = "更早"
     override val expectedToday = "预计今天送达"
     override val delivered = "已送达"
+    override val statusReceived = "已揽收"
+    override val statusInTransit = "运输中"
+    override val statusOutForDelivery = "派送中"
+    override val statusDeliveryFailed = "派送失败"
+    override val statusDelayed = "延迟"
     override val pasteEmailHint = "粘贴订单确认邮件内容"
     override val pasteEmailConfirm = "提取运单号"
     override val pasteEmailFailed = "未能找到运单号 — 请尝试手动输入"
@@ -415,6 +435,11 @@ object ViStrings : AppStrings {
     override val earlier = "Trước đó"
     override val expectedToday = "Dự kiến hôm nay"
     override val delivered = "Đã giao"
+    override val statusReceived = "Đã nhận"
+    override val statusInTransit = "Đang vận chuyển"
+    override val statusOutForDelivery = "Đang giao"
+    override val statusDeliveryFailed = "Giao thất bại"
+    override val statusDelayed = "Trì hoãn"
     override val pasteEmailHint = "Dán nội dung email xác nhận đơn hàng"
     override val pasteEmailConfirm = "Trích xuất mã vận đơn"
     override val pasteEmailFailed = "Không tìm thấy mã vận đơn — vui lòng nhập thủ công"
@@ -503,6 +528,11 @@ object ThStrings : AppStrings {
     override val earlier = "ก่อนหน้านี้"
     override val expectedToday = "คาดว่าจะถึงวันนี้"
     override val delivered = "ส่งแล้ว"
+    override val statusReceived = "รับเข้าคลัง"
+    override val statusInTransit = "กำลังขนส่ง"
+    override val statusOutForDelivery = "กำลังนำส่ง"
+    override val statusDeliveryFailed = "นำส่งไม่สำเร็จ"
+    override val statusDelayed = "ล่าช้า"
     override val pasteEmailHint = "วางข้อความอีเมลยืนยันคำสั่งซื้อ"
     override val pasteEmailConfirm = "ดึงเลขพัสดุ"
     override val pasteEmailFailed = "หาเลขพัสดุไม่เจอ — ลองกรอกเองดูนะ"
@@ -591,6 +621,11 @@ object RuStrings : AppStrings {
     override val earlier = "Ранее"
     override val expectedToday = "Ожидается сегодня"
     override val delivered = "Доставлено"
+    override val statusReceived = "Принято"
+    override val statusInTransit = "В пути"
+    override val statusOutForDelivery = "Доставляется"
+    override val statusDeliveryFailed = "Доставка не удалась"
+    override val statusDelayed = "Задержка"
     override val pasteEmailHint = "Вставьте текст письма с подтверждением заказа"
     override val pasteEmailConfirm = "Извлечь трек-номер"
     override val pasteEmailFailed = "Не удалось найти трек-номер — попробуйте ввести вручную"
@@ -679,6 +714,11 @@ object JaStrings : AppStrings {
     override val earlier = "それ以前"
     override val expectedToday = "本日到着予定"
     override val delivered = "配達完了"
+    override val statusReceived = "集荷完了"
+    override val statusInTransit = "輸送中"
+    override val statusOutForDelivery = "配達中"
+    override val statusDeliveryFailed = "配達失敗"
+    override val statusDelayed = "遅延"
     override val pasteEmailHint = "注文確認メールの内容を貼り付けてください"
     override val pasteEmailConfirm = "追跡番号を抽出"
     override val pasteEmailFailed = "追跡番号が見つかりませんでした — 手動で入力してください"
