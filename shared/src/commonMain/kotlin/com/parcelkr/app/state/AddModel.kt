@@ -66,6 +66,8 @@ class AddModel(
             _trackingFailed.value = true
             return null
         }
-        return repo.add(number, carrier, result.itemName, result.status, result.etaText, result.progress)
+        val id = repo.add(number, carrier, result.itemName, result.status, result.etaText, result.progress)
+        onInput("")
+        return id
     }
 }
