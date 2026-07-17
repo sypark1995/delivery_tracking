@@ -25,10 +25,10 @@ fun statusIcon(status: DeliveryStatus): ImageVector = when (status) {
 }
 
 fun statusLabel(status: DeliveryStatus, s: AppStrings): String = when (status) {
-    DeliveryStatus.RECEIVED -> "Received"
-    DeliveryStatus.IN_TRANSIT -> "In transit"
-    DeliveryStatus.OUT_FOR_DELIVERY -> "Out for delivery"
+    DeliveryStatus.RECEIVED -> s.statusReceived
+    DeliveryStatus.IN_TRANSIT -> s.statusInTransit
+    DeliveryStatus.OUT_FOR_DELIVERY -> s.statusOutForDelivery
     DeliveryStatus.DELIVERED -> s.delivered
-    DeliveryStatus.FAILED -> "Delivery failed"
-    DeliveryStatus.DELAYED -> "Delayed"
+    DeliveryStatus.FAILED -> s.statusDeliveryFailed
+    DeliveryStatus.DELAYED -> s.statusDelayed
 }
