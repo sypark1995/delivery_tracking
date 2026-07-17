@@ -121,6 +121,18 @@ class ParcelRepositoryTest {
         assertEquals(7 * 60 + 30, r.dndEndMinute())
     }
 
+    @Test fun delete_delivered_removes_only_delivered_parcels() = runTest {
+        val r = repo()
+        r.add("111", Carrier.CJ, "Item A", DeliveryStatus.DELIVERED, null, 1f)
+        r.add("222", Carrier.CJ, "Item B", DeliveryStatus.OUT_FOR_DELIVERY, null, 0.5f)
+        r.add("333", Carrier.CJ, "Item C", DeliveryStatus.DELIVERED, null, 1f)
+
+        r.deleteDelivered()
+
+        val remaining = r.observeParcels().first()
+        assertEquals(listOf("222"), remaining.map { it.trackingNumber })
+    }
+
     @Test fun set_tag_then_observe_returns_updated_tag() = runTest {
         val r = repo()
         val id = r.add("111", Carrier.CJ, "Item A", DeliveryStatus.RECEIVED, null, 0.1f)

@@ -71,6 +71,9 @@ interface AppStrings {
     val deleteParcelConfirmMessage: String
     val cancel: String
     val delete: String
+    val clearDeliveredAction: String
+    val clearDeliveredConfirmTitle: String
+    val clearDeliveredConfirmMessage: String
     val trackingLookupFailed: String
     val retry: String
     val trackingDetailFailedTitle: String
@@ -156,6 +159,9 @@ object EnStrings : AppStrings {
     override val deleteParcelConfirmMessage = "This tracking number will be removed from your list. This can't be undone."
     override val cancel = "Cancel"
     override val delete = "Delete"
+    override val clearDeliveredAction = "Clear delivered"
+    override val clearDeliveredConfirmTitle = "Clear all delivered parcels?"
+    override val clearDeliveredConfirmMessage = "This removes every delivered parcel from your list. This can't be undone."
     override val trackingLookupFailed = "Couldn't find this tracking number. Check it and try again."
     override val retry = "Retry"
     override val trackingDetailFailedTitle = "Couldn't load tracking info"
@@ -241,6 +247,9 @@ object KoStrings : AppStrings {
     override val deleteParcelConfirmMessage = "이 운송장이 목록에서 삭제됩니다. 이 작업은 되돌릴 수 없어요."
     override val cancel = "취소"
     override val delete = "삭제"
+    override val clearDeliveredAction = "완료 항목 정리"
+    override val clearDeliveredConfirmTitle = "완료된 배송을 모두 정리할까요?"
+    override val clearDeliveredConfirmMessage = "완료된 배송이 모두 목록에서 삭제됩니다. 이 작업은 되돌릴 수 없어요."
     override val trackingLookupFailed = "운송장번호를 찾지 못했어요. 번호를 확인하고 다시 시도해 주세요."
     override val retry = "다시 시도"
     override val trackingDetailFailedTitle = "배송 정보를 불러오지 못했어요"
@@ -326,6 +335,9 @@ object ZhStrings : AppStrings {
     override val deleteParcelConfirmMessage = "该运单将从你的列表中删除，此操作无法撤销。"
     override val cancel = "取消"
     override val delete = "删除"
+    override val clearDeliveredAction = "清除已完成"
+    override val clearDeliveredConfirmTitle = "要清除所有已完成的包裹吗？"
+    override val clearDeliveredConfirmMessage = "这将从列表中删除所有已完成的包裹，此操作无法撤销。"
     override val trackingLookupFailed = "未能找到该运单号。请检查后重试。"
     override val retry = "重试"
     override val trackingDetailFailedTitle = "未能加载配送信息"
@@ -411,6 +423,9 @@ object ViStrings : AppStrings {
     override val deleteParcelConfirmMessage = "Mã vận đơn này sẽ bị xóa khỏi danh sách của bạn. Không thể hoàn tác."
     override val cancel = "Hủy"
     override val delete = "Xóa"
+    override val clearDeliveredAction = "Xóa mục đã giao"
+    override val clearDeliveredConfirmTitle = "Xóa tất cả bưu kiện đã giao?"
+    override val clearDeliveredConfirmMessage = "Thao tác này sẽ xóa mọi bưu kiện đã giao khỏi danh sách của bạn. Không thể hoàn tác."
     override val trackingLookupFailed = "Không tìm thấy mã vận đơn này. Kiểm tra lại và thử lại."
     override val retry = "Thử lại"
     override val trackingDetailFailedTitle = "Không thể tải thông tin vận chuyển"
@@ -496,6 +511,9 @@ object ThStrings : AppStrings {
     override val deleteParcelConfirmMessage = "เลขพัสดุนี้จะถูกลบออกจากรายการของคุณ และไม่สามารถย้อนกลับได้"
     override val cancel = "ยกเลิก"
     override val delete = "ลบ"
+    override val clearDeliveredAction = "ล้างรายการที่ส่งแล้ว"
+    override val clearDeliveredConfirmTitle = "ล้างพัสดุที่ส่งแล้วทั้งหมดใช่ไหม"
+    override val clearDeliveredConfirmMessage = "การดำเนินการนี้จะลบพัสดุที่ส่งแล้วทั้งหมดออกจากรายการของคุณ และไม่สามารถย้อนกลับได้"
     override val trackingLookupFailed = "หาเลขพัสดุนี้ไม่เจอ ลองตรวจสอบแล้วลองใหม่อีกครั้ง"
     override val retry = "ลองใหม่"
     override val trackingDetailFailedTitle = "โหลดข้อมูลการจัดส่งไม่สำเร็จ"
@@ -581,6 +599,9 @@ object RuStrings : AppStrings {
     override val deleteParcelConfirmMessage = "Этот трек-номер будет удалён из вашего списка. Это действие нельзя отменить."
     override val cancel = "Отмена"
     override val delete = "Удалить"
+    override val clearDeliveredAction = "Очистить доставленные"
+    override val clearDeliveredConfirmTitle = "Очистить все доставленные посылки?"
+    override val clearDeliveredConfirmMessage = "Это удалит все доставленные посылки из вашего списка. Это действие нельзя отменить."
     override val trackingLookupFailed = "Не удалось найти этот трек-номер. Проверьте его и попробуйте снова."
     override val retry = "Повторить"
     override val trackingDetailFailedTitle = "Не удалось загрузить информацию о доставке"
@@ -666,6 +687,9 @@ object JaStrings : AppStrings {
     override val deleteParcelConfirmMessage = "この追跡番号はリストから削除されます。元に戻すことはできません。"
     override val cancel = "キャンセル"
     override val delete = "削除"
+    override val clearDeliveredAction = "配達済みを整理"
+    override val clearDeliveredConfirmTitle = "配達済みの荷物をすべて整理しますか？"
+    override val clearDeliveredConfirmMessage = "この操作で配達済みの荷物がすべてリストから削除されます。元に戻すことはできません。"
     override val trackingLookupFailed = "この追跡番号が見つかりませんでした。番号を確認してもう一度お試しください。"
     override val retry = "再試行"
     override val trackingDetailFailedTitle = "配送情報を読み込めませんでした"

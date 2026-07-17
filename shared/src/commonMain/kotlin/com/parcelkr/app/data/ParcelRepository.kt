@@ -52,6 +52,8 @@ class ParcelRepository(private val db: ParcelDb) {
 
     suspend fun delete(id: Long) = q.deleteParcel(id)
 
+    suspend fun deleteDelivered() = q.deleteDelivered(DeliveryStatus.DELIVERED.name)
+
     suspend fun updateStatus(id: Long, status: DeliveryStatus, etaText: String?, progress: Float) =
         q.updateParcelStatus(status.name, etaText, progress.toDouble(), id)
 
