@@ -122,6 +122,18 @@ class AddModelTest {
         assertEquals(Carrier.KOREA_POST, parcels[0].carrier)
     }
 
+    @Test fun successful_confirm_add_clears_input_so_a_second_add_starts_blank() = runTest {
+        val r = repo()
+        val m = AddModel(r, FakeCarrierDetector(), FakeTrackingApi())
+        m.onInput("657606146365")
+
+        m.confirmAdd()
+
+        assertEquals("", m.input.value)
+        assertNull(m.guess.value)
+        assertNull(m.manualCarrier.value)
+    }
+
     @Test fun editing_input_after_manual_selection_resets_manual_carrier() = runTest {
         val r = repo()
         val m = AddModel(r, FakeCarrierDetector(), FakeTrackingApi())
