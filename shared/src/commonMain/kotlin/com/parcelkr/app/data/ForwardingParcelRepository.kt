@@ -26,6 +26,7 @@ class ForwardingParcelRepository(private val db: ParcelDb) {
                     domesticTrackingNumber = row.domesticTrackingNumber,
                     domesticCarrier = row.domesticCarrier?.let { runCatching { Carrier.valueOf(it) }.getOrNull() },
                     addedAt = row.addedAt,
+                    tag = row.tag,
                 )
             }
         }
@@ -46,6 +47,8 @@ class ForwardingParcelRepository(private val db: ParcelDb) {
 
     suspend fun attachDomestic(id: Long, trackingNumber: String, carrier: Carrier) =
         q.attachDomestic(trackingNumber, carrier.name, id)
+
+    suspend fun setTag(id: Long, tag: String?) = q.updateForwardingTag(tag, id)
 
     suspend fun delete(id: Long) = q.deleteForwarding(id)
 }

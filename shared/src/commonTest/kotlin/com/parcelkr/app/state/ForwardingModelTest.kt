@@ -3,6 +3,7 @@ package com.parcelkr.app.state
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.parcelkr.app.data.ForwardingParcelRepository
 import com.parcelkr.app.data.fake.FakeCarrierDetector
+import com.parcelkr.app.data.fake.FakeCsvExporter
 import com.parcelkr.app.data.fake.FakeOverseasTrackingApi
 import com.parcelkr.app.data.fake.FakeTrackingApi
 import com.parcelkr.app.db.ParcelDb
@@ -38,7 +39,7 @@ class ForwardingModelTest {
 
     @Test fun add_forwarding_parcel_registers_and_tracks_then_persists() = runTest {
         val r = repo()
-        val m = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), backgroundScope)
+        val m = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), FakeCsvExporter(), backgroundScope)
 
         val id = m.addForwardingParcel("Nike shoes", "RB123456789CN")
 
@@ -52,7 +53,7 @@ class ForwardingModelTest {
 
     @Test fun add_forwarding_parcel_sets_add_failed_when_overseas_api_throws() = runTest {
         val r = repo()
-        val m = ForwardingModel(r, BoomOverseasApi(), FakeTrackingApi(), FakeCarrierDetector(), backgroundScope)
+        val m = ForwardingModel(r, BoomOverseasApi(), FakeTrackingApi(), FakeCarrierDetector(), FakeCsvExporter(), backgroundScope)
 
         val id = m.addForwardingParcel("Item", "RB1")
 
@@ -63,7 +64,7 @@ class ForwardingModelTest {
 
     @Test fun attach_domestic_detects_carrier_tracks_and_persists() = runTest {
         val r = repo()
-        val m = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), backgroundScope)
+        val m = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), FakeCsvExporter(), backgroundScope)
         val id = requireNotNull(m.addForwardingParcel("Item", "RB1"))
 
         val success = m.attachDomestic(id, "657606146365")
@@ -76,7 +77,7 @@ class ForwardingModelTest {
 
     @Test fun attach_domestic_returns_false_and_sets_attach_failed_when_domestic_api_throws() = runTest {
         val r = repo()
-        val m = ForwardingModel(r, FakeOverseasTrackingApi(), BoomDomesticTrackingApi(), FakeCarrierDetector(), backgroundScope)
+        val m = ForwardingModel(r, FakeOverseasTrackingApi(), BoomDomesticTrackingApi(), FakeCarrierDetector(), FakeCsvExporter(), backgroundScope)
         val id = requireNotNull(m.addForwardingParcel("Item", "RB1"))
 
         val success = m.attachDomestic(id, "657606146365")
@@ -87,12 +88,12 @@ class ForwardingModelTest {
 
     @Test fun attach_domestic_success_clears_attach_failed() = runTest {
         val r = repo()
-        val m = ForwardingModel(r, FakeOverseasTrackingApi(), BoomDomesticTrackingApi(), FakeCarrierDetector(), backgroundScope)
+        val m = ForwardingModel(r, FakeOverseasTrackingApi(), BoomDomesticTrackingApi(), FakeCarrierDetector(), FakeCsvExporter(), backgroundScope)
         val id = requireNotNull(m.addForwardingParcel("Item", "RB1"))
         m.attachDomestic(id, "657606146365")
         assertTrue(m.attachFailed.value)
 
-        val workingModel = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), backgroundScope)
+        val workingModel = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), FakeCsvExporter(), backgroundScope)
         val success = workingModel.attachDomestic(id, "657606146365")
 
         assertTrue(success)
@@ -101,12 +102,24 @@ class ForwardingModelTest {
 
     @Test fun delete_removes_forwarding_parcel() = runTest {
         val r = repo()
-        val m = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), backgroundScope)
+        val m = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), FakeCsvExporter(), backgroundScope)
         val id = requireNotNull(m.addForwardingParcel("Item", "RB1"))
 
         m.delete(id)
 
         val list = m.parcels.first { it.isEmpty() }
         assertEquals(0, list.size)
+    }
+
+    @Test fun export_csv_calls_exporter_with_forwarding_parcels() = runTest {
+        val r = repo()
+        val exporter = FakeCsvExporter()
+        val m = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), exporter, backgroundScope)
+        requireNotNull(m.addForwardingParcel("Item", "RB1"))
+        m.parcels.first { it.isNotEmpty() }
+
+        m.exportCsv()
+
+        assertEquals("parcelkr_forwarding.csv", exporter.forwardingExported.await())
     }
 }

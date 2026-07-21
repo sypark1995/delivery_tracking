@@ -53,6 +53,16 @@ class ForwardingParcelRepositoryTest {
         assertEquals(Carrier.CJ, stored.domesticCarrier)
     }
 
+    @Test fun set_tag_then_observe_returns_updated_tag() = runTest {
+        val r = repo()
+        val id = r.add("Item", "RB1", "China Post", DeliveryStatus.RECEIVED)
+        assertNull(r.observeAll().first()[0].tag)
+
+        r.setTag(id, "Family")
+
+        assertEquals("Family", r.observeAll().first()[0].tag)
+    }
+
     @Test fun delete_removes_forwarding_parcel() = runTest {
         val r = repo()
         val id = r.add("Item", "RB1", null, DeliveryStatus.RECEIVED)

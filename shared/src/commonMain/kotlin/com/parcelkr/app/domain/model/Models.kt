@@ -69,4 +69,5 @@ data class ForwardingParcel(
     val domesticTrackingNumber: String? = null,
     val domesticCarrier: Carrier? = null,
     val addedAt: Long = 0L,
+    val tag: String? = null,
 )
