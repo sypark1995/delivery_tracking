@@ -52,6 +52,7 @@ fun ForwardingDetailScreen(
     val strings = LocalStrings.current
     val parcels by model.parcels.collectAsState()
     val parcel = parcels.firstOrNull { it.id == id }
+    val attachFailed by model.attachFailed.collectAsState()
     var overseasResult by remember { mutableStateOf<OverseasTrackingResult?>(null) }
     var domesticResult by remember { mutableStateOf<TrackingResult?>(null) }
     var domesticInput by remember { mutableStateOf("") }
@@ -134,6 +135,10 @@ fun ForwardingDetailScreen(
                             inner()
                         },
                     )
+                }
+                if (attachFailed) {
+                    Spacer(Modifier.height(6.dp))
+                    Text(strings.trackingLookupFailed, style = AppType.caption, color = colors.textSecondary)
                 }
                 Spacer(Modifier.height(10.dp))
                 PrimaryButton(

@@ -74,7 +74,7 @@ class ForwardingModelTest {
         assertEquals(Carrier.CJ, list[0].domesticCarrier)
     }
 
-    @Test fun attach_domestic_returns_false_when_domestic_api_throws() = runTest {
+    @Test fun attach_domestic_returns_false_and_sets_attach_failed_when_domestic_api_throws() = runTest {
         val r = repo()
         val m = ForwardingModel(r, FakeOverseasTrackingApi(), BoomDomesticTrackingApi(), FakeCarrierDetector(), backgroundScope)
         val id = requireNotNull(m.addForwardingParcel("Item", "RB1"))
@@ -82,6 +82,21 @@ class ForwardingModelTest {
         val success = m.attachDomestic(id, "657606146365")
 
         assertFalse(success)
+        assertTrue(m.attachFailed.value)
+    }
+
+    @Test fun attach_domestic_success_clears_attach_failed() = runTest {
+        val r = repo()
+        val m = ForwardingModel(r, FakeOverseasTrackingApi(), BoomDomesticTrackingApi(), FakeCarrierDetector(), backgroundScope)
+        val id = requireNotNull(m.addForwardingParcel("Item", "RB1"))
+        m.attachDomestic(id, "657606146365")
+        assertTrue(m.attachFailed.value)
+
+        val workingModel = ForwardingModel(r, FakeOverseasTrackingApi(), FakeTrackingApi(), FakeCarrierDetector(), backgroundScope)
+        val success = workingModel.attachDomestic(id, "657606146365")
+
+        assertTrue(success)
+        assertFalse(workingModel.attachFailed.value)
     }
 
     @Test fun delete_removes_forwarding_parcel() = runTest {
