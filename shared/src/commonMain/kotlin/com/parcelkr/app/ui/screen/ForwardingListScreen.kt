@@ -18,11 +18,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Inventory2
-import androidx.compose.material.icons.outlined.Label
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -171,7 +171,7 @@ fun ForwardingListScreen(
                             }
                         }
                         Icon(
-                            Icons.Outlined.Label,
+                            Icons.AutoMirrored.Outlined.Label,
                             contentDescription = strings.tagLabel,
                             tint = colors.textMuted,
                             modifier = Modifier.padding(start = 8.dp).size(18.dp).clickable { pendingTagEditId = p.id },

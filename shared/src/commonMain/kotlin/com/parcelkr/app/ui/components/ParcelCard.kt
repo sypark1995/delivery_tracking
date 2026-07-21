@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Label
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -77,7 +77,7 @@ fun ParcelCard(
         }
         if (onEditTag != null) {
             Icon(
-                Icons.Outlined.Label,
+                Icons.AutoMirrored.Outlined.Label,
                 contentDescription = strings.tagLabel,
                 tint = colors.textMuted,
                 modifier = Modifier.padding(start = 8.dp).size(18.dp).clickable { onEditTag() },
