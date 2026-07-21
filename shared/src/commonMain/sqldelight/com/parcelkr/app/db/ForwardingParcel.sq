@@ -1,5 +1,5 @@
--- 버전 2에서 추가된 테이블(배대지 추적, 1.sqm 참고). 향후 컬럼 변경도 CREATE TABLE 직접
--- 수정 대신 다음 버전 migration 파일로 반영할 것.
+-- 버전 2에서 추가된 테이블(배대지 추적, 1.sqm 참고), tag 컬럼은 버전 3에서 추가(2.sqm 참고).
+-- 향후 컬럼 변경도 CREATE TABLE 직접 수정 대신 다음 버전 migration 파일로 반영할 것.
 CREATE TABLE forwarding_parcel (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     itemName TEXT NOT NULL,
@@ -8,7 +8,8 @@ CREATE TABLE forwarding_parcel (
     overseasStatus TEXT NOT NULL,
     domesticTrackingNumber TEXT,
     domesticCarrier TEXT,
-    addedAt INTEGER NOT NULL
+    addedAt INTEGER NOT NULL,
+    tag TEXT
 );
 
 selectAllForwarding:
@@ -26,6 +27,9 @@ UPDATE forwarding_parcel SET overseasStatus = ? WHERE id = ?;
 
 attachDomestic:
 UPDATE forwarding_parcel SET domesticTrackingNumber = ?, domesticCarrier = ? WHERE id = ?;
+
+updateForwardingTag:
+UPDATE forwarding_parcel SET tag = ? WHERE id = ?;
 
 deleteForwarding:
 DELETE FROM forwarding_parcel WHERE id = ?;

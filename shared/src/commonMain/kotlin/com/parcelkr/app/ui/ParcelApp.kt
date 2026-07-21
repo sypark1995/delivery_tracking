@@ -76,7 +76,7 @@ fun ParcelApp(
     val homeModel = remember { HomeModel(repo, api, scope) }
     val cachedParcels by homeModel.parcels.collectAsState()
     val addModel = remember { AddModel(repo, detector, api) }
-    val forwardingModel = remember { ForwardingModel(forwardingRepo, overseasApi, api, detector, scope) }
+    val forwardingModel = remember { ForwardingModel(forwardingRepo, overseasApi, api, detector, csvExporter, scope) }
     var customsCode by remember { mutableStateOf(repo.customsCode()) }
 
     LaunchedEffect(Unit) {

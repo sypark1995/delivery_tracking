@@ -3,6 +3,7 @@ package com.parcelkr.app.domain
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.FileProvider
+import com.parcelkr.app.domain.model.ForwardingParcel
 import com.parcelkr.app.domain.model.Parcel
 import java.io.File
 import java.time.Instant
@@ -13,6 +14,17 @@ class AndroidCsvExporter(private val context: Context) : CsvExporter {
         val csv = buildParcelCsv(parcels) { millis ->
             Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate().toString()
         }
+        share(csv, fileName)
+    }
+
+    override fun exportForwarding(parcels: List<ForwardingParcel>, fileName: String) {
+        val csv = buildForwardingParcelCsv(parcels) { millis ->
+            Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate().toString()
+        }
+        share(csv, fileName)
+    }
+
+    private fun share(csv: String, fileName: String) {
         val file = File(context.cacheDir, fileName)
         file.writeText(csv)
         val uri = FileProvider.getUriForFile(context, "com.parcelkr.app.fileprovider", file)
