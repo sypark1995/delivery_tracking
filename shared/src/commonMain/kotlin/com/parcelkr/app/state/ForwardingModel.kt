@@ -26,6 +26,9 @@ class ForwardingModel(
     private val _addFailed = MutableStateFlow(false)
     val addFailed: StateFlow<Boolean> = _addFailed.asStateFlow()
 
+    private val _attachFailed = MutableStateFlow(false)
+    val attachFailed: StateFlow<Boolean> = _attachFailed.asStateFlow()
+
     suspend fun addForwardingParcel(itemName: String, overseasTrackingNumber: String): Long? {
         val result = try {
             overseasApi.register(overseasTrackingNumber)
@@ -48,8 +51,10 @@ class ForwardingModel(
         } catch (e: kotlinx.coroutines.CancellationException) {
             throw e
         } catch (e: Exception) {
+            _attachFailed.value = true
             return false
         }
+        _attachFailed.value = false
         repo.attachDomestic(id, trackingNumber, carrier)
         return true
     }
