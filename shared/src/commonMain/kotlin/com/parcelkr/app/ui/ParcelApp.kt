@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -120,11 +121,16 @@ fun ParcelApp(
                         onOpenUpdates = { current = Screen.Updates },
                         onOpenSettings = { current = Screen.Settings },
                     )
-                    Screen.Add -> AddScreen(
-                        model = addModel,
-                        onBack = { current = Screen.Home },
-                        onAdded = { current = Screen.Home },
-                    )
+                    Screen.Add -> {
+                        DisposableEffect(Unit) {
+                            onDispose { addModel.onInput("") }
+                        }
+                        AddScreen(
+                            model = addModel,
+                            onBack = { current = Screen.Home },
+                            onAdded = { current = Screen.Home },
+                        )
+                    }
                     is Screen.Detail -> DetailScreen(
                         trackingNumber = screen.trackingNumber,
                         carrierName = screen.carrierName,
